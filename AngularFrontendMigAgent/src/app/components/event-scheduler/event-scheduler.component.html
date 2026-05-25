@@ -1,0 +1,62 @@
+<div class="scheduler-container">
+  <div class="scheduler-toolbar">
+    <h2>Enterprise Event Scheduler</h2>
+    <div class="view-selector">
+      <button [class.active]="selectedView === 'day'" (click)="selectedView = 'day'">Day</button>
+      <button [class.active]="selectedView === 'week'" (click)="selectedView = 'week'">Week</button>
+      <button [class.active]="selectedView === 'resource'" (click)="selectedView = 'resource'">Resources</button>
+    </div>
+    <button class="action-btn conflict-btn" (click)="checkConflicts()">Check Conflicts (Heavy Scan)</button>
+  </div>
+
+  <div class="scheduler-grid" [ngClass]="selectedView">
+    <!-- Time Column -->
+    <div class="time-column">
+      <div class="spacer"></div>
+      <div *ngFor="let hour of hours" class="hour-label">
+        {{ hour }}:00
+      </div>
+    </div>
+
+    <!-- Day Columns -->
+    <div *ngFor="let day of days; let di = index" class="day-column">
+      <div class="day-header">{{ day }}</div>
+      <div class="slots-container">
+        <div *ngFor="let hour of hours" class="slot">
+          <div *ngFor="let event of getEventsForSlot(di, hour, '')" 
+               class="event-block"
+               [style.height.px]="calculateHeight(event)"
+               [class]="event.status">
+            <div class="event-title">{{ event.title }}</div>
+            <div class="event-time">{{ event.start | date:'shortTime' }} - {{ event.end | date:'shortTime' }}</div>
+            <div class="event-details">
+              <span class="resource-tag">{{ event.resourceId }}</span>
+              <div class="attendees-list">
+                <span *ngFor="let attendee of event.attendees.slice(0, 2)">👤</span>
+                <span *ngIf="event.attendees.length > 2">+{{event.attendees.length - 2}}</span>
+              </div>
+            </div>
+            <!-- Extra heavy nested elements -->
+            <div class="event-meta">
+              <div class="meta-item" *ngFor="let i of [1,2,3]"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Resource Sidebar (Optional View) -->
+  <div class="resource-panel" *ngIf="selectedView === 'resource'">
+    <h3>Resources Monitor</h3>
+    <div *ngFor="let res of resources" class="resource-card" [style.border-left-color]="res.color">
+      <div class="res-info">
+        <strong>{{ res.name }}</strong>
+        <span>Type: {{ res.type }}</span>
+      </div>
+      <div class="res-status" [class.available]="res.availability">
+        {{ res.availability ? 'Available' : 'Busy' }}
+      </div>
+    </div>
+  </div>
+</div>

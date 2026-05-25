@@ -1,0 +1,45 @@
+<div class="widgets-container">
+  <div class="metrics-grid">
+    <div *ngFor="let m of metrics" class="metric-card" [class]="m.trend">
+      <div class="card-header">
+        <span class="label">{{ m.label }}</span>
+        <span class="trend-icon">{{ getTrendIcon(m.trend) }}</span>
+      </div>
+      
+      <div class="main-value">
+        {{ m.value | number:'1.1-1' }}%
+      </div>
+
+      <div class="mini-chart">
+        <div *ngFor="let h of m.history" 
+             class="bar" 
+             [style.height.%]="h"
+             [class.active]="h > 80">
+        </div>
+      </div>
+
+      <div class="card-footer">
+        <div class="status-indicator" [style.background-color]="m.value > 90 ? '#ef4444' : (m.value > 70 ? '#f59e0b' : '#10b981')"></div>
+        <span>System Healthy</span>
+      </div>
+      
+      <!-- Complex nested elements -->
+      <div class="meta-overlay">
+        <div class="node" *ngFor="let i of [1,2,3,4]"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="system-summary">
+    <h3>Resource Consumption Profile</h3>
+    <div class="summary-bars">
+      <div *ngFor="let m of metrics" class="summary-row">
+        <span>{{ m.label }}</span>
+        <div class="progress-track">
+          <div class="progress-fill" [style.width.%]="m.value"></div>
+        </div>
+        <strong>{{ m.value | number:'1.0-0' }}%</strong>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,132 @@
+.lab-card {
+  background: linear-gradient(180deg, #ffffff 0%, #f8fff9 100%);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 24px;
+  padding: 24px;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
+  display: grid;
+  gap: 18px;
+}
+
+.lab-copy h3 {
+  margin: 0;
+  font-size: 1.55rem;
+  color: #0f172a;
+}
+
+.lab-copy p {
+  margin: 6px 0 0;
+  color: #475569;
+  line-height: 1.5;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #0f766e;
+}
+
+.dropzone {
+  position: relative;
+  display: grid;
+  gap: 8px;
+  place-items: center;
+  min-height: 180px;
+  padding: 24px;
+  border-radius: 22px;
+  border: 2px dashed #94a3b8;
+  background: linear-gradient(135deg, rgba(15, 118, 110, 0.08), rgba(15, 98, 254, 0.06));
+  color: #0f172a;
+  text-align: center;
+  overflow: hidden;
+}
+
+.dropzone.active {
+  border-color: #0f62fe;
+  background: linear-gradient(135deg, rgba(15, 98, 254, 0.12), rgba(15, 118, 110, 0.12));
+}
+
+.dropzone input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.dropzone strong {
+  font-size: 1.2rem;
+}
+
+.dropzone span {
+  color: #475569;
+}
+
+.upload-list {
+  display: grid;
+  gap: 12px;
+}
+
+.upload-item {
+  padding: 16px;
+  border-radius: 18px;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
+  display: grid;
+  gap: 12px;
+}
+
+.upload-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.upload-row p,
+.upload-meta {
+  margin: 4px 0 0;
+  color: #64748b;
+}
+
+.remove-btn {
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
+  color: #0f172a;
+  border-radius: 999px;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.progress-shell {
+  height: 10px;
+  border-radius: 999px;
+  background: #e2e8f0;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #0f62fe 0%, #14b8a6 100%);
+  transition: width 0.18s ease;
+}
+
+.upload-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.empty-state {
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: #f8fafc;
+  color: #64748b;
+  border: 1px dashed #cbd5e1;
+}

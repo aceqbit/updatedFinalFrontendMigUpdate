@@ -1,0 +1,57 @@
+<div class="designer-container" (mousemove)="onMouseMove($event)" (mouseup)="onMouseUp()">
+  <div class="designer-sidebar">
+    <h3>Logic Components</h3>
+    <div class="palette-item action">Action Step</div>
+    <div class="palette-item condition">Gate Condition</div>
+    <div class="palette-item utility">Utility Helper</div>
+    <hr>
+      @if (selectedNodeId) {
+        <div class="node-details">
+          <h4>Node Details</h4>
+          <p>ID: {{ selectedNodeId }}</p>
+          @for (i of [1,2,3,4,5]; track i) {
+            <div class="heavy-attr">
+              <span>Attribute {{i}}:</span>
+              <input type="text" value="Value {{i}}">
+            </div>
+          }
+        </div>
+      }
+    </div>
+
+    <div class="canvas-wrapper">
+      <svg width="2000" height="2000" class="workflow-svg">
+        <defs>
+          <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+            <polygon points="0 0, 10 3.5, 0 7" fill="#999" />
+          </marker>
+        </defs>
+
+        <!-- Connections -->
+        @for (conn of connections; track conn) {
+          <path
+            [attr.d]="getConnectionPath(conn)"
+            class="connection-line"
+            marker-end="url(#arrowhead)" />
+        }
+
+        <!-- Nodes -->
+        @for (node of nodes; track node) {
+          <g
+            [attr.transform]="'translate(' + node.x + ',' + node.y + ')'"
+            class="node-group"
+            [class.selected]="selectedNodeId === node.id"
+            (mousedown)="onNodeMouseDown($event, node)">
+            <rect width="200" height="60" rx="8" [attr.fill]="getNodeColor(node.type)" />
+            <text x="100" y="35" text-anchor="middle" fill="white" class="node-label">
+              {{ node.label }}
+            </text>
+            <!-- Complex decorative elements to increase SVG complexity -->
+            <circle cx="10" cy="10" r="4" fill="rgba(255,255,255,0.3)" />
+            <circle cx="190" cy="10" r="4" fill="rgba(255,255,255,0.3)" />
+            <line x1="10" y1="50" x2="190" y2="50" stroke="rgba(255,255,255,0.2)" stroke-dasharray="2,2" />
+          </g>
+        }
+      </svg>
+    </div>
+  </div>

@@ -1,0 +1,76 @@
+<div class="layout-container">
+  <div class="layout-header">
+    <h2>Dynamic Layout Engine</h2>
+    <div class="controls">
+      <button class="add-widget">+ New Widget</button>
+      <button class="save-layout">Save Configuration</button>
+    </div>
+  </div>
+
+  <div class="widgets-grid">
+    @for (widget of widgets; track widget) {
+      <div
+        class="widget-card"
+        [ngClass]="getWidgetSizeClass(widget)"
+        [style.border-top-color]="widget.color">
+        <div class="widget-header">
+          <span class="widget-title">{{ widget.title }}</span>
+          <div class="widget-actions">
+            <button (click)="removeWidget(widget.id)">✕</button>
+          </div>
+        </div>
+        <div class="widget-body">
+          <!-- Different rendering based on type to increase complexity -->
+          @switch (widget.type) {
+            @case ('stats') {
+              <div class="stats-view">
+                @for (p of widget.dataPoints.slice(0, 4); track p) {
+                  <div class="stat-item">
+                    <label>{{ p.label }}</label>
+                    <div class="value">{{ p.value | number:'1.0-0' }}</div>
+                  </div>
+                }
+              </div>
+            }
+            @case ('chart') {
+              <div class="chart-view">
+                @for (p of widget.dataPoints.slice(0, 20); track p) {
+                  <div
+                    class="bar"
+                    [style.height.%]="p.value / 10">
+                  </div>
+                }
+              </div>
+            }
+            @case ('list') {
+              <div class="list-view">
+                @for (p of widget.dataPoints.slice(0, 10); track p) {
+                  <div class="list-item">
+                    <span>Item Ref: {{ p.label }}</span>
+                    <strong>{{ p.value | currency }}</strong>
+                  </div>
+                }
+              </div>
+            }
+            @case ('map') {
+              <div class="map-view">
+                <div class="map-placeholder">
+                  @for (i of [1,2,3,4,5]; track i) {
+                    <div class="ping"></div>
+                  }
+                  Geospatial Data Feed Active
+                </div>
+              </div>
+            }
+          }
+        </div>
+        <!-- Heavy nested metadata -->
+        <div class="widget-footer">
+          @for (i of [1,2,3]; track i) {
+            <div class="meta-tag">SYS_REF_{{i}}</div>
+          }
+        </div>
+      </div>
+    }
+  </div>
+</div>

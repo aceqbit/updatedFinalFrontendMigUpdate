@@ -1,0 +1,78 @@
+<div class="grid-container">
+  <div class="grid-controls">
+    <div class="search-box">
+      <input type="text" [(ngModel)]="filterText" placeholder="Filter 500+ records...">
+    </div>
+    <div class="group-selector">
+      <label>Group By:</label>
+      <select [(ngModel)]="groupBy">
+        <option value="department">Department</option>
+        <option value="status">Status</option>
+        <option value="role">Role</option>
+      </select>
+    </div>
+    <div class="bulk-actions">
+      <button class="export-btn" (click)="exportData()">Export Heavy Dataset</button>
+      <span>Selected: {{ selectedRows.size }}</span>
+    </div>
+  </div>
+
+  <div class="grid-viewport">
+    <div class="grid-header">
+      <div class="col-check"></div>
+      <div class="col-user">User Entity</div>
+      <div class="col-role">Enterprise Role</div>
+      <div class="col-dept">Department</div>
+      <div class="col-status">Status</div>
+      <div class="col-efficiency">Efficiency</div>
+      <div class="col-actions"></div>
+    </div>
+
+    <div class="grid-body">
+      <div *ngFor="let group of getGroupKeys()" class="grid-group">
+        <div class="group-header">
+          <span class="group-toggle">▼</span>
+          {{ group | uppercase }} ({{ getGroupedRows()[group].length }})
+        </div>
+
+        <div *ngFor="let row of getGroupedRows()[group]" 
+             class="grid-row" 
+             [class.selected]="selectedRows.has(row.id)">
+          
+          <div class="col-check">
+            <input type="checkbox" [checked]="selectedRows.has(row.id)" (change)="toggleSelection(row.id)">
+          </div>
+
+          <div class="col-user">
+            <div class="avatar" [style.background-color]="row.efficiency > 80 ? '#34a853' : '#fbbc04'">
+              {{ getInitials(row.name) }}
+            </div>
+            <div class="user-info">
+              <span class="name">{{ row.name }}</span>
+              <span class="email">{{ row.email }}</span>
+            </div>
+          </div>
+
+          <div class="col-role">{{ row.role }}</div>
+          <div class="col-dept">{{ row.department }}</div>
+          <div class="col-status">
+            <span class="status-dot" [class]="row.status"></span>
+            {{ row.status | titlecase }}
+          </div>
+
+          <div class="col-efficiency">
+            <div class="progress-container">
+              <div class="progress-bar" [style.width.%]="row.efficiency"></div>
+            </div>
+            <span>{{ row.efficiency }}%</span>
+          </div>
+
+          <div class="col-actions">
+            <!-- Hidden complex logic -->
+            <div class="row-meta-dump" *ngFor="let i of [1,2]"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

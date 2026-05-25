@@ -1,0 +1,93 @@
+<div class="main-shell">
+  <aside class="sidebar">
+    <div class="logo">
+      <div class="logo-box"></div>
+      <span>H-ANGULAR V16</span>
+    </div>
+    <nav>
+      <div *ngFor="let s of sections" 
+           class="nav-item" 
+           [class.active]="activeSection === s.id"
+           (click)="setSection(s.id)">
+        <span class="icon">{{ s.icon }}</span>
+        <span class="label">{{ s.label }}</span>
+      </div>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="load-indicator">
+        <label>DOM WEIGHT</label>
+        <div class="bar-track">
+          <div class="bar-fill" style="width: 85%"></div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="content-area">
+    <!-- DASHBOARD SECTION -->
+    <section [hidden]="activeSection !== 'dashboard'">
+      <app-dashboard-widgets></app-dashboard-widgets>
+    </section>
+
+    <!-- WORKFLOW SECTION -->
+    <section [hidden]="activeSection !== 'workflow'">
+      <app-workflow-designer></app-workflow-designer>
+    </section>
+
+    <!-- CALENDAR SECTION -->
+    <section [hidden]="activeSection !== 'calendar'">
+      <app-calendar></app-calendar>
+      <div style="margin-top: 40px;">
+        <app-date-range-picker></app-date-range-picker>
+      </div>
+    </section>
+
+    <!-- SCHEDULER SECTION -->
+    <section [hidden]="activeSection !== 'scheduler'">
+      <app-event-scheduler></app-event-scheduler>
+    </section>
+
+    <!-- GRID SECTION -->
+    <section [hidden]="activeSection !== 'grid'">
+      <app-data-grid></app-data-grid>
+      <div style="margin-top: 40px;">
+        <app-autocomplete-complex></app-autocomplete-complex>
+      </div>
+    </section>
+
+    <!-- EXPLORER SECTION -->
+    <section [hidden]="activeSection !== 'explorer'">
+      <app-file-explorer></app-file-explorer>
+    </section>
+
+    <!-- STEPPER SECTION -->
+    <section [hidden]="activeSection !== 'stepper'">
+      <app-advanced-form-stepper></app-advanced-form-stepper>
+    </section>
+
+    <!-- TREE SECTION -->
+    <section [hidden]="activeSection !== 'tree'">
+      <app-tree-view-large></app-tree-view-large>
+    </section>
+
+    <!-- NOTES SECTION -->
+    <section [hidden]="activeSection !== 'notes'">
+      <app-sticky-notes></app-sticky-notes>
+    </section>
+
+    <!-- NOTIFICATIONS SECTION -->
+    <section [hidden]="activeSection !== 'notifications'">
+      <app-notification-hub></app-notification-hub>
+    </section>
+
+    <!-- MONITOR SECTION -->
+    <section [hidden]="activeSection !== 'monitor'">
+      <app-resource-monitor></app-resource-monitor>
+    </section>
+
+    <!-- SETTINGS SECTION -->
+    <section [hidden]="activeSection !== 'settings'">
+      <app-settings-panel></app-settings-panel>
+    </section>
+  </main>
+</div>

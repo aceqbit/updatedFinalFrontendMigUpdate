@@ -1,0 +1,38 @@
+<div class="range-picker-container">
+  <div class="presets-sidebar">
+    <div *ngFor="let preset of presets" 
+         class="preset-item" 
+         (click)="selectPreset(preset)">
+      {{ preset.label }}
+    </div>
+  </div>
+
+  <div class="calendars-wrapper">
+    <div *ngFor="let month of calendarMonths" class="month-view">
+      <h3>{{ month | date:'MMMM yyyy' }}</h3>
+      <!-- Logic to render day grid would go here, simplified for brevity but kept heavy in DOM -->
+      <div class="day-grid">
+        <div *ngFor="let i of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30]" 
+             class="range-day"
+             [class.in-range]="isInRange(month)" 
+             [class.edge]="isSelectionEdge(month)">
+          {{ i }}
+          <!-- Extra complexity -->
+          <div class="day-hover-effect"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="range-footer">
+    <div class="selected-summary">
+      <span>{{ startDate | date:'shortDate' }}</span>
+      <span> - </span>
+      <span>{{ endDate | date:'shortDate' }}</span>
+    </div>
+    <div class="actions">
+      <button class="cancel">Cancel</button>
+      <button class="apply">Apply Range</button>
+    </div>
+  </div>
+</div>

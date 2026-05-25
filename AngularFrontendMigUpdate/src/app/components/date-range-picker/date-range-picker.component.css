@@ -1,0 +1,114 @@
+.range-picker-container {
+  display: grid;
+  grid-template-columns: 160px minmax(0, 1fr);
+  gap: 16px;
+  background: #fff;
+  border: 1px solid #dfe1e5;
+  box-shadow: 0 8px 22px rgba(0,0,0,0.12);
+  border-radius: 16px;
+  overflow: hidden;
+  width: 100%;
+  font-family: sans-serif;
+}
+
+.presets-sidebar {
+  width: 150px;
+  border-right: 1px solid #f1f3f4;
+  padding: 10px 0;
+  background: #f8f9fa;
+}
+
+.preset-item {
+  padding: 10px 20px;
+  font-size: 0.9em;
+  color: #3c4043;
+  cursor: pointer;
+}
+
+.preset-item:hover { background: #e8f0fe; color: #1a73e8; }
+
+.calendars-wrapper {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  padding: 20px;
+  gap: 20px;
+}
+
+.month-view { min-width: 0; }
+
+.weekday-row {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+  font-size: 0.75rem;
+  color: #5f6368;
+  margin: 12px 0 8px;
+}
+
+.weekday-row span {
+  text-align: center;
+  font-weight: 600;
+}
+
+.day-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+
+.range-day {
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  font-size: 0.9em;
+  border: none;
+  background: transparent;
+  border-radius: 8px;
+}
+
+.range-day.in-range { background: #e8f0fe; }
+.range-day.edge { background: #1a73e8; color: white; border-radius: 50%; }
+.range-day.outside { color: #b0b7c3; }
+
+.range-day:hover { background: #e8f0fe; }
+
+.range-footer {
+  grid-column: span 2;
+  border-top: 1px solid #f1f3f4;
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.actions button {
+  margin-left: 10px;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  border: 1px solid #dadce0;
+}
+
+.apply { background: #1a73e8; color: white; border: none; }
+
+.range-footer {
+  grid-column: 1 / -1;
+  border-top: 1px solid #f1f3f4;
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@media (max-width: 900px) {
+  .range-picker-container {
+    grid-template-columns: 1fr;
+  }
+
+  .calendars-wrapper {
+    grid-template-columns: 1fr;
+  }
+}

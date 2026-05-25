@@ -1,0 +1,52 @@
+<div class="autocomplete-wrapper">
+  <div class="search-input-container">
+    <input type="text"
+      [(ngModel)]="query"
+      (input)="onInput()"
+      placeholder="Search across enterprise..."
+      class="main-search">
+      @if (isLoading) {
+        <div class="loader"></div>
+      }
+    </div>
+
+    @if (query.length >= 2) {
+      <div class="results-dropdown">
+        @if (results.length === 0 && !isLoading) {
+          <div class="no-results">
+            No matches found for "{{query}}"
+          </div>
+        }
+        @for (category of getGroupKeys(); track category) {
+          <div class="category-group">
+            <div class="category-header">{{ category }} ({{ groupedResults[category].length }})</div>
+            @for (item of groupedResults[category]; track item) {
+              <div class="result-item" (click)="selectResult(item)">
+                <img [src]="item.image" class="item-thumb">
+                <div class="item-info">
+                  <div class="item-title" [innerHTML]="highlightMatch(item.title)"></div>
+                  <div class="item-desc" [innerHTML]="highlightMatch(item.description)"></div>
+                  <div class="item-meta">
+                    <span class="score">Relevance: {{ item.score | number:'1.0-0' }}%</span>
+                    <span class="id">ID: {{ item.id }}</span>
+                  </div>
+                </div>
+                <!-- Extra complex elements to increase DOM weight -->
+                <div class="item-actions-hidden">
+                  @for (i of [1,2,3,4]; track i) {
+                    <button>Action {{i}}</button>
+                  }
+                </div>
+              </div>
+            }
+          </div>
+        }
+      </div>
+    }
+
+    @if (query.length >= 2) {
+      <div class="search-stats">
+        Scanned 1,000 items in {{ 300 }}ms
+      </div>
+    }
+  </div>

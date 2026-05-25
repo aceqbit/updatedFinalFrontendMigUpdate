@@ -1,0 +1,34 @@
+<section class="lab-card">
+  <div class="lab-copy">
+    <p class="eyebrow">Multi-Select</p>
+    <h3>Multi-Select Tags and Chips</h3>
+    <p>Compose structured labels quickly, then keep the newest additions visually anchored at the top.</p>
+  </div>
+
+  <div class="chip-editor">
+    <div class="chip-list" *ngIf="chips.length; else emptyState">
+      <button type="button" class="chip" *ngFor="let chip of chips" (click)="removeChip(chip)">
+        <span>{{ chip }}</span>
+        <span class="chip-remove">×</span>
+      </button>
+    </div>
+    <ng-template #emptyState>
+      <div class="empty-state">No chips yet. Add one to begin building a label set.</div>
+    </ng-template>
+
+
+    <input
+      type="text"
+      [(ngModel)]="chipDraft"
+      (keydown)="handleKeydown($event)"
+      placeholder="Type a tag and press Enter"
+      class="chip-input"
+      >
+
+      <div class="suggestions">
+        <button type="button" class="suggestion" *ngFor="let tag of suggestions" (click)="toggleSuggestion(tag)">
+          {{ tag }}
+        </button>
+      </div>
+    </div>
+  </section>

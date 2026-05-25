@@ -1,0 +1,63 @@
+<div class="monitor-container">
+  <div class="monitor-header">
+    <div class="title-wrap">
+      <h2>Cluster Resource Monitor</h2>
+      <span class="live-tag">LIVE FEED</span>
+    </div>
+    <div class="legend">
+      <span class="item active">Active</span>
+      <span class="item warning">Warning</span>
+      <span class="item error">Critical</span>
+      <span class="item idle">Idle</span>
+    </div>
+  </div>
+
+  <div class="node-grid">
+    <div *ngFor="let node of nodes" 
+         class="node-card" 
+         [style.border-color]="getNodeColor(node.status)">
+      
+      <div class="node-id">{{ node.id }}</div>
+      
+      <div class="load-visual">
+        <div class="radial-progress" [style.--p]="node.load" [style.--c]="getNodeColor(node.status)">
+          {{ node.load | number:'1.0-0' }}%
+        </div>
+      </div>
+
+      <div class="node-stats">
+        <div class="stat">
+          <label>MEM</label>
+          <span>{{ node.memory | number:'1.1-1' }}GB</span>
+        </div>
+        <div class="stat">
+          <label>UP</label>
+          <span>{{ node.uptime }}s</span>
+        </div>
+      </div>
+
+      <div class="process-dots">
+        <div *ngFor="let p of node.processes" 
+             class="dot" 
+             [title]="p"
+             [style.background-color]="node.status === 'error' ? '#f43f5e' : '#10b981'">
+        </div>
+      </div>
+
+      <!-- Extra heavy metadata nesting -->
+      <div class="heavy-overlay-hidden">
+        <div *ngFor="let i of [1,2,3,4,5,6]" class="meta-bit"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="global-metrics">
+    <h3>Cluster Aggregation Detail</h3>
+    <div class="metric-row" *ngFor="let i of [1,2,3]">
+      <span>Global Metric SEQ_{{i}}</span>
+      <div class="track">
+        <div class="fill" [style.width.%]="40 + i * 10"></div>
+      </div>
+    </div>
+  </div>
+</div>

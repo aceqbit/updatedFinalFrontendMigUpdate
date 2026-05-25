@@ -1,0 +1,51 @@
+<div class="range-picker-container">
+  <div class="presets-sidebar">
+    @for (preset of presets; track preset) {
+      <div
+        class="preset-item"
+        (click)="selectPreset(preset)">
+        {{ preset.label }}
+      </div>
+    }
+  </div>
+
+  <div class="calendars-wrapper">
+    @for (month of calendarMonths; track month) {
+      <div class="month-view">
+        <h3>{{ month.title }}</h3>
+        <div class="weekday-row">
+          @for (day of ['Sun','Mon','Tue','Wed','Thu','Fri','Sat']; track day) {
+            <span>{{ day }}</span>
+          }
+        </div>
+        <div class="day-grid">
+          @for (day of month.days; track day) {
+            <button
+              type="button"
+              class="range-day"
+              [class.in-range]="day.date ? isInRange(day.date) || isInHoverRange(day.date) : false"
+              [class.edge]="day.date ? isSelectionEdge(day.date) : false"
+              [class.outside]="!day.inMonth"
+              [disabled]="!day.date"
+              (mouseenter)="day.date && setHoverDate(day.date)"
+              (mouseleave)="setHoverDate(null)"
+              (click)="day.date && onDateSelect(day.date)">
+              {{ day.label }}
+            </button>
+          }
+        </div>
+      </div>
+    }
+  </div>
+
+  <div class="range-footer">
+    <div class="selected-summary">
+      <span>{{ startDate | date:'shortDate' }}</span>
+      <span> - </span>
+      <span>{{ endDate | date:'shortDate' }}</span>
+    </div>
+    <div class="actions">
+      <button class="cancel" (click)="clearRange()">Cancel</button>
+    </div>
+  </div>
+</div>

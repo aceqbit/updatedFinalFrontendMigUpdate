@@ -1,0 +1,121 @@
+<div class="calendar-container">
+  <div class="calendar-layout">
+    <div class="calendar-panel">
+      <div class="calendar-header">
+        <button (click)="prevMonth()">◀</button>
+        <h2>{{ getMonthName() }}</h2>
+        <button (click)="nextMonth()">▶</button>
+      </div>
+
+      <div class="calendar-grid">
+        @for (day of weekdays; track day) {
+          <div class="weekday-header">{{ day }}</div>
+        }
+
+        @for (day of days; track day) {
+          <div
+            class="calendar-day"
+            [class.today]="day.isToday"
+            [class.not-current]="!day.isCurrentMonth"
+            [class.selected]="selectedDate.toDateString() === day.date.toDateString()"
+            (click)="selectDate(day.date)"
+            role="button"
+            tabindex="0">
+            <div class="day-top">
+              <span class="day-number">{{ day.date | date:'d' }}</span>
+            </div>
+            <div class="day-content">
+              
+              <div class="events-container">
+                @for (event of day.events; track event) {
+                  <button
+                    type="button"
+                    class="event-pill"
+                    [style.border-left-color]="event.priority === 'high' ? '#d93025' : event.priority === 'medium' ? '#fbbc04' : '#34a853'"
+                    (click)="startEdit(event)">
+                    {{ event.title }}
+                  </button>
+                }
+              </div>
+              </div>
+          </div>
+        }
+      </div>
+    </div>
+
+    <aside class="calendar-editor">
+      <h3>{{ selectedDate | date:'fullDate' }}</h3>
+      <div class="editor-form">
+        <label>
+          Title
+          <input [(ngModel)]="eventDraft.title" type="text" placeholder="Add event title">
+        </label>
+        <label>
+          Details
+          <textarea [(ngModel)]="eventDraft.details" rows="4" placeholder="Add a short note"></textarea>
+        </label>
+        <div class="editor-row">
+          <label>
+            Start
+            <div style="display: flex; gap: 4px;">
+              <select [(ngModel)]="eventDraft.startHour">
+                @for (hour of hours; track hour) {
+                  <option [value]="hour">{{ hour < 10 ? '0' + hour : hour }}</option>
+                }
+              </select>
+              <span>:</span>
+              <select [(ngModel)]="eventDraft.startMinute">
+                @for (minute of minutes; track minute) {
+                  <option [value]="minute">{{ minute < 10 ? '0' + minute : minute }}</option>
+                }
+              </select>
+            </div>
+          </label>
+          <label>
+            End
+            <div style="display: flex; gap: 4px;">
+              <select [(ngModel)]="eventDraft.endHour">
+                @for (hour of hours; track hour) {
+                  <option [value]="hour">{{ hour < 10 ? '0' + hour : hour }}</option>
+                }
+              </select>
+              <span>:</span>
+              <select [(ngModel)]="eventDraft.endMinute">
+                @for (minute of minutes; track minute) {
+                  <option [value]="minute">{{ minute < 10 ? '0' + minute : minute }}</option>
+                }
+              </select>
+            </div>
+          </label>
+          <label>
+            Priority
+            <select [(ngModel)]="eventDraft.priority">
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+            </select>
+          </label>
+        </div>
+        <button class="save-event" type="button" (click)="saveEvent()">
+          {{ editingEventId ? 'Update Event' : 'Add Event' }}
+        </button>
+      </div>
+
+      <div class="day-event-list">
+        @for (event of getSelectedDayEvents(); track event) {
+          <div class="day-event-card">
+            <div>
+              <strong>{{ event.title }}</strong>
+              <p>{{ event.details }}</p>
+              <small class="timestamp-stamp">Added: {{ event.updatedAt | date:'medium' }}</small>
+            </div>
+            <div class="event-actions">
+              <button type="button" (click)="startEdit(event)">Edit</button>
+              <button type="button" (click)="removeEvent(event.id)">Delete</button>
+            </div>
+          </div>
+        }
+      </div>
+    </aside>
+  </div>
+</div>

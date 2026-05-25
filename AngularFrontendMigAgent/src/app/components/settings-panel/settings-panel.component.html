@@ -1,0 +1,56 @@
+<div class="settings-container">
+  <div class="settings-nav">
+    <div *ngFor="let cat of categories" 
+         class="nav-item" 
+         [class.active]="activeTab === cat.id"
+         (click)="activeTab = cat.id">
+      <span class="icon">{{ cat.icon }}</span>
+      <span class="label">{{ cat.label }}</span>
+    </div>
+  </div>
+
+  <div class="settings-content">
+    <div class="content-header">
+      <h2>{{ activeTab | uppercase }} CONFIGURATION</h2>
+      <button class="save-btn" (click)="saveSettings()">Apply Global Changes</button>
+    </div>
+
+    <div class="form-wrapper">
+      <div class="setting-section">
+        <label>System Metadata Identifier</label>
+        <input type="text" [(ngModel)]="formData.systemName">
+        <small>Primary identifier for the core cluster.</small>
+      </div>
+
+      <div class="setting-section toggle">
+        <div class="info">
+          <strong>Auto-Scaling Engine</strong>
+          <p>Dynamically provision resources based on throughput.</p>
+        </div>
+        <input type="checkbox" [(ngModel)]="formData.autoScale">
+      </div>
+
+      <div class="setting-section">
+        <label>Instance Cap Limit ({{ formData.maxInstances }})</label>
+        <input type="range" [(ngModel)]="formData.maxInstances" min="1" max="200">
+      </div>
+
+      <div class="setting-section">
+        <label>Deployment Region</label>
+        <select [(ngModel)]="formData.region">
+          <option value="us-east-1">US East (N. Virginia)</option>
+          <option value="eu-west-1">EU West (Ireland)</option>
+          <option value="ap-south-1">AP South (Mumbai)</option>
+        </select>
+      </div>
+
+      <!-- Extra heavy sections -->
+      <div class="debug-dump" *ngFor="let i of [1,2,3]">
+        <h4>System Trace Log v{{i}}</h4>
+        <div class="trace-line" *ngFor="let j of [1,2,3,4,5]">
+          <code>[TRACE] 0x{{j}}FFF: SYNC_ACK_RECEIVED</code>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

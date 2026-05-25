@@ -1,0 +1,107 @@
+.autocomplete-wrapper {
+  max-width: 800px;
+  margin: 50px auto;
+  position: relative;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.search-input-container {
+  position: relative;
+  width: 100%;
+}
+
+.main-search {
+  width: 100%;
+  padding: 15px 20px;
+  font-size: 1.2em;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  outline: none;
+  background: #fbfbfb; /* Distinct off-white */
+}
+
+.main-search:focus { border-color: #4285f4; box-shadow: 0 0 10px rgba(66,133,244,0.2); }
+
+.loader {
+  position: absolute;
+  right: 20px;
+  top: 18px;
+  width: 20px;
+  height: 20px;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #3498db;
+  border-radius: 50%;
+  animation: spin 1s linear infinite; /* Minimal animation required for status */
+}
+
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+.results-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid #ccc;
+  border-top: none;
+  max-height: 500px;
+  overflow-y: auto;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+  z-index: 1000;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+.category-group { padding: 10px 0; }
+
+.category-header {
+  background: #f1f3f4;
+  padding: 8px 20px;
+  font-size: 0.85em;
+  font-weight: bold;
+  color: #5f6368;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.result-item {
+  display: flex;
+  padding: 12px 20px;
+  gap: 15px;
+  cursor: pointer;
+  border-bottom: 1px solid #f1f3f4;
+}
+
+.result-item:hover { background: #f8f9fa; }
+
+.item-thumb {
+  width: 45px;
+  height: 45px;
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+.item-info { flex: 1; min-width: 0; }
+
+.item-title { font-weight: 500; color: #202124; margin-bottom: 2px; }
+.item-desc { 
+  font-size: 0.85em; 
+  color: #5f6368; 
+  white-space: nowrap; 
+  overflow: hidden; 
+  text-overflow: ellipsis; 
+}
+
+.item-meta { font-size: 0.75em; margin-top: 5px; color: #70757a; }
+.score { color: #34a853; margin-right: 10px; }
+
+::ng-deep mark { background: #fffde7; border-bottom: 2px solid #fbc02d; color: inherit; padding: 0; }
+
+.item-actions-hidden { display: none; } /* Hidden but heavy in DOM */
+
+.search-stats {
+  margin-top: 10px;
+  font-size: 0.8em;
+  color: #70757a;
+  text-align: right;
+}

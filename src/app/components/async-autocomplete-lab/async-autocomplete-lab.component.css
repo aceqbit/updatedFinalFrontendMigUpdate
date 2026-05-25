@@ -1,0 +1,93 @@
+.lab-card {
+  background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 24px;
+  padding: 24px;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
+  display: grid;
+  gap: 18px;
+}
+
+.lab-copy h3 {
+  margin: 0;
+  font-size: 1.55rem;
+  color: #0f172a;
+}
+
+.lab-copy p {
+  margin: 6px 0 0;
+  color: #475569;
+  line-height: 1.5;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #1d4ed8;
+}
+
+.combo-shell {
+  display: grid;
+  gap: 12px;
+  position: relative;
+}
+
+.combo-input {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #cbd5e1;
+  border-radius: 16px;
+  padding: 14px 16px;
+  font: inherit;
+  background: #fff;
+}
+
+.ghost-action {
+  justify-self: start;
+  border: 1px solid #dbe4f0;
+  background: rgba(15, 23, 42, 0.03);
+  color: #0f172a;
+  border-radius: 999px;
+  padding: 8px 14px;
+  cursor: pointer;
+}
+
+.ghost-action:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.combo-list {
+  display: grid;
+  gap: 8px;
+}
+
+.combo-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 1px solid #e2e8f0;
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  border-radius: 14px;
+  cursor: pointer;
+  color: #0f172a;
+  text-align: left;
+}
+
+.combo-item small {
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.selected-chip {
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(29, 78, 216, 0.1), rgba(15, 118, 110, 0.12));
+  color: #0f172a;
+}

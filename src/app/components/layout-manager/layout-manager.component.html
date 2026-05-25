@@ -1,0 +1,56 @@
+<div class="layout-container">
+  <div class="layout-header">
+    <h2>Dynamic Layout Engine</h2>
+    <div class="controls">
+      <button class="add-widget">+ New Widget</button>
+      <button class="save-layout">Save Configuration</button>
+    </div>
+  </div>
+
+  <div class="widgets-grid">
+    <div
+      *ngFor="let widget of widgets"
+      class="widget-card"
+      [ngClass]="getWidgetSizeClass(widget)"
+      [style.border-top-color]="widget.color">
+      <div class="widget-header">
+        <span class="widget-title">{{ widget.title }}</span>
+        <div class="widget-actions">
+          <button (click)="removeWidget(widget.id)">✕</button>
+        </div>
+      </div>
+      <div class="widget-body" [ngSwitch]="widget.type">
+        <!-- Different rendering based on type to increase complexity -->
+        <div class="stats-view" *ngSwitchCase="'stats'">
+          <div class="stat-item" *ngFor="let p of widget.dataPoints.slice(0, 4)">
+            <label>{{ p.label }}</label>
+            <div class="value">{{ p.value | number:'1.0-0' }}</div>
+          </div>
+        </div>
+        <div class="chart-view" *ngSwitchCase="'chart'">
+          <div
+            class="bar"
+            *ngFor="let p of widget.dataPoints.slice(0, 20)"
+            [style.height.%]="p.value / 10">
+          </div>
+        </div>
+        <div class="list-view" *ngSwitchCase="'list'">
+          <div class="list-item" *ngFor="let p of widget.dataPoints.slice(0, 10)">
+            <span>Item Ref: {{ p.label }}</span>
+            <strong>{{ p.value | currency }}</strong>
+          </div>
+        </div>
+        <div class="map-view" *ngSwitchCase="'map'">
+          <div class="map-placeholder">
+            <div class="ping" *ngFor="let i of [1,2,3,4,5]"></div>
+            Geospatial Data Feed Active
+          </div>
+        </div>
+      </div>
+      <!-- Heavy nested metadata -->
+      <div class="widget-footer">
+        <div class="meta-tag" *ngFor="let i of [1,2,3]">SYS_REF_{{i}}</div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,68 @@
+<div class="explorer-container">
+  <div class="tree-sidebar">
+    <div class="sidebar-header">
+      <strong>Enterprise Storage</strong>
+      <button class="refresh">⟳</button>
+    </div>
+    
+    <div class="tree-root">
+      <ng-container *ngTemplateOutlet="recursiveTree; context:{ $implicit: fileTree }"></ng-container>
+    </div>
+  </div>
+
+  <div class="details-panel" *ngIf="selectedFile">
+    <div class="details-pane" *ngIf="selectedFile">
+      <div class="details-header">
+        <span class="icon">{{ selectedFile.type === 'folder' ? '📁' : '📄' }}</span>
+        <h3>{{ selectedFile.name }}</h3>
+      </div>
+      <div class="details-body">
+        <div class="detail-row">
+          <span class="label">ID:</span>
+          <strong>{{ selectedFile.id }}</strong>
+        </div>
+        <div class="detail-row">
+          <span class="label">Size:</span>
+          <strong>{{ formatSize(selectedFile.size) }}</strong>
+        </div>
+        <div class="detail-row">
+          <span class="label">Owner:</span>
+          <strong>{{ selectedFile.owner }}</strong>
+        </div>
+        <div class="detail-row">
+          <span class="label">Permissions:</span>
+          <code class="perms">{{ selectedFile.permissions }}</code>
+        </div>
+        <div class="detail-row">
+          <span class="label">Last Modified:</span>
+          <strong>{{ selectedFile.modified | date:'medium' }}</strong>
+        </div>
+      </div>
+    </div>
+    <div class="no-selection" *ngIf="!selectedFile">
+      <p>Select a file or folder to see details</p>
+    </div>
+
+    <!-- Extra heavy decorative data -->
+    <div class="checksum-audit">
+      <h4>Checksum Audit Trail</h4>
+      <div class="hash-list">
+        <code *ngFor="let i of [1,2,3,4,5,6]">SHA256_{{i * 12345}}: a1b2c3d4e5f6g7h8...</code>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #recursiveTree let-nodes>
+  <div *ngFor="let node of nodes" class="tree-node">
+    <div class="node-content" (click)="toggleFolder(node)" [class.active]="selectedFile?.id === node.id">
+      <span class="toggle" *ngIf="node.type === 'folder'">{{ node.isOpen ? '▼' : '▶' }}</span>
+      <span class="icon">{{ node.type === 'folder' ? '📂' : '📄' }}</span>
+      <span class="name">{{ node.name }}</span>
+    </div>
+    
+    <div *ngIf="node.isOpen && node.children" class="node-children">
+      <ng-container *ngTemplateOutlet="recursiveTree; context:{ $implicit: node.children }"></ng-container>
+    </div>
+  </div>
+</ng-template>

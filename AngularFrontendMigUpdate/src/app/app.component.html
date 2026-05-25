@@ -1,0 +1,86 @@
+<div class="main-shell">
+  <aside class="sidebar">
+    <div class="logo">
+      <div class="logo-box"></div>
+      <span>H-ANGULAR</span>
+    </div>
+    <nav>
+      @for (s of sections; track s) {
+        <div
+          class="nav-item"
+          [class.active]="activeSection === s.id"
+          (click)="setSection(s.id)">
+          <span class="icon">{{ s.icon }}</span>
+          <span class="label">{{ s.label }}</span>
+        </div>
+      }
+    </nav>
+    <div class="sidebar-footer">
+    </div>
+  </aside>
+
+  <main class="content-area">
+    <!-- DASHBOARD SECTION -->
+    <section [hidden]="activeSection !== 'dashboard'">
+      <app-dashboard-widgets></app-dashboard-widgets>
+    </section>
+
+    <!-- WORKFLOW SECTION -->
+    <section [hidden]="activeSection !== 'workflow'">
+      <app-workflow-designer></app-workflow-designer>
+    </section>
+
+    <!-- CALENDAR SECTION -->
+    <section [hidden]="activeSection !== 'calendar'">
+      <app-calendar></app-calendar>
+    </section>
+
+    <!-- DATE RANGE PICKER SECTION -->
+    <section [hidden]="activeSection !== 'date-range-picker'">
+      <div style="margin-top: 40px;">
+        <app-date-range-picker></app-date-range-picker>
+      </div>
+    </section>
+
+    <!-- SCHEDULER SECTION -->
+    <section [hidden]="activeSection !== 'scheduler'">
+      <app-event-scheduler></app-event-scheduler>
+    </section>
+
+    <!-- LABS SECTION -->
+    <section [hidden]="activeSection !== 'labs'" class="labs-section">
+      <div class="labs-header">
+        <h2>Component Labs</h2>
+        <p>Four focused interaction modules for advanced Angular patterns and polished UI work.</p>
+      </div>
+      <div class="labs-grid">
+        <app-async-autocomplete-lab></app-async-autocomplete-lab>
+        <app-chips-input-lab></app-chips-input-lab>
+        <app-file-dropzone-lab></app-file-dropzone-lab>
+        <app-context-menu-overlays-lab></app-context-menu-overlays-lab>
+      </div>
+    </section>
+
+    <!-- STEPPER SECTION -->
+    <section [hidden]="activeSection !== 'stepper'">
+      <app-advanced-form-stepper></app-advanced-form-stepper>
+    </section>
+
+
+    <!-- NOTES SECTION -->
+    <section [hidden]="activeSection !== 'notes'">
+      <app-sticky-notes></app-sticky-notes>
+    </section>
+
+    <!-- NOTIFICATIONS SECTION -->
+    <section [hidden]="activeSection !== 'notifications'">
+      <app-notification-hub></app-notification-hub>
+    </section>
+
+
+    <!-- SETTINGS SECTION -->
+    <section [hidden]="activeSection !== 'settings'">
+      <app-settings-panel></app-settings-panel>
+    </section>
+  </main>
+</div>

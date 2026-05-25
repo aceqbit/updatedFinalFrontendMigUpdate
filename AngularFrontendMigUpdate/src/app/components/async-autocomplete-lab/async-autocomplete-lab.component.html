@@ -1,0 +1,38 @@
+<section class="lab-card">
+  <div class="lab-copy">
+    <p class="eyebrow">Typeahead</p>
+    <h3>Asynchronous Autocompletes</h3>
+    <p>Lightweight search combobox behavior with crisp filtering and a clean selection state.</p>
+  </div>
+
+  <div class="combo-shell">
+    <input
+      type="text"
+      [ngModel]="query"
+      (ngModelChange)="onQueryChange($event)"
+      placeholder="Search services, datasets, or commands"
+      class="combo-input"
+      >
+
+      <button type="button" class="ghost-action" (click)="clearSelection()" [disabled]="!selectedValue">
+        Clear
+      </button>
+
+      @if (showDropdown && filteredOptions.length) {
+        <div class="combo-list">
+          @for (option of filteredOptions; track option) {
+            <button type="button" class="combo-item" (click)="pickOption(option)">
+              <span>{{ option }}</span>
+              <small>select</small>
+            </button>
+          }
+        </div>
+      }
+
+      @if (selectedValue) {
+        <div class="selected-chip">
+          Selected: <strong>{{ selectedValue }}</strong>
+        </div>
+      }
+    </div>
+  </section>

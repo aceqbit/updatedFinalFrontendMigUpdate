@@ -1,0 +1,124 @@
+.monitor-container {
+  padding: 30px;
+  background-color: #0f172a;
+  color: #f8fafc;
+  font-family: 'JetBrains Mono', monospace;
+  min-height: 100vh;
+}
+
+.monitor-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+  padding: 20px;
+  background: #1e293b;
+  border-radius: 12px;
+}
+
+.live-tag {
+  background: #ef4444;
+  color: white;
+  padding: 2px 8px;
+  font-size: 0.7em;
+  font-weight: bold;
+  border-radius: 4px;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+
+.legend { display: flex; gap: 15px; font-size: 0.8em; }
+.legend .item::before {
+  content: '';
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 5px;
+}
+
+.legend .active::before { background: #10b981; }
+.legend .warning::before { background: #f59e0b; }
+.legend .error::before { background: #f43f5e; }
+.legend .idle::before { background: #94a3b8; }
+
+.node-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 20px;
+}
+
+.node-card {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-left-width: 5px;
+  padding: 15px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.node-id { font-size: 0.8em; color: #94a3b8; }
+
+.radial-progress {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: conic-gradient(var(--c) calc(var(--p) * 1%), #334155 0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8em;
+  font-weight: bold;
+  position: relative;
+  margin: 0 auto;
+}
+
+.radial-progress::after {
+  content: '';
+  position: absolute;
+  width: 45px;
+  height: 45px;
+  background: #1e293b;
+  border-radius: 50%;
+  z-index: 0;
+}
+
+.radial-progress span { z-index: 1; }
+
+.node-stats {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.7em;
+}
+
+.stat label { color: #64748b; }
+
+.process-dots {
+  display: flex;
+  gap: 4px;
+  justify-content: center;
+}
+
+.dot { width: 6px; height: 6px; border-radius: 50%; }
+
+.heavy-overlay-hidden { display: none; }
+
+.global-metrics {
+  margin-top: 50px;
+  background: #1e293b;
+  padding: 30px;
+  border-radius: 16px;
+}
+
+.metric-row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-top: 15px;
+}
+
+.track { flex: 1; height: 4px; background: #334155; }
+.fill { height: 100%; background: #38bdf8; }

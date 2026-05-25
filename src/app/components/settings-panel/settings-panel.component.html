@@ -1,0 +1,74 @@
+<div class="settings-container">
+  <div class="settings-nav">
+    <div
+      *ngFor="let cat of categories"
+      class="nav-item"
+      [class.active]="activeTab === cat.id"
+      (click)="activeTab = cat.id">
+      <span class="icon">{{ cat.icon }}</span>
+      <span class="label">{{ cat.label }}</span>
+    </div>
+  </div>
+
+  <div class="settings-content">
+    <div class="content-header">
+      <h2>{{ tabConfigs[activeTab].title | uppercase }} CONFIGURATION</h2>
+      <button class="save-btn" (click)="saveSettings()">Apply Global Changes</button>
+    </div>
+
+    <div class="form-wrapper">
+      <p class="tab-description">{{ tabConfigs[activeTab].description }}</p>
+
+      <div class="tab-cards">
+        <article class="tab-card" *ngFor="let card of getCardsForActiveTab()" [class]="card.tone">
+          <h3>{{ card.heading }}</h3>
+          <p>{{ card.value }}</p>
+        </article>
+      </div>
+
+      <div class="tab-records">
+        <div class="record-row" *ngFor="let record of getRecordsForActiveTab()">
+          <span class="record-label">{{ record.label }}</span>
+          <strong class="record-value">{{ record.value }}</strong>
+        </div>
+      </div>
+
+      <div class="setting-section" *ngFor="let field of tabConfigs[activeTab].fields" [class.toggle]="field.type === 'toggle'">
+        <div [ngSwitch]="field.type">
+          <div class="toggle-row" *ngSwitchCase="'toggle'">
+            <div class="info">
+              <strong>{{ field.label }}</strong>
+              <p>{{ field.help }}</p>
+            </div>
+            <input type="checkbox" [(ngModel)]="formData[field.key]">
+          </div>
+          <div *ngSwitchCase="'range'">
+            <label>{{ field.label }} ({{ formData[field.key] }})</label>
+            <input type="range" [(ngModel)]="formData[field.key]" min="1" max="200">
+            <small *ngIf="field.help">{{ field.help }}</small>
+          </div>
+          <div *ngSwitchCase="'select'">
+            <label>{{ field.label }}</label>
+            <select [(ngModel)]="formData[field.key]">
+              <option *ngFor="let option of field.options" [value]="option.value">{{ option.label }}</option>
+            </select>
+            <small *ngIf="field.help">{{ field.help }}</small>
+          </div>
+          <div *ngSwitchCase="'textarea'">
+            <label>{{ field.label }}</label>
+            <textarea rows="3" [(ngModel)]="formData[field.key]"></textarea>
+            <small *ngIf="field.help">{{ field.help }}</small>
+          </div>
+          <div *ngSwitchDefault>
+            <label>{{ field.label }}</label>
+            <input type="text" [(ngModel)]="formData[field.key]">
+            <small *ngIf="field.help">{{ field.help }}</small>
+          </div>
+        </div>
+      </div>
+
+      <!-- Extra heavy sections -->
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,42 @@
+<section class="lab-card">
+  <div class="lab-copy">
+    <p class="eyebrow">Dropzone</p>
+    <h3>File Drag-and-Drop with Live Progress</h3>
+    <p>Drag assets into the board, browse files from the native picker, and watch the uploads animate to completion. Accepted formats: PDF, DOC, DOCX, and images (JPG, JPEG, PNG, GIF, WEBP).</p>
+  </div>
+
+  <div
+    class="dropzone"
+    [class.active]="dragActive"
+    (dragover)="onDragOver($event)"
+    (dragleave)="onDragLeave($event)"
+    (drop)="onDrop($event)"
+    >
+    <input type="file" multiple accept=".pdf,.doc,.docx,image/*" (change)="onBrowse($event)">
+    <strong>Drop files here</strong>
+    <span>or click to browse</span>
+  </div>
+
+  <div class="upload-list" *ngIf="files.length; else emptyState">
+    <article class="upload-item" *ngFor="let file of files">
+      <div class="upload-row">
+        <div>
+          <strong>{{ file.name }}</strong>
+          <p>{{ file.sizeLabel }}</p>
+        </div>
+        <button type="button" class="remove-btn" (click)="removeFile(file.id)">Remove</button>
+      </div>
+      <div class="progress-shell">
+        <div class="progress-bar" [style.width.%]="file.progress"></div>
+      </div>
+      <div class="upload-meta">
+        <span>{{ file.status }}</span>
+        <span>{{ file.progress }}%</span>
+      </div>
+    </article>
+  </div>
+  <ng-template #emptyState>
+    <div class="empty-state">No uploads queued. Add a file to preview the progress behavior.</div>
+  </ng-template>
+
+</section>

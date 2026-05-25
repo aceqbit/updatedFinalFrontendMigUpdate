@@ -1,0 +1,148 @@
+.layout-container {
+  padding: 25px;
+  background-color: #f3f4f6;
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+}
+
+.layout-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.layout-header h2 {
+  color: #111827;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+}
+
+.add-widget {
+  background: #2563eb;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.widgets-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 20px;
+}
+
+.widget-card {
+  background: white;
+  border-radius: 12px;
+  border-top: 5px solid #ccc;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.widget-header {
+  padding: 15px 20px;
+  border-bottom: 1px solid #f3f4f6;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.widget-title {
+  font-weight: 700;
+  color: #374151;
+}
+
+.widget-body {
+  padding: 20px;
+  flex: 1;
+  min-height: 200px;
+}
+
+.stats-view {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.stat-item {
+  background: #f9fafb;
+  padding: 12px;
+  border-radius: 8px;
+}
+
+.stat-item label { font-size: 0.75em; color: #6b7280; text-transform: uppercase; }
+.stat-item .value { font-size: 1.5em; font-weight: 800; color: #111827; }
+
+.chart-view {
+  height: 150px;
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.bar {
+  flex: 1;
+  background: #3b82f6;
+  border-radius: 2px 2px 0 0;
+  min-height: 2px;
+}
+
+.list-view {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.list-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px;
+  background: #fef2f2;
+  border-radius: 4px;
+  font-size: 0.85em;
+}
+
+.map-view {
+  background: #111827;
+  height: 150px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #34d399;
+  position: relative;
+}
+
+.ping {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: #10b981;
+  border-radius: 50%;
+  animation: pulse 2s infinite; /* Minimal animation */
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(3); opacity: 0; }
+}
+
+.widget-footer {
+  padding: 10px 20px;
+  background: #f9fafb;
+  display: flex;
+  gap: 10px;
+}
+
+.meta-tag {
+  font-size: 0.65em;
+  background: #e5e7eb;
+  padding: 2px 8px;
+  border-radius: 4px;
+  color: #4b5563;
+}

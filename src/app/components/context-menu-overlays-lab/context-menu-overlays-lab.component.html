@@ -1,0 +1,34 @@
+<section class="lab-card overlay-root" (contextmenu)="$event.preventDefault()">
+  <div class="lab-copy">
+    <p class="eyebrow">Context Menus</p>
+    <h3>Rich Context Menus and Overlays</h3>
+    <p>Custom right-click surfaces with a floating action palette and anchored visual feedback.</p>
+  </div>
+
+  <div class="card-grid">
+    <article
+      *ngFor="let card of cards"
+      class="menu-card"
+      [style.--accent]="card.accent"
+      (contextmenu)="openMenu($event, card)"
+      >
+      <div class="card-kicker">{{ card.id }}</div>
+      <h4>{{ card.title }}</h4>
+      <p>{{ card.description }}</p>
+    </article>
+  </div>
+
+  <p class="status-text">{{ lastAction }}</p>
+
+  <div
+    *ngIf="menu.visible"
+    class="context-menu"
+    [style.left.px]="menu.x"
+    [style.top.px]="menu.y"
+    (click)="$event.stopPropagation()"
+    >
+    <button type="button" *ngFor="let action of actions" (click)="performAction(action)">
+      {{ action }}
+    </button>
+  </div>
+</section>

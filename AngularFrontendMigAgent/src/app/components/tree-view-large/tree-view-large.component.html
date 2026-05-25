@@ -1,0 +1,37 @@
+<div class="tree-container">
+  <div class="tree-header">
+    <h3>Enterprise Taxonomy Explorer</h3>
+    <button class="expand-all">Expand All Hierarchy</button>
+  </div>
+
+  <div class="tree-viewport">
+    <ng-container *ngTemplateOutlet="nodeTemplate; context:{ $implicit: treeData }"></ng-container>
+  </div>
+</div>
+
+<ng-template #nodeTemplate let-nodes>
+  <div *ngFor="let node of nodes" class="node-wrapper" [style.padding-left.px]="node.level * 20">
+    <div class="node-row" [class.expanded]="node.expanded">
+      <span class="toggle" 
+            *ngIf="node.children && node.children.length > 0" 
+            (click)="toggleNode(node)">
+        {{ node.expanded ? '▼' : '▶' }}
+      </span>
+      <span class="spacer" *ngIf="!node.children || node.children.length === 0"></span>
+      
+      <input type="checkbox" 
+             [checked]="node.checked" 
+             (change)="toggleCheck(node, !node.checked)">
+      
+      <span class="label">{{ node.label }}</span>
+      
+      <!-- Complex data inclusion -->
+      <span class="badge" *ngIf="node.level === 0">ROOT</span>
+      <span class="count" *ngIf="node.children">{{ node.children.length }} items</span>
+    </div>
+
+    <div *ngIf="node.expanded && node.children" class="children-block">
+      <ng-container *ngTemplateOutlet="nodeTemplate; context:{ $implicit: node.children }"></ng-container>
+    </div>
+  </div>
+</ng-template>
