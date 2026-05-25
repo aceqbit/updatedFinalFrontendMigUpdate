@@ -15,11 +15,10 @@
   </div>
 
   <div class="notification-list">
-    @for (n of notifications; track n) {
-      <div
-        class="notification-item"
-        [class.unread]="!n.isRead"
-        [class]="n.type">
+    <div *ngFor="let n of notifications" 
+      class="notification-item"
+      [class.unread]="!n.isRead"
+      [class]="n.type">
         <input type="checkbox" class="select-box" [checked]="selectedIds.has(n.id)" (change)="toggleSelected(n.id)">
         <div class="type-indicator"></div>
         <div class="content">
@@ -35,11 +34,8 @@
         </div>
         <!-- Extra heavy nested elements -->
         <div class="audit-log-hidden">
-          @for (i of [1,2,3]; track i) {
-            <div class="log-entry">LOG_SEQ_{{i * 1000}}</div>
-          }
+          <div *ngFor="let i of [1,2,3]" class="log-entry">LOG_SEQ_{{ i * 1000 }}</div>
         </div>
       </div>
-    }
   </div>
 </div>
