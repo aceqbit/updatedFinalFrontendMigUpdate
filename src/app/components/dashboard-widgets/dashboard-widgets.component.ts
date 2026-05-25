@@ -10,7 +10,6 @@ interface WidgetMetric {
 
 @Component({
     selector: 'app-dashboard-widgets',
-    imports: [CommonModule],
     templateUrl: './dashboard-widgets.component.html',
     styleUrls: ['./dashboard-widgets.component.css']
 })

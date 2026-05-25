@@ -26,9 +26,13 @@
         <input type="file" multiple accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt" (change)="handleComposerFiles($event)">
       </label>
     </div>
-    <div class="composer-files" *ngIf="composer.attachments.length">
-      <span *ngFor="let file of composer.attachments">{{ file }}</span>
-    </div>
+    @if (composer.attachments.length) {
+      <div class="composer-files">
+        @for (file of composer.attachments; track file) {
+          <span>{{ file }}</span>
+        }
+      </div>
+    }
     <div style="display: flex; justify-content: flex-end; margin-top: 10px;">
       <button class="add-btn" (click)="addNote()" style="padding: 8px 16px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">+ Add New Note</button>
     </div>
@@ -37,11 +41,11 @@
   <div class="notes-columns">
     <div class="notes-column">
       <h2>High Priority</h2>
-      <div
-        *ngFor="let note of highPriorityNotes; trackBy: trackByNoteId"
-        class="note"
-        [style.background-color]="note.color"
-        [class.pinned]="note.isPinned">
+      @for (note of highPriorityNotes; track trackByNoteId($index, note)) {
+        <div
+          class="note"
+          [style.background-color]="note.color"
+          [class.pinned]="note.isPinned">
           <div class="note-header">
             <input [(ngModel)]="note.title" (ngModelChange)="updateNoteTitle(note, $event)" class="note-title-input" placeholder="Title...">
             <div class="actions">
@@ -65,28 +69,35 @@
           <div class="note-footer">
             <span class="timestamp">Last edited: {{note.lastModified | date:'short'}}</span>
             <div class="tags">
-              <span class="tag" *ngFor="let tag of note.tags">{{tag}}</span>
+              @for (tag of note.tags; track tag) {
+                <span class="tag">{{tag}}</span>
+              }
             </div>
             <label class="note-upload">
               Add attachment
               <input type="file" multiple accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt" (change)="handleNoteFiles(note, $event)">
             </label>
-            <div class="note-files" *ngIf="note.attachments.length">
-              <span *ngFor="let file of note.attachments">{{ file }}</span>
-            </div>
+            @if (note.attachments.length) {
+              <div class="note-files">
+                @for (file of note.attachments; track file) {
+                  <span>{{ file }}</span>
+                }
+              </div>
+            }
             <div class="priority-indicator" [class]="note.priority">
               {{note.priority | uppercase}}
             </div>
           </div>
         </div>
+      }
     </div>
     <div class="notes-column">
       <h2>Medium Priority</h2>
-      <div
-        *ngFor="let note of mediumPriorityNotes; trackBy: trackByNoteId"
-        class="note"
-        [style.background-color]="note.color"
-        [class.pinned]="note.isPinned">
+      @for (note of mediumPriorityNotes; track trackByNoteId($index, note)) {
+        <div
+          class="note"
+          [style.background-color]="note.color"
+          [class.pinned]="note.isPinned">
           <div class="note-header">
             <input [(ngModel)]="note.title" class="note-title-input" placeholder="Title...">
             <div class="actions">
@@ -110,28 +121,35 @@
           <div class="note-footer">
             <span class="timestamp">Last edited: {{note.lastModified | date:'short'}}</span>
             <div class="tags">
-              <span class="tag" *ngFor="let tag of note.tags">{{tag}}</span>
+              @for (tag of note.tags; track tag) {
+                <span class="tag">{{tag}}</span>
+              }
             </div>
             <label class="note-upload">
               Add attachment
               <input type="file" multiple accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt" (change)="handleNoteFiles(note, $event)">
             </label>
-            <div class="note-files" *ngIf="note.attachments.length">
-              <span *ngFor="let file of note.attachments">{{ file }}</span>
-            </div>
+            @if (note.attachments.length) {
+              <div class="note-files">
+                @for (file of note.attachments; track file) {
+                  <span>{{ file }}</span>
+                }
+              </div>
+            }
             <div class="priority-indicator" [class]="note.priority">
               {{note.priority | uppercase}}
             </div>
           </div>
         </div>
+      }
     </div>
     <div class="notes-column">
       <h2>Low Priority</h2>
-      <div
-        *ngFor="let note of lowPriorityNotes; trackBy: trackByNoteId"
-        class="note"
-        [style.background-color]="note.color"
-        [class.pinned]="note.isPinned">
+      @for (note of lowPriorityNotes; track trackByNoteId($index, note)) {
+        <div
+          class="note"
+          [style.background-color]="note.color"
+          [class.pinned]="note.isPinned">
           <div class="note-header">
             <input [(ngModel)]="note.title" class="note-title-input" placeholder="Title...">
             <div class="actions">
@@ -155,20 +173,27 @@
           <div class="note-footer">
             <span class="timestamp">Last edited: {{note.lastModified | date:'short'}}</span>
             <div class="tags">
-              <span class="tag" *ngFor="let tag of note.tags">{{tag}}</span>
+              @for (tag of note.tags; track tag) {
+                <span class="tag">{{tag}}</span>
+              }
             </div>
             <label class="note-upload">
               Add attachment
               <input type="file" multiple accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt" (change)="handleNoteFiles(note, $event)">
             </label>
-            <div class="note-files" *ngIf="note.attachments.length">
-              <span *ngFor="let file of note.attachments">{{ file }}</span>
-            </div>
+            @if (note.attachments.length) {
+              <div class="note-files">
+                @for (file of note.attachments; track file) {
+                  <span>{{ file }}</span>
+                }
+              </div>
+            }
             <div class="priority-indicator" [class]="note.priority">
               {{note.priority | uppercase}}
             </div>
           </div>
         </div>
+      }
     </div>
   </div>
 </div>

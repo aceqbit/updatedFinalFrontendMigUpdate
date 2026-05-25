@@ -17,7 +17,6 @@ interface GridRow {
 
 @Component({
     selector: 'app-data-grid',
-    imports: [CommonModule, FormsModule],
     templateUrl: './data-grid.component.html',
     styleUrls: ['./data-grid.component.css']
 })

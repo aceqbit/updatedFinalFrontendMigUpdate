@@ -11,7 +11,6 @@ interface DropFile {
 
 @Component({
     selector: 'app-file-dropzone-lab',
-    imports: [],
     templateUrl: './file-dropzone-lab.component.html',
     styleUrls: ['./file-dropzone-lab.component.css']
 })

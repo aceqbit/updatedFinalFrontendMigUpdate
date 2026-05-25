@@ -18,14 +18,14 @@
         Clear
       </button>
 
-      <div class="combo-list" *ngIf="showDropdown && filteredOptions.length">
-        <button type="button" class="combo-item" *ngFor="let option of filteredOptions" (click)="pickOption(option)">
+      <div *ngIf="showDropdown && filteredOptions.length" class="combo-list">
+        <button *ngFor="let option of filteredOptions" type="button" class="combo-item" (click)="pickOption(option)">
           <span>{{ option }}</span>
           <small>select</small>
         </button>
       </div>
 
-      <div class="selected-chip" *ngIf="selectedValue">
+      <div *ngIf="selectedValue" class="selected-chip">
         Selected: <strong>{{ selectedValue }}</strong>
       </div>
     </div>

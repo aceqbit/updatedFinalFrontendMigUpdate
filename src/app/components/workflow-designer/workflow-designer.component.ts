@@ -17,7 +17,6 @@ interface Connection {
 
 @Component({
     selector: 'app-workflow-designer',
-    imports: [],
     templateUrl: './workflow-designer.component.html',
     styleUrls: ['./workflow-designer.component.css']
 })

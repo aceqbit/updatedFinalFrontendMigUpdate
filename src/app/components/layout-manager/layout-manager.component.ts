@@ -22,12 +22,6 @@ interface Widget {
 
 @Component({
     selector: 'app-layout-manager',
-    imports: [
-        CommonModule,
-        DashboardWidgetsComponent,
-        CalendarComponent,
-        AdvancedFormStepperComponent,
-    ],
     templateUrl: './layout-manager.component.html',
     styleUrls: ['./layout-manager.component.css']
 })

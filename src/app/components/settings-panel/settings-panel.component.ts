@@ -29,7 +29,6 @@ interface TabRecord {
 
 @Component({
     selector: 'app-settings-panel',
-    imports: [CommonModule, FormsModule],
     templateUrl: './settings-panel.component.html',
     styleUrls: ['./settings-panel.component.css']
 })

@@ -12,7 +12,6 @@ interface ResourceNode {
 
 @Component({
     selector: 'app-resource-monitor',
-    imports: [CommonModule],
     templateUrl: './resource-monitor.component.html',
     styleUrls: ['./resource-monitor.component.css']
 })

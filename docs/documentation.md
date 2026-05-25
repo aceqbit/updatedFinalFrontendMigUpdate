@@ -2,6 +2,11 @@
 
 This document records the steps and changes made during the migration of the Angular application from version 16 to 21.
 
+## Current Workspace Snapshot
+- The active workspace migration checkpoint is Angular v17 → v18.
+- `package.json` and `package-lock.json` were updated to Angular 18.2.x.
+- Validation for the current checkpoint passed with `ng build` and `npm test -- --watch=false`.
+
 ## Summary
 The migration was performed incrementally, one major version at a time, from Angular 16 to 21. The migration was successful, and the application builds without errors.
 
@@ -14,6 +19,7 @@ The migration was performed incrementally, one major version at a time, from Ang
 ## Phase 2: Angular 17 to 18
 - Updated all `@angular/*` packages to version 18.
 - The build was successful after the update.
+- The current workspace snapshot has now been validated against Angular 18.2.x packages.
 
 ## Phase 3: Angular 18 to 19
 - Updated all `@angular/*` packages to version 19.
@@ -30,6 +36,12 @@ The migration was performed incrementally, one major version at a time, from Ang
 - Updated TypeScript to version 5.9.3.
 - The `main.ts` file was updated to use the new bootstrap API.
 - The build was successful after the update.
+
+### Migration Completion (v21)
+- Completion date: 2026-05-22
+- Branch: `migration/v20-to-v21` (pushed to origin)
+- Tag: `v21-stable` (pushed to origin)
+
 
 ## Lessons Learned
 - The incremental migration approach was effective in isolating issues at each step.

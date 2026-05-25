@@ -29,14 +29,14 @@
     </div>
 
     <div class="grid-body">
-      <div class="grid-group" *ngFor="let group of getGroupKeys()">
+      <div *ngFor="let group of getGroupKeys()" class="grid-group">
         <div class="group-header">
           <span class="group-toggle">▼</span>
           {{ group | uppercase }} ({{ getGroupedRows()[group].length }})
         </div>
         <div
-          class="grid-row"
           *ngFor="let row of getGroupedRows()[group]"
+          class="grid-row"
           [class.selected]="selectedRows.has(row.id)">
           <div class="col-check">
             <input type="checkbox" [checked]="selectedRows.has(row.id)" (change)="toggleSelection(row.id)">
@@ -64,7 +64,7 @@
           </div>
           <div class="col-actions">
             <!-- Hidden complex logic -->
-            <div class="row-meta-dump" *ngFor="let i of [1,2]"></div>
+            <div *ngFor="let i of [1,2]" class="row-meta-dump"></div>
           </div>
         </div>
       </div>

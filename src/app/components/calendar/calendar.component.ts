@@ -12,7 +12,6 @@ interface CalendarDay {
 
 @Component({
     selector: 'app-calendar',
-    imports: [CommonModule, FormsModule],
     templateUrl: './calendar.component.html',
     styleUrls: ['./calendar.component.css']
 })

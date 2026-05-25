@@ -1,35 +1,31 @@
 <div class="range-picker-container">
   <div class="presets-sidebar">
-    <div
-      *ngFor="let preset of presets"
-      class="preset-item"
-      (click)="selectPreset(preset)">
-      {{ preset.label }}
-    </div>
+    <div *ngFor="let preset of presets" class="preset-item"
+        (click)="selectPreset(preset)">
+        {{ preset.label }}
+      </div>
   </div>
 
   <div class="calendars-wrapper">
     <div *ngFor="let month of calendarMonths" class="month-view">
-      <h3>{{ month.title }}</h3>
-      <div class="weekday-row">
-        <span *ngFor="let day of ['Sun','Mon','Tue','Wed','Thu','Fri','Sat']">{{ day }}</span>
+        <h3>{{ month.title }}</h3>
+        <div class="weekday-row">
+            <span *ngFor="let day of ['Sun','Mon','Tue','Wed','Thu','Fri','Sat']">{{ day }}</span>
+        </div>
+        <div class="day-grid">
+            <button *ngFor="let day of month.days" type="button"
+              class="range-day"
+              [class.in-range]="day.date ? isInRange(day.date) || isInHoverRange(day.date) : false"
+              [class.edge]="day.date ? isSelectionEdge(day.date) : false"
+              [class.outside]="!day.inMonth"
+              [disabled]="!day.date"
+              (mouseenter)="day.date && setHoverDate(day.date)"
+              (mouseleave)="setHoverDate(null)"
+              (click)="day.date && onDateSelect(day.date)">
+              {{ day.label }}
+            </button>
+        </div>
       </div>
-      <div class="day-grid">
-        <button
-          *ngFor="let day of month.days"
-          type="button"
-          class="range-day"
-          [class.in-range]="day.date ? isInRange(day.date) || isInHoverRange(day.date) : false"
-          [class.edge]="day.date ? isSelectionEdge(day.date) : false"
-          [class.outside]="!day.inMonth"
-          [disabled]="!day.date"
-          (mouseenter)="day.date && setHoverDate(day.date)"
-          (mouseleave)="setHoverDate(null)"
-          (click)="day.date && onDateSelect(day.date)">
-          {{ day.label }}
-        </button>
-      </div>
-    </div>
   </div>
 
   <div class="range-footer">

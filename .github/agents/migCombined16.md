@@ -1,12 +1,6 @@
-# Combined Migration Agent (v16 → v17) — ACTIVE
+# Combined Migration Agent (v16 → v21)
 
-This file contains the combined logic, responsibilities, and workflows of all migration sub-agents, specialized for the active v16→v17 migration in this workspace.
-
-### Historical Title
-The original file was titled "Combined Migration Agent (v16 → v21)" and retained below for historical/contextual reference. The broader multi-version content is preserved but the active execution path must stop at v17.
-
-### Scope Specialization
-This combined agent is now authoritative for Angular **v16 -> v17 only** in this workspace specialization. The broader v16 -> v21 wording remains for reference, but the active execution path must stop at v17.
+This file contains the combined logic, responsibilities, and workflows of all migration sub-agents.
 
 
 ## SECTION 7: MASTER MIGRATION AGENT
@@ -57,18 +51,5 @@ Within this combined framework, the implementation logic is enhanced with greate
 - **Implementation Agent Management:** It oversees the `implementation.md` logic, feeding it one task at a time from the plan and awaiting a success or failure signal before providing the next task.
 - **Unit Testing Agent Management:** After each significant implementation step, the Master Agent invokes the `unittesting.md` logic to run the relevant test suites. It will not allow the implementation to proceed until all tests pass.
 - **Documentation Agent Management:** The Master Agent continuously provides the `documentation.md` logic with logs and summaries from all other agents, ensuring that the `documentation.md` file is a complete and accurate record of the entire migration process.
-
-### must include OUTPUT
-- **Report:** `report/migration_report.md` (master combined migration summary)
-- **Total number of components present:** (agent-discovered integer)
-- **Total number of components migrated:** (agent-updated integer)
-- **Total number of components pending migration:** (agent-computed integer)
-- **Migration completion percentage:** (computed as migrated/total * 100)
-- **Spec files present:** (number of `*.spec.ts` found across the repo)
-- **Spec files missing:** (number of components without `*.spec.ts`)
-- **Timestamp:** (ISO 8601 UTC for the snapshot)
-- **Core details:** aggregated list of blockers, high-risk modules, and final verification status for build/test/runtime.
-
-- **Spec requirement:** The combined agent enforces that every component includes a `<component>.component.spec.ts` and that the unit-testing agent discovers and runs all `*.spec.ts` during validation.
 
 

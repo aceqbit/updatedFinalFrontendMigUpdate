@@ -11,7 +11,6 @@ interface MenuCard {
 
 @Component({
     selector: 'app-context-menu-overlays-lab',
-    imports: [],
     templateUrl: './context-menu-overlays-lab.component.html',
     styleUrls: ['./context-menu-overlays-lab.component.css']
 })

@@ -14,7 +14,6 @@ interface MonthView {
 
 @Component({
     selector: 'app-date-range-picker',
-    imports: [CommonModule],
     templateUrl: './date-range-picker.component.html',
     styleUrls: ['./date-range-picker.component.css']
 })

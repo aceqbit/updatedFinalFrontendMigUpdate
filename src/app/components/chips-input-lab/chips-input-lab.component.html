@@ -6,13 +6,13 @@
   </div>
 
   <div class="chip-editor">
-    <div class="chip-list" *ngIf="chips.length; else emptyState">
-      <button type="button" class="chip" *ngFor="let chip of chips" (click)="removeChip(chip)">
-        <span>{{ chip }}</span>
-        <span class="chip-remove">×</span>
-      </button>
-    </div>
-    <ng-template #emptyState>
+    <div *ngIf="chips.length; else noChips" class="chip-list">
+        <button *ngFor="let chip of chips" type="button" class="chip" (click)="removeChip(chip)">
+          <span>{{ chip }}</span>
+          <span class="chip-remove">×</span>
+        </button>
+      </div>
+      <ng-template #noChips>
       <div class="empty-state">No chips yet. Add one to begin building a label set.</div>
     </ng-template>
 
@@ -26,9 +26,9 @@
       >
 
       <div class="suggestions">
-        <button type="button" class="suggestion" *ngFor="let tag of suggestions" (click)="toggleSuggestion(tag)">
-          {{ tag }}
-        </button>
+        <button *ngFor="let tag of suggestions" type="button" class="suggestion" (click)="toggleSuggestion(tag)">
+            {{ tag }}
+          </button>
       </div>
     </div>
   </section>

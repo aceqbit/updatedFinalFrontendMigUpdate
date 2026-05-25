@@ -15,7 +15,7 @@
     </div>
   </div>
 
-  @if (showEventPopup) {
+  <div *ngIf="showEventPopup">
     <div class="scheduler-editor">
       <div class="editor-grid">
         <label>
@@ -31,15 +31,11 @@
           Start
           <div style="display: flex; gap: 4px;">
             <select [(ngModel)]="eventDraft.startHour">
-              @for (hour of hours; track hour) {
-                <option [value]="hour">{{ hour < 10 ? '0' + hour : hour }}</option>
-              }
+              <option *ngFor="let hour of hours" [value]="hour">{{ hour < 10 ? '0' + hour : hour }}</option>
             </select>
             <span>:</span>
             <select [(ngModel)]="eventDraft.startMinute">
-              @for (minute of minutes; track minute) {
-                <option [value]="minute">{{ minute < 10 ? '0' + minute : minute }}</option>
-              }
+              <option *ngFor="let minute of minutes" [value]="minute">{{ minute < 10 ? '0' + minute : minute }}</option>
             </select>
           </div>
         </label>
@@ -47,15 +43,11 @@
           End
           <div style="display: flex; gap: 4px;">
             <select [(ngModel)]="eventDraft.endHour">
-              @for (hour of hours; track hour) {
-                <option [value]="hour">{{ hour < 10 ? '0' + hour : hour }}</option>
-              }
+              <option *ngFor="let hour of hours" [value]="hour">{{ hour < 10 ? '0' + hour : hour }}</option>
             </select>
             <span>:</span>
             <select [(ngModel)]="eventDraft.endMinute">
-              @for (minute of minutes; track minute) {
-                <option [value]="minute">{{ minute < 10 ? '0' + minute : minute }}</option>
-              }
+              <option *ngFor="let minute of minutes" [value]="minute">{{ minute < 10 ? '0' + minute : minute }}</option>
             </select>
           </div>
         </label>
@@ -77,10 +69,9 @@
         <button class="action-btn" (click)="showEventPopup = false">Close</button>
       </div>
     </div>
-  }
+  </div>
 
-  @if (selectedView === 'day') {
-    <section class="day-view-panel">
+  <section *ngIf="selectedView === 'day'" class="day-view-panel">
       <div class="panel-heading">
         <div>
           <h3>{{ activeDate | date: 'fullDate' }}</h3>
@@ -91,15 +82,12 @@
         </div>
       </div>
       <div class="day-grid" style="position: relative; padding-top: 14px; gap: 0;">
-        @for (hour of dayHourSlots; track hour) {
-          <button class="timeline-row" (click)="openNewEvent(activeDate, hour)">
+        <button *ngFor="let hour of dayHourSlots" class="timeline-row" (click)="openNewEvent(activeDate, hour)">
             <div class="timeline-hour">{{ hour | number: '2.0-0' }}:00</div>
             <div class="timeline-events-empty" style="width: 100%;"></div>
           </button>
-        }
         
-        @for (event of getEventsForDay(activeDate); track event) {
-          <article class="event-card-spanning" [ngClass]="event.status"
+        <article *ngFor="let event of getEventsForDay(activeDate)" class="event-card-spanning" [ngClass]="event.status"
             [style.top.px]="getEventTopOffset(event)"
             [style.height.px]="calculateHeight(event)"
             (click)="editEvent(event); $event.stopPropagation()">
@@ -108,13 +96,10 @@
               <span>{{ event.startTime }} - {{ event.endTime }} (Duration: {{ getDurationString(event) }})</span>
             </div>
           </article>
-        }
       </div>
     </section>
-  }
 
-  @if (selectedView === 'week') {
-    <section class="week-view-panel">
+  <section *ngIf="selectedView === 'week'" class="week-view-panel">
       <div class="panel-heading">
         <div>
           <h3>Week View</h3>
@@ -123,28 +108,22 @@
         </div>
       </div>
       <div class="week-grid">
-        @for (day of weekDates; track day.toISOString(); let index = $index) {
-          <article class="week-card">
+        <article *ngFor="let day of weekDates; let index = index" class="week-card">
             <button type="button" class="week-card-day" (click)="selectWeekDay(day)">
               <strong>{{ days[index] }}</strong>
               <span>{{ day | date: 'MMM d' }}</span>
             </button>
             <div class="week-card-events">
-              @for (event of getEventsForDay(day); track event.id) {
-                <div class="agenda-chip" [ngClass]="event.status" (click)="editEvent(event); $event.stopPropagation()">
+              <div *ngFor="let event of getEventsForDay(day)" class="agenda-chip" [ngClass]="event.status" (click)="editEvent(event); $event.stopPropagation()">
                   <span>{{ event.startTime }} to {{ event.endTime }}</span>
                   <strong>{{ event.title }}</strong>
                 </div>
-              }
             </div>
           </article>
-        }
       </div>
     </section>
-  }
 
-  @if (selectedView === 'month') {
-    <section class="month-view-panel">
+  <section *ngIf="selectedView === 'month'" class="month-view-panel">
       <div class="panel-heading">
         <div>
           <h3>{{ currentYear }} / {{ currentMonth + 1 }}</h3>
@@ -156,30 +135,20 @@
         </div>
       </div>
       <div class="month-grid">
-        @for (week of monthGrid; track week) {
-          @for (d of week; track d) {
-            <button type="button" class="month-day-cell" [class.empty]="!d" (click)="d && openNewEvent(d, 9)">
-              @if (d) {
-                <span class="month-day-number">{{ d.getDate() }}</span>
-              }
-              @if (d) {
-                <div class="month-day-events">
-                  @for (event of getEventsForDay(d); track event) {
-                    <span class="month-event" [ngClass]="event.status" (click)="editEvent(event); $event.stopPropagation()">
+        <div *ngFor="let week of monthGrid">
+          <button *ngFor="let d of week" type="button" class="month-day-cell" [class.empty]="!d" (click)="d && openNewEvent(d, 9)">
+              <span *ngIf="d" class="month-day-number">{{ d.getDate() }}</span>
+              <div *ngIf="d" class="month-day-events">
+                  <span *ngFor="let event of getEventsForDay(d)" class="month-event" [ngClass]="event.status" (click)="editEvent(event); $event.stopPropagation()">
                       {{ event.startTime }} - {{ event.endTime }} {{ event.title }}
                     </span>
-                  }
                 </div>
-              }
             </button>
-          }
-        }
+        </div>
       </div>
     </section>
-  }
 
-  @if (selectedView === 'agenda') {
-    <section class="agenda-view">
+  <section *ngIf="selectedView === 'agenda'" class="agenda-view">
       <div class="panel-heading">
         <div>
           <h3>Agenda</h3>
@@ -188,8 +157,7 @@
         <button class="action-btn" (click)="openNewEvent(activeDate, 9)">Add Event</button>
       </div>
       <div class="agenda-list">
-        @for (event of events; track event) {
-          <article class="agenda-item" [ngClass]="event.status">
+        <article *ngFor="let event of events" class="agenda-item" [ngClass]="event.status">
             <div class="agenda-date">{{ event.date | date: 'EEE, MMM d' }}</div>
             <div class="agenda-details">
               <strong>{{ event.title }}</strong>
@@ -197,17 +165,13 @@
                 {{ event.startTime }} - {{ event.endTime }}
               </button>
               <p>{{ event.description }}</p>
-              @if(event.updatedAt) {
-                <small class="timestamp-stamp">Added on: {{ event.updatedAt | date:'medium' }}</small>
-              }
+              <small *ngIf="event.updatedAt" class="timestamp-stamp">Added on: {{ event.updatedAt | date:'medium' }}</small>
               <div class="agenda-actions">
                 <button class="action-btn" type="button" (click)="editEvent(event)">Edit</button>
                 <button class="action-btn danger" type="button" (click)="deleteEvent(event.id)">Remove</button>
               </div>
             </div>
           </article>
-        }
       </div>
     </section>
-  }
 </div>

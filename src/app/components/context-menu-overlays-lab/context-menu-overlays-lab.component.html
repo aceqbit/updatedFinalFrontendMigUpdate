@@ -27,8 +27,8 @@
     [style.top.px]="menu.y"
     (click)="$event.stopPropagation()"
     >
-    <button type="button" *ngFor="let action of actions" (click)="performAction(action)">
-      {{ action }}
-    </button>
-  </div>
+        <button *ngFor="let action of actions" type="button" (click)="performAction(action)">
+          {{ action }}
+        </button>
+    </div>
 </section>

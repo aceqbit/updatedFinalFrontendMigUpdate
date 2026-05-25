@@ -13,7 +13,6 @@ interface Notification {
 
 @Component({
     selector: 'app-notification-hub',
-    imports: [CommonModule],
     templateUrl: './notification-hub.component.html',
     styleUrls: ['./notification-hub.component.css']
 })

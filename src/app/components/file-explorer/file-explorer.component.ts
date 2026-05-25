@@ -15,7 +15,6 @@ interface FileNode {
 
 @Component({
     selector: 'app-file-explorer',
-    imports: [CommonModule],
     templateUrl: './file-explorer.component.html',
     styleUrls: ['./file-explorer.component.css']
 })

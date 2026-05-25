@@ -12,7 +12,6 @@ interface TreeNode {
 
 @Component({
     selector: 'app-tree-view-large',
-    imports: [CommonModule],
     templateUrl: './tree-view-large.component.html',
     styleUrls: ['./tree-view-large.component.css']
 })

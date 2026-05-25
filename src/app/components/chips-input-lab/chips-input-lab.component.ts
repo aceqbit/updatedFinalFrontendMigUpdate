@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 
 @Component({
     selector: 'app-chips-input-lab',
-    imports: [FormsModule],
     templateUrl: './chips-input-lab.component.html',
     styleUrls: ['./chips-input-lab.component.css']
 })

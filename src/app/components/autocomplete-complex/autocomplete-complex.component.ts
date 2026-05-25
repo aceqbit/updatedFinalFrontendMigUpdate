@@ -60,7 +60,6 @@ interface SearchResult {
 
 @Component({
     selector: 'app-autocomplete-complex',
-    imports: [CommonModule, FormsModule],
     templateUrl: './autocomplete-complex.component.html',
     styleUrls: ['./autocomplete-complex.component.css']
 })

@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 
 @Component({
     selector: 'app-async-autocomplete-lab',
-    imports: [FormsModule],
     templateUrl: './async-autocomplete-lab.component.html',
     styleUrls: ['./async-autocomplete-lab.component.css']
 })

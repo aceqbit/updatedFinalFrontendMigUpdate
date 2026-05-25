@@ -17,25 +17,25 @@
     <span>or click to browse</span>
   </div>
 
-  <div class="upload-list" *ngIf="files.length; else emptyState">
-    <article class="upload-item" *ngFor="let file of files">
-      <div class="upload-row">
-        <div>
-          <strong>{{ file.name }}</strong>
-          <p>{{ file.sizeLabel }}</p>
-        </div>
-        <button type="button" class="remove-btn" (click)="removeFile(file.id)">Remove</button>
-      </div>
-      <div class="progress-shell">
-        <div class="progress-bar" [style.width.%]="file.progress"></div>
-      </div>
-      <div class="upload-meta">
-        <span>{{ file.status }}</span>
-        <span>{{ file.progress }}%</span>
-      </div>
-    </article>
-  </div>
-  <ng-template #emptyState>
+  <div *ngIf="files.length; else noFiles" class="upload-list">
+      <article *ngFor="let file of files" class="upload-item">
+          <div class="upload-row">
+            <div>
+              <strong>{{ file.name }}</strong>
+              <p>{{ file.sizeLabel }}</p>
+            </div>
+            <button type="button" class="remove-btn" (click)="removeFile(file.id)">Remove</button>
+          </div>
+          <div class="progress-shell">
+            <div class="progress-bar" [style.width.%]="file.progress"></div>
+          </div>
+          <div class="upload-meta">
+            <span>{{ file.status }}</span>
+            <span>{{ file.progress }}%</span>
+          </div>
+        </article>
+    </div>
+  <ng-template #noFiles>
     <div class="empty-state">No uploads queued. Add a file to preview the progress behavior.</div>
   </ng-template>
 

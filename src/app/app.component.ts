@@ -19,24 +19,6 @@ import { ContextMenuOverlaysLabComponent } from './components/context-menu-overl
 
 @Component({
     selector: 'app-root',
-    imports: [
-    LayoutManagerComponent,
-    DashboardWidgetsComponent,
-    WorkflowDesignerComponent,
-    CalendarComponent,
-    DateRangePickerComponent,
-    EventSchedulerComponent,
-    AutoCompleteComplexComponent,
-    AdvancedFormStepperComponent,
-    TreeViewLargeComponent,
-    StickyNotesComponent,
-    NotificationHubComponent,
-    SettingsPanelComponent,
-    AsyncAutocompleteLabComponent,
-    ChipsInputLabComponent,
-    FileDropzoneLabComponent,
-    ContextMenuOverlaysLabComponent
-],
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.css']
 })
@@ -47,7 +29,7 @@ export class AppComponent {
     { id: 'dashboard', label: 'Main Dashboard', icon: '📊' },
     { id: 'workflow', label: 'Workflow Designer', icon: '🔗' },
     { id: 'calendar', label: 'Enterprise Calendar', icon: '📅' },
-    { id: 'date-range-picker', label: 'Date Range Picker', icon: '🗓️' },
+    { id: 'date-range-picker', label: 'dateRange picker', icon: '🗓️' },
     { id: 'scheduler', label: 'Event Scheduler', icon: '⏱️' },
     { id: 'stepper', label: 'Deployment Profile', icon: '⚡' },
     { id: 'labs', label: 'Component Labs', icon: '🧪' },

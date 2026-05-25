@@ -8,7 +8,7 @@
       </div>
 
       <div class="calendar-grid">
-        <div class="weekday-header" *ngFor="let day of weekdays">{{ day }}</div>
+        <div *ngFor="let day of weekdays" class="weekday-header">{{ day }}</div>
 
         <div
           *ngFor="let day of days"
@@ -23,6 +23,7 @@
             <span class="day-number">{{ day.date | date:'d' }}</span>
           </div>
           <div class="day-content">
+            
             <div class="events-container">
               <button
                 *ngFor="let event of day.events"
@@ -89,7 +90,7 @@
       </div>
 
       <div class="day-event-list">
-        <div class="day-event-card" *ngFor="let event of getSelectedDayEvents()">
+        <div *ngFor="let event of getSelectedDayEvents()" class="day-event-card">
           <div>
             <strong>{{ event.title }}</strong>
             <p>{{ event.details }}</p>

@@ -11,7 +11,6 @@ interface FormStep {
 
 @Component({
     selector: 'app-advanced-form-stepper',
-    imports: [CommonModule, FormsModule],
     templateUrl: './advanced-form-stepper.component.html',
     styleUrls: ['./advanced-form-stepper.component.css']
 })

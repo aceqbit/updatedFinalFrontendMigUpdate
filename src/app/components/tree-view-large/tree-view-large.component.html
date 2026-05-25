@@ -10,23 +10,35 @@
 </div>
 
 <ng-template #nodeTemplate let-nodes>
-  <div class="node-wrapper" *ngFor="let node of nodes" [style.padding-left.px]="node.level * 20">
-    <div class="node-row" [class.expanded]="node.expanded">
-      <span class="toggle" *ngIf="node.children && node.children.length > 0" (click)="toggleNode(node)">
-        {{ node.expanded ? '▼' : '▶' }}
-      </span>
-      <span class="spacer" *ngIf="!node.children || node.children.length === 0"></span>
-      <input type="checkbox"
-        [checked]="node.checked"
-        (change)="toggleCheck(node, !node.checked)">
-        <span class="label">{{ node.label }}</span>
-        <!-- Complex data inclusion -->
-        <span class="badge" *ngIf="node.level === 0">ROOT</span>
-        <span class="count" *ngIf="node.children">{{ node.children.length }} items</span>
+  @for (node of nodes; track node) {
+    <div class="node-wrapper" [style.padding-left.px]="node.level * 20">
+      <div class="node-row" [class.expanded]="node.expanded">
+        @if (node.children && node.children.length > 0) {
+          <span class="toggle"
+            (click)="toggleNode(node)">
+            {{ node.expanded ? '▼' : '▶' }}
+          </span>
+        }
+        @if (!node.children || node.children.length === 0) {
+          <span class="spacer"></span>
+        }
+        <input type="checkbox"
+          [checked]="node.checked"
+          (change)="toggleCheck(node, !node.checked)">
+          <span class="label">{{ node.label }}</span>
+          <!-- Complex data inclusion -->
+          @if (node.level === 0) {
+            <span class="badge">ROOT</span>
+          }
+          @if (node.children) {
+            <span class="count">{{ node.children.length }} items</span>
+          }
+        </div>
+        @if (node.expanded && node.children) {
+          <div class="children-block">
+            <ng-container *ngTemplateOutlet="nodeTemplate; context:{ $implicit: node.children }"></ng-container>
+          </div>
+        }
       </div>
-      <div class="children-block" *ngIf="node.expanded && node.children">
-        <ng-container *ngTemplateOutlet="nodeTemplate; context:{ $implicit: node.children }"></ng-container>
-      </div>
-    </div>
-  
+    }
   </ng-template>

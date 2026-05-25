@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -22,13 +23,12 @@ import { AsyncAutocompleteLabComponent } from './components/async-autocomplete-l
 import { ChipsInputLabComponent } from './components/chips-input-lab/chips-input-lab.component';
 import { FileDropzoneLabComponent } from './components/file-dropzone-lab/file-dropzone-lab.component';
 import { ContextMenuOverlaysLabComponent } from './components/context-menu-overlays-lab/context-menu-overlays-lab.component';
+import { DataGridComponent } from './components/data-grid/data-grid.component';
+import { FileExplorerComponent } from './components/file-explorer/file-explorer.component';
+import { ResourceMonitorComponent } from './components/resource-monitor/resource-monitor.component';
 
 @NgModule({
-  declarations: [],
-  imports: [
-    BrowserModule,
-    FormsModule,
-    AppRoutingModule,
+  declarations: [
     AppComponent,
     LayoutManagerComponent,
     CalendarComponent,
@@ -45,7 +45,16 @@ import { ContextMenuOverlaysLabComponent } from './components/context-menu-overl
     AsyncAutocompleteLabComponent,
     ChipsInputLabComponent,
     FileDropzoneLabComponent,
-    ContextMenuOverlaysLabComponent
+    ContextMenuOverlaysLabComponent,
+    DataGridComponent,
+    FileExplorerComponent,
+    ResourceMonitorComponent
+  ],
+  imports: [
+    BrowserModule,
+    FormsModule,
+    CommonModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]

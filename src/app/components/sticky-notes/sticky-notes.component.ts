@@ -19,7 +19,6 @@ interface Note {
 
 @Component({
     selector: 'app-sticky-notes',
-    imports: [CommonModule, FormsModule],
     templateUrl: './sticky-notes.component.html',
     styleUrls: ['./sticky-notes.component.css']
 })
