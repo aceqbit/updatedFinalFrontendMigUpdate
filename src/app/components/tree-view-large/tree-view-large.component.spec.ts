@@ -7,7 +7,7 @@ describe('TreeViewLargeComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TreeViewLargeComponent]
+      declarations: [TreeViewLargeComponent]
     }).compileComponents();
     fixture = TestBed.createComponent(TreeViewLargeComponent);
     component = fixture.componentInstance;

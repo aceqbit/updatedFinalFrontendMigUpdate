@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
 import { DataGridComponent } from './data-grid.component';
 
 describe('DataGridComponent', () => {
@@ -7,7 +8,8 @@ describe('DataGridComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DataGridComponent]
+      declarations: [DataGridComponent],
+      imports: [FormsModule]
     }).compileComponents();
     fixture = TestBed.createComponent(DataGridComponent);
     component = fixture.componentInstance;
