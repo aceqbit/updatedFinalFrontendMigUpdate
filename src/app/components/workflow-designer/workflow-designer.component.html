@@ -1,21 +1,5 @@
 <div class="designer-container" (mousemove)="onMouseMove($event)" (mouseup)="onMouseUp()">
-  <div class="designer-sidebar">
-    <h3>Logic Components</h3>
-    <div class="palette-item action">Action Step</div>
-    <div class="palette-item condition">Gate Condition</div>
-    <div class="palette-item utility">Utility Helper</div>
-    <hr>
-      <div *ngIf="selectedNodeId" class="node-details">
-        <h4>Node Details</h4>
-        <p>ID: {{ selectedNodeId }}</p>
-        <div *ngFor="let i of [1,2,3,4,5]" class="heavy-attr">
-          <span>Attribute {{ i }}:</span>
-          <input type="text" value="Value {{ i }}">
-        </div>
-      </div>
-    </div>
-
-    <div class="canvas-wrapper">
+  <div class="canvas-wrapper full-canvas">
       <svg width="2000" height="2000" class="workflow-svg">
         <defs>
           <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
@@ -30,7 +14,6 @@
         <g *ngFor="let node of nodes"
           [attr.transform]="'translate(' + node.x + ',' + node.y + ')'"
           class="node-group"
-          [class.selected]="selectedNodeId === node.id"
           (mousedown)="onNodeMouseDown($event, node)">
           <rect width="200" height="60" rx="8" [attr.fill]="getNodeColor(node.type)"></rect>
           <text x="100" y="35" text-anchor="middle" fill="white" class="node-label">{{ node.label }}</text>
@@ -41,4 +24,3 @@
         </g>
       </svg>
     </div>
-  </div>

@@ -81,15 +81,17 @@
           <button class="action-btn" (click)="nextDay()">Next</button>
         </div>
       </div>
-      <div class="day-grid" style="position: relative; padding-top: 14px; gap: 0;">
+      <div class="day-grid" style="position: relative; padding-top: 14px; gap: 0;" [style.minWidth.px]="getDayTimelineWidth(activeDate)">
         <button *ngFor="let hour of dayHourSlots" class="timeline-row" (click)="openNewEvent(activeDate, hour)">
             <div class="timeline-hour">{{ hour | number: '2.0-0' }}:00</div>
             <div class="timeline-events-empty" style="width: 100%;"></div>
           </button>
         
-        <article *ngFor="let event of getEventsForDay(activeDate)" class="event-card-spanning" [ngClass]="event.status"
-            [style.top.px]="getEventTopOffset(event)"
-            [style.height.px]="calculateHeight(event)"
+        <article *ngFor="let event of getPositionedDayEvents(activeDate)" class="event-card-spanning" [ngClass]="event.status"
+          [style.top.px]="event.top"
+          [style.left.px]="event.left"
+          [style.width.px]="event.width"
+          [style.height.px]="event.height"
             (click)="editEvent(event); $event.stopPropagation()">
             <div class="event-centered-content">
               <strong>{{ event.title }}</strong>
@@ -135,16 +137,14 @@
         </div>
       </div>
       <div class="month-grid">
-        <div *ngFor="let week of monthGrid">
-          <button *ngFor="let d of week" type="button" class="month-day-cell" [class.empty]="!d" (click)="d && openNewEvent(d, 9)">
-              <span *ngIf="d" class="month-day-number">{{ d.getDate() }}</span>
-              <div *ngIf="d" class="month-day-events">
-                  <span *ngFor="let event of getEventsForDay(d)" class="month-event" [ngClass]="event.status" (click)="editEvent(event); $event.stopPropagation()">
-                      {{ event.startTime }} - {{ event.endTime }} {{ event.title }}
-                    </span>
-                </div>
-            </button>
-        </div>
+        <button *ngFor="let d of monthCells" type="button" class="month-day-cell" [class.empty]="!d" (click)="d && openNewEvent(d, 9)">
+            <span *ngIf="d" class="month-day-number">{{ d.getDate() }}</span>
+            <div *ngIf="d" class="month-day-events">
+                <span *ngFor="let event of getEventsForDay(d)" class="month-event" [ngClass]="event.status" (click)="editEvent(event); $event.stopPropagation()">
+                    {{ event.startTime }} - {{ event.endTime }} {{ event.title }}
+                  </span>
+              </div>
+          </button>
       </div>
     </section>
 

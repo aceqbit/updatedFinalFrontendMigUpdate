@@ -23,8 +23,7 @@ interface Connection {
 export class WorkflowDesignerComponent implements OnInit {
   nodes: Node[] = [];
   connections: Connection[] = [];
-  
-  selectedNodeId: string | null = null;
+
   isDragging = false;
   draggedNode: Node | null = null;
   
@@ -63,7 +62,6 @@ export class WorkflowDesignerComponent implements OnInit {
 
   onNodeMouseDown(event: MouseEvent, node: Node) {
     event.stopPropagation();
-    this.selectedNodeId = node.id;
     this.isDragging = true;
     this.draggedNode = node;
   }

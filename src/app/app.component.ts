@@ -29,7 +29,7 @@ export class AppComponent {
     { id: 'dashboard', label: 'Main Dashboard', icon: '📊' },
     { id: 'workflow', label: 'Workflow Designer', icon: '🔗' },
     { id: 'calendar', label: 'Enterprise Calendar', icon: '📅' },
-    { id: 'date-range-picker', label: 'dateRange picker', icon: '🗓️' },
+    { id: 'date-range-picker', label: 'Date Range Picker', icon: '🗓️' },
     { id: 'scheduler', label: 'Event Scheduler', icon: '⏱️' },
     { id: 'stepper', label: 'Deployment Profile', icon: '⚡' },
     { id: 'labs', label: 'Component Labs', icon: '🧪' },

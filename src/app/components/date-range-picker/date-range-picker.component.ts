@@ -27,8 +27,7 @@ export class DateRangePickerComponent implements OnInit {
     { label: 'Yesterday', days: -1 },
     { label: 'Last 7 Days', days: -7 },
     { label: 'Last 30 Days', days: -30 },
-    { label: 'This Month', type: 'currentMonth' },
-    { label: 'Last Month', type: 'lastMonth' }
+    { label: 'This Month', type: 'currentMonth' }
   ];
 
   calendarMonths: MonthView[] = [];

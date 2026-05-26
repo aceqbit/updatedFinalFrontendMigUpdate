@@ -15,6 +15,13 @@ interface ScheduledEvent {
   updatedAt?: string;
 }
 
+interface PositionedEvent extends ScheduledEvent {
+  top: number;
+  height: number;
+  left: number;
+  width: number;
+}
+
 @Component({
     selector: 'app-event-scheduler',
     templateUrl: './event-scheduler.component.html',
@@ -42,6 +49,7 @@ export class EventSchedulerComponent implements OnInit {
   minutes = Array.from({ length: 60 }, (_, i) => i);
   
   monthGrid: (Date | null)[][] = [];
+  monthCells: (Date | null)[] = [];
   currentMonth: number = new Date().getMonth();
   currentYear: number = new Date().getFullYear();
   showEventPopup = false;
@@ -257,6 +265,12 @@ export class EventSchedulerComponent implements OnInit {
     return (hours ?? 0) * 60 + (minutes ?? 0);
   }
 
+  private toEventEndMinutes(event: ScheduledEvent): number {
+    const start = this.toMinutes(event.startTime);
+    const end = this.toMinutes(event.endTime);
+    return end <= start ? end + 24 * 60 : end;
+  }
+
   private isSingleDateValue(value: string): boolean {
     return Boolean(value) && !value.includes(',') && !value.includes(' to ') && !value.includes(' - ');
   }
@@ -267,9 +281,11 @@ export class EventSchedulerComponent implements OnInit {
     const daysInMonth = new Date(this.currentYear, this.currentMonth + 1, 0).getDate();
 
     this.monthGrid = [];
+    this.monthCells = [];
     let week: (Date | null)[] = [];
     for (let i = 0; i < firstDay; i++) {
       week.push(null);
+      this.monthCells.push(null);
     }
 
     for (let day = 1; day <= daysInMonth; day++) {
@@ -277,12 +293,11 @@ export class EventSchedulerComponent implements OnInit {
         this.monthGrid.push(week);
         week = [];
       }
-      week.push(new Date(this.currentYear, this.currentMonth, day));
+      const currentDate = new Date(this.currentYear, this.currentMonth, day);
+      week.push(currentDate);
+      this.monthCells.push(currentDate);
     }
     if (week.length > 0) {
-      while (week.length < 7) {
-        week.push(null);
-      }
       this.monthGrid.push(week);
     }
   }
@@ -290,6 +305,88 @@ export class EventSchedulerComponent implements OnInit {
   getEventsForDay(date: Date): ScheduledEvent[] {
     if (!date) return [];
     return this.events.filter(e => this.parseDateKey(e.date).toDateString() === date.toDateString());
+  }
+
+  getPositionedDayEvents(date: Date): PositionedEvent[] {
+    const dayEvents = this.getEventsForDay(date)
+      .slice()
+      .sort((left, right) => this.toMinutes(left.startTime) - this.toMinutes(right.startTime) || this.toMinutes(left.endTime) - this.toMinutes(right.endTime));
+
+    const positioned: PositionedEvent[] = [];
+    const laneWidth = 190;
+    const laneGap = 12;
+    const leftStart = 122;
+
+    let cluster: ScheduledEvent[] = [];
+    let clusterEnd = -1;
+
+    const flushCluster = () => {
+      if (!cluster.length) {
+        return;
+      }
+
+      const activeLanes: { lane: number; endsAt: number }[] = [];
+      const layout = cluster
+        .slice()
+        .sort((left, right) => this.toMinutes(left.startTime) - this.toMinutes(right.startTime) || this.toMinutes(left.endTime) - this.toMinutes(right.endTime))
+        .map(event => {
+          const eventStart = this.toMinutes(event.startTime);
+          const eventEnd = this.toEventEndMinutes(event);
+
+          for (let index = activeLanes.length - 1; index >= 0; index--) {
+            if (activeLanes[index].endsAt <= eventStart) {
+              activeLanes.splice(index, 1);
+            }
+          }
+
+          const used = new Set(activeLanes.map(lane => lane.lane));
+          let lane = 0;
+          while (used.has(lane)) {
+            lane += 1;
+          }
+
+          activeLanes.push({ lane, endsAt: eventEnd });
+          return { event, lane };
+        });
+
+      layout.forEach(({ event, lane }) => {
+        positioned.push({
+          ...event,
+          top: this.getEventTopOffset(event),
+          height: this.calculateHeight(event),
+          left: leftStart + lane * (laneWidth + laneGap),
+          width: laneWidth
+        });
+      });
+
+      cluster = [];
+      clusterEnd = -1;
+    };
+
+    for (const event of dayEvents) {
+      const eventStart = this.toMinutes(event.startTime);
+      const eventEnd = this.toEventEndMinutes(event);
+
+      if (!cluster.length || eventStart < clusterEnd) {
+        cluster.push(event);
+        clusterEnd = Math.max(clusterEnd, eventEnd);
+        continue;
+      }
+
+      flushCluster();
+      cluster.push(event);
+      clusterEnd = eventEnd;
+    }
+
+    flushCluster();
+
+    return positioned;
+  }
+
+  getDayTimelineWidth(date: Date): number {
+    const positionedEvents = this.getPositionedDayEvents(date);
+    const maxRightEdge = positionedEvents.reduce((max, event) => Math.max(max, event.left + event.width), 0);
+    return Math.max(1200, maxRightEdge + 80);
   }
 
   generateWeekDates() {
