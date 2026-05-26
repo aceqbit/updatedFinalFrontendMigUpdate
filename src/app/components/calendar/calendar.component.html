@@ -50,40 +50,14 @@
           Details
           <textarea [(ngModel)]="eventDraft.details" rows="4" placeholder="Add a short note"></textarea>
         </label>
-        <div class="editor-row">
-          <label>
-            Start
-            <div style="display: flex; gap: 4px;">
-              <select [(ngModel)]="eventDraft.startHour">
-                <option *ngFor="let hour of hours" [value]="hour">{{ hour < 10 ? '0' + hour : hour }}</option>
-              </select>
-              <span>:</span>
-              <select [(ngModel)]="eventDraft.startMinute">
-                <option *ngFor="let minute of minutes" [value]="minute">{{ minute < 10 ? '0' + minute : minute }}</option>
-              </select>
-            </div>
-          </label>
-          <label>
-            End
-            <div style="display: flex; gap: 4px;">
-              <select [(ngModel)]="eventDraft.endHour">
-                <option *ngFor="let hour of hours" [value]="hour">{{ hour < 10 ? '0' + hour : hour }}</option>
-              </select>
-              <span>:</span>
-              <select [(ngModel)]="eventDraft.endMinute">
-                <option *ngFor="let minute of minutes" [value]="minute">{{ minute < 10 ? '0' + minute : minute }}</option>
-              </select>
-            </div>
-          </label>
-          <label>
-            Priority
-            <select [(ngModel)]="eventDraft.priority">
-              <option value="low">Low</option>
-              <option value="medium">Medium</option>
-              <option value="high">High</option>
-            </select>
-          </label>
-        </div>
+        <label>
+          Priority
+          <select [(ngModel)]="eventDraft.priority">
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+          </select>
+        </label>
         <button class="save-event" type="button" (click)="saveEvent()">
           {{ editingEventId ? 'Update Event' : 'Add Event' }}
         </button>
