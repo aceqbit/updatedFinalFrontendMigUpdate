@@ -1,8 +1,8 @@
 ---
 name: Angular Migration Unit Testing
 description: >
-  Manages and executes unit tests to ensure the application remains stable throughout the migration process.
-  This skill is responsible for updating tests to be compatible with new Angular versions and verifying that all tests pass.
+  Manages and executes unit tests to keep the Angular v16 -> v17 migration stable.
+  Updates tests for the active migration target and verifies that all tests pass.
 
 dependencies:
   - `implementation.skill.md`
@@ -26,22 +26,12 @@ tasks:
 
   - task: Run the full unit test suite.
     instructions:
-      - Execute `ng test` with the `--watch=false` flag to run all tests once after the focused specs pass.
+      - "CONNECT AND RUN ALL SPEC.TS FILES: The agent must connect with and run all `*.spec.ts` files."
+      - "CRITICAL REQUIREMENT: It must run and verify these files before proceeding to the completion and updation status!!"
+      - Execute `ng test --watch=false` to run all tests.
       - If the suite is too heavy or fails across many modules, switch to targeted specs for the changed area first, then retry the full suite.
       - Ensure that the command exits with a zero status code, indicating all tests passed.
       - If a failure affects many modules, start with the smallest changed area and report the next recovery move before re-running the broad suite.
-
-  - task: Test zone & change detection fixes (Angular 21).
-    instructions:
-      - For each component that received a zone/change detection fix (Phase 4b), verify that tests exist.
-      - Tests must include:
-        1. Mock `setInterval`, `setTimeout`, or event handlers using `jasmine.clock()` or `fakeAsync()`.
-        2. Trigger the async operation (e.g., tick the clock forward).
-        3. Assert that the component's template values have updated (use fixture detection and change detection cycle verification).
-        4. Example for `setInterval`: Use `fakeAsync()`, call the component method that starts the interval, call `tick(1000)`, then verify `fixture.detectChanges()` and check that the template shows updated values.
-      - These tests must PASS; otherwise, the component is still broken in Angular 21.
-      - Run tests for the affected components before running the full suite.
-      - Document which components have zone/change detection tests and their status in the test report.
 
   - task: Generate the Test Report.
     instructions:
@@ -52,3 +42,9 @@ tasks:
       - Call out any build-warning-to-test-warning pattern so it can be cleaned up deliberately.
     output: `report/test_report.md`
 ---
+
+## User Preference: Full Migration Autopilot
+- If the user says to implement the migration plan, the agent must assess, plan, and execute the v16→v17 migration end-to-end without pausing for confirmation.
+- The agent must accept changes and keep files in place.
+- The agent must stop only after migration to v17 is completed.
+- The agent must not ask follow-up questions between assessment, planning, implementation, test, or checkpoint steps.
