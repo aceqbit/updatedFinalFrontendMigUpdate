@@ -18,23 +18,50 @@ This agent is now authoritative for Angular **v16 -> v17 only** in this workspac
   - **Edge Case and Error Handling:** Create tests for edge cases, such as empty inputs, invalid data, and error paths in services, to ensure graceful failure.
 
 ### Workflow
-1. Execute and refactor tests for each version phase in the roadmap.
-  - Tester Agent Procedure:
-    1. Verify the spec file(s) are saved to disk. That failure log is from the pre-fix run; I’ll verify the spec is updated on disk and execute a fresh single-run test command so we get clean, current results.**must must include this**
-    2. Run a single-run test command (non-watch) to capture current results:
+1. Discovery & pre-checks
+  - Discover all `*.spec.ts` files across the repository.
+  - Verify spec files are saved to disk before running any test command.
 
-       ```bash
-       npx ng test --watch=false --browsers=ChromeHeadless
-       ```
+2. Run the full test suite (single-run, non-watch)
+  - Recommended command (single-run, headless):
 
-    3. Capture and append the test run summary and full output to `report/test_report.md`.
-    4. If failures persist, run targeted specs for the failing files, re-check that the spec changes are saved, and re-run the single-run command until results reflect the up-to-date code.
-    5. Only escalate to the `implementation-agent` after verifying the spec is saved and the single-run re-test shows the same persistent failure.
-    6. The unit-testing agent will discover and run all `*.spec.ts` files across the repository using the configured `ng test` command. It will also support targeted runs (`ng test --main=<targetSpec>`) for focused debugging of changed components.
-    7. Do not request user input during verification; handle prompt/default selection automatically and continue until the test run is complete or a real blocker is found.
-    8. The agent must run and verify all `*.spec.ts` files before proceeding to the completion and updation status!!
-2. **Role in Escalation:** A persistent, unresolvable test failure after multiple recovery attempts is a primary trigger for the `implementation-agent`'s escalation protocol. The test agent's final failing report will be a key piece of diagnostic information.
-3. Address v17 (active) or historical v21 specific test failures related to subpath resolution or DI changes. (Historical: v21 items retained for reference.)
+    ```bash
+    npx ng test --watch=false --browsers=ChromeHeadless
+    ```
+
+  - Recommended npm script (optional, add to `package.json`):
+
+    ```json
+    "scripts": {
+      "test:ci": "ng test --watch=false --browsers=ChromeHeadless"
+    }
+    ```
+
+    Then run:
+
+    ```bash
+    npm run test:ci
+    ```
+
+  - Capture and append the test run summary and full output to `report/test_report.md`.
+
+3. Targeted debugging
+  - If failures persist, run targeted specs for the failing files using the CLI options supported by the project's Angular version (for example `--include` or `--testNamePattern`). Example patterns:
+
+    ```bash
+    npx ng test --watch=false --include=src/app/path/to/specific.spec.ts
+    npx ng test --watch=false --testNamePattern="should create MyComponent"
+    ```
+
+  - After fixes, re-check that spec files are saved to disk, then re-run the full single-run test command.
+
+4. Gate to completion (mandatory)
+  - The unit-testing agent MUST run and verify ALL discovered `*.spec.ts` files and confirm zero failing specs before marking the migration/test phase as complete or updating the completion status.
+  - If persistent failures remain after targeted recovery attempts, escalate to the `implementation-agent` with the failing report and diagnostic output.
+
+5. Automation behavior
+  - Do not prompt the user during verification; select defaults and proceed autonomously.
+  - Produce a machine-readable summary in `report/test_report.md` including counts, pass/fail details, and timestamps.
 
 ### Outputs
 - **Test Status Log:** Phase-by-phase pass/fail result audit.

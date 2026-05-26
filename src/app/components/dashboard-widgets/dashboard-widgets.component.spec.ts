@@ -7,7 +7,7 @@ describe('DashboardWidgetsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DashboardWidgetsComponent]
+      declarations: [DashboardWidgetsComponent]
     }).compileComponents();
     fixture = TestBed.createComponent(DashboardWidgetsComponent);
     component = fixture.componentInstance;

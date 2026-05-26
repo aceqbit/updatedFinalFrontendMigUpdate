@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
 import { AutoCompleteComplexComponent } from './autocomplete-complex.component';
 
 describe('AutoCompleteComplexComponent', () => {
@@ -7,7 +8,8 @@ describe('AutoCompleteComplexComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AutoCompleteComplexComponent]
+      imports: [FormsModule],
+      declarations: [AutoCompleteComplexComponent]
     }).compileComponents();
     fixture = TestBed.createComponent(AutoCompleteComplexComponent);
     component = fixture.componentInstance;

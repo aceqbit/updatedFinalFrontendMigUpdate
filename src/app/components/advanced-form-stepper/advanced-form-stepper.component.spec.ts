@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
 import { AdvancedFormStepperComponent } from './advanced-form-stepper.component';
 
 describe('AdvancedFormStepperComponent', () => {
@@ -7,7 +8,8 @@ describe('AdvancedFormStepperComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AdvancedFormStepperComponent]
+      imports: [FormsModule],
+      declarations: [AdvancedFormStepperComponent]
     }).compileComponents();
     fixture = TestBed.createComponent(AdvancedFormStepperComponent);
     component = fixture.componentInstance;

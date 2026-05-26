@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
 import { SettingsPanelComponent } from './settings-panel.component';
 
 describe('SettingsPanelComponent', () => {
@@ -7,7 +8,8 @@ describe('SettingsPanelComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SettingsPanelComponent]
+      imports: [FormsModule],
+      declarations: [SettingsPanelComponent]
     }).compileComponents();
     fixture = TestBed.createComponent(SettingsPanelComponent);
     component = fixture.componentInstance;
