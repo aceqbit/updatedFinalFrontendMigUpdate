@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
 import { ResourceMonitorComponent } from './resource-monitor.component';
 
 describe('ResourceMonitorComponent', () => {
@@ -7,7 +8,8 @@ describe('ResourceMonitorComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ResourceMonitorComponent]
+      declarations: [ResourceMonitorComponent],
+      imports: [FormsModule]
     }).compileComponents();
     fixture = TestBed.createComponent(ResourceMonitorComponent);
     component = fixture.componentInstance;

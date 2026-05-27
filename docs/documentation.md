@@ -1,50 +1,45 @@
+## Active Migration (v16 → v17)
+
+This documentation focuses on the active, atomic migration from Angular v16 to v17. Historical multi-version notes are retained below and marked as historical.
+
+**Summary (v16 → v17)**
+- **Total number of components present:** 20
+- **Total number of components migrated (documented):** 20
+- **Total number of components pending documentation:** 0
+- **Migration completion percentage:** 100%
+- **Spec files present:** 20
+
+**What changed**
+- Updated `@angular/*` dependencies to v17 in `package.json`.
+- Aligned `zone.js` to `~0.14.0` to satisfy Angular 17 peer dependencies.
+- Updated `typescript` to `~5.3.0`.
+- Fixed unit tests: replaced `imports: [Component]` with `declarations: [Component]`, added `FormsModule` to specs that use `ngModel`, and added `CUSTOM_ELEMENTS_SCHEMA` where needed.
+
+**Validation**
+- `ng build`: Success
+- `ng test`: All specs passed locally (21 of 21)
+
+**Checkpoint**
+- Created and pushed migration branch: `migration/v16-to-v17-local-20260527` (remote). The original remote branch/tag had conflicting history; a new branch was created to publish the migration snapshot.
+
+**Notes & Recommendations**
+- Resolve remote branch/tag divergence in the main repository if required (review and merge the migration branch, then optionally update `v17-stable` tag).
+- Run CI on the remote branch to validate environment-specific issues (browsers, headless runners).
+
+---
+
+## Historical Multi-Version Notes (retained)
+
+The sections below are historical notes retained from previous plan drafts. They describe multi-version migration guidance but are not the active workflow in this workspace.
+
 # Migration Documentation: Angular 16 to 21
 
-This document records the steps and changes made during the migration of the Angular application from version 16 to 21.
+This document records the steps and changes made during prior multi-version migration experiments (v16→v21). These entries are preserved for audit and reference only.
 
-## Current Workspace Snapshot
-- The active workspace migration checkpoint is Angular v17 → v18.
-- `package.json` and `package-lock.json` were updated to Angular 18.2.x.
-- Validation for the current checkpoint passed with `ng build` and `npm test -- --watch=false`.
+## Historical Summary
+The historical process recorded multi-version migration steps and is not the active plan for this run.
 
-## Summary
-The migration was performed incrementally, one major version at a time, from Angular 16 to 21. The migration was successful, and the application builds without errors.
-
-## Phase 1: Angular 16 to 17
-- Updated all `@angular/*` packages to version 17.
-- Updated `@angular/cli` to version 17.
-- The `angular.json` file was updated to use the new `application` builder.
-- The build was successful after the update.
-
-## Phase 2: Angular 17 to 18
-- Updated all `@angular/*` packages to version 18.
-- The build was successful after the update.
-- The current workspace snapshot has now been validated against Angular 18.2.x packages.
-
-## Phase 3: Angular 18 to 19
-- Updated all `@angular/*` packages to version 19.
-- The build was successful after the update.
-
-## Phase 4: Angular 19 to 20
-- Updated all `@angular/*` packages to version 20.
-- The `tsconfig.json` was updated to use `moduleResolution: "bundler"`.
-- The HTML templates were updated to use the new control flow syntax.
-- The build was successful after the update.
-
-## Phase 5: Angular 20 to 21
-- Updated all `@angular/*` packages to version 21.
-- Updated TypeScript to version 5.9.3.
-- The `main.ts` file was updated to use the new bootstrap API.
-- The build was successful after the update.
-
-### Migration Completion (v21)
-- Completion date: 2026-05-22
-- Branch: `migration/v20-to-v21` (pushed to origin)
-- Tag: `v21-stable` (pushed to origin)
-
-
-## Lessons Learned
+## Lessons Learned (Historical)
 - The incremental migration approach was effective in isolating issues at each step.
-- The `ng update` command is a powerful tool that automates many of the migration tasks.
-- It is important to have a clean git repository before running `ng update`.
-- The lack of tests in the project increases the risk of regressions. It is highly recommended to add a test suite.
+- The `ng update` command automates many migration tasks but requires a clean working tree.
+- Unit tests should be run early and often; test harness changes between major Angular versions can require test updates.

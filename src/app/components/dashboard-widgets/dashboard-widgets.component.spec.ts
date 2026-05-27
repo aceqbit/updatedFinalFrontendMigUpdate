@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
 import { DashboardWidgetsComponent } from './dashboard-widgets.component';
 
 describe('DashboardWidgetsComponent', () => {
@@ -7,7 +8,8 @@ describe('DashboardWidgetsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DashboardWidgetsComponent]
+      declarations: [DashboardWidgetsComponent],
+      imports: [FormsModule]
     }).compileComponents();
     fixture = TestBed.createComponent(DashboardWidgetsComponent);
     component = fixture.componentInstance;

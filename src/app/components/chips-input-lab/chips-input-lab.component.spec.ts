@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
 
 import { ChipsInputLabComponent } from './chips-input-lab.component';
 
@@ -8,7 +9,8 @@ describe('ChipsInputLabComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ChipsInputLabComponent]
+      declarations: [ChipsInputLabComponent],
+      imports: [FormsModule]
     }).compileComponents();
 
     fixture = TestBed.createComponent(ChipsInputLabComponent);

@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
 import { EventSchedulerComponent } from './event-scheduler.component';
 
 describe('EventSchedulerComponent', () => {
@@ -7,7 +8,8 @@ describe('EventSchedulerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [EventSchedulerComponent]
+      declarations: [EventSchedulerComponent],
+      imports: [FormsModule]
     }).compileComponents();
     fixture = TestBed.createComponent(EventSchedulerComponent);
     component = fixture.componentInstance;
