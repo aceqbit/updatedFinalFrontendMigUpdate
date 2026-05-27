@@ -129,4 +129,4 @@ The assessment agent is responsible for creating a complete inventory of the pro
 - **Additional core details:** list of modules impacted, major blockers, and top 5 risk items.
 
 - **Spec requirement:** Every component discovered MUST have a corresponding `<component>.component.spec.ts` file. The unit-testing agent will discover and run all `*.spec.ts` files and include results in `report/test_report.md`.
-- **Automation Requirement:** The assessment output should explicitly support a fully autonomous migration run that ends in the required git status, commit, push, and stable-tag checkpoint.
+- **Automation Requirement:** The assessment output should explicitly support a fully autonomous migration run that ends in the required `git status`, commit, and push to `origin main` as the checkpoint (do NOT create or push tags).

@@ -26,16 +26,16 @@ This plan covers ONLY the migration from Angular v17 to v18 for this workspace. 
 - [ ] Document and fix any migration-related build/test warnings or errors.
 
 ### 5. Checkpoint & Finish
-- [ ] Run `git status`, `git add -A`, `git commit -m "chore: migrate Angular v17→v18"`, `git push origin HEAD`.
-- [ ] Tag the checkpoint: `git tag v18-stable`, `git push origin v18-stable`.
+- [ ] Run `git status`, `git add -A`, `git commit -m "chore: migrate Angular v17→v18"`, `git push origin main`.
+- [ ] Ensure the checkpoint is represented by the commit on `origin main`; do NOT create or push tags.
 
 ## Rollback Procedure
-- If any validation gate fails and cannot be resolved, revert to the previous stable checkpoint (v17-stable).
+If any validation gate fails and cannot be resolved, revert to the previous stable checkpoint commit on `main`.
 
 ## Success Criteria
 - All Angular packages and CLI are at v18.
 - Build and tests pass with no unresolved migration warnings.
-- Checkpoint committed and pushed with tag `v18-stable`.
+Checkpoint committed and pushed to `origin main`.
 
 ## Next Steps
 - Upon completion, proceed to the next migration plan only if explicitly requested.

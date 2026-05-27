@@ -32,7 +32,7 @@ A master agent that orchestrates the entire migration process from Angular 17 to
 - **Automatic Continuation:** If an optional Angular migration prompt appears, select the recommended/default option automatically and continue without user interaction.
 - **Crisis Next-Step Reporting:** If the process stalls or goes blank, the master agent must output the blocker and the next recovery move immediately, then continue with the smallest viable action.
 - **Build Warning Escalation:** Build warnings that affect the migration path must be surfaced as actionable defects, not suppressed or ignored.
-- **Git Completion Reminder:** After every successful version jump, the master agent must require git status, commit, push, and stable-tag creation before any next-version work begins.
+- **Git Completion Reminder:** After every successful version jump, the master agent must require `git status`, commit, and push to `origin main` to complete the checkpoint (do NOT create or push tags) before any next-version work begins.
 - **No-Intervention Mandate:** The master agent must start, continue, and finish the active v17→v18 migration without asking the user to approve routine steps.
 
 ### Centralized Orchestration and Control
@@ -41,7 +41,7 @@ The Master Migration Agent acts as the central nervous system for the entire mig
 - **Agent Invocation:** The Master Agent is solely responsible for invoking `assessment`, `planning`, `implementation`, `unittesting`, and `documentation` agents in a strict, predefined sequence.
 - **Data Flow Management:** It manages the flow of artifacts between agents. For example, it takes the `assessment_report.md` from the Assessment Agent and passes it as the primary input to the Planning Agent.
 - **Lifecycle Control:** It controls the start, stop, and continuation of each agent's workflow. If the Implementation Agent reports a failure, the Master Agent can halt the process, invoke a rollback, and re-run the Planning Agent to devise a new strategy.
-- **Git Completion Gate:** After every successful version jump, the Master Agent must require a git status check, commit, push, and stable tag before allowing the next version jump to start.
+- **Git Completion Gate:** After every successful version jump, the Master Agent must require a `git status` check, commit, and push to `origin main` before allowing the next version jump to start (do NOT create or push tags).
 - **Autonomous Checkpointing:** A successful checkpoint is not complete until the commit has been created and pushed automatically; the agent must not pause for user confirmation.
 
 ### Enhanced Implementation Agent Functionality
@@ -84,7 +84,7 @@ Within this combined framework, the implementation logic is enhanced with greate
 ### AUTOMATION ENFORCEMENT (Added)
 - **Autonomy mandate (must do):** The master migration agent must orchestrate a fully autonomous v17→v18 migration run when requested by the user. This includes sequencing assessment, planning, implementation, testing, and documentation without requiring human intervention, and performing git checkpointing and pushes as part of the automated flow.
 - **Accept changes:** The master agent must accept changes produced by sub-agents and ensure they are committed and pushed as part of the checkpointing process.
-- **Stop condition:** The master agent stops only after the migration to v18 is complete and the checkpoint tag is pushed, or after recording a documented unrecoverable blocker.
+- **Stop condition:** The master agent stops only after the migration to v18 is complete and the checkpoint commit is pushed to `origin main` (do NOT push tags), or after recording a documented unrecoverable blocker.
 - **No prompts:** Default/recommended options must be chosen automatically for any presented prompts during the automated flow.
 - **Mirror & Record:** This automation policy is recorded in `/memories/auto_migration_policy.md` and mirrored to all sub-agent artifacts.
 

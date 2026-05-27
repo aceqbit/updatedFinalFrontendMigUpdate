@@ -34,7 +34,7 @@ Note (active policy): For this workspace the implementation agent will only exec
      - **CLI Errors:** Log all CLI migration tool failures.
      - **Asset Mapping:** If dev server fails, verify style/script links in `angular.json` for invalid entries.
      - **Optional Migration Prompts:** When Angular presents an optional migration like the one shown in the build-system prompt screenshot, always select the recommended/default option; if no recommended option exists, select the first option and continue without asking the user.
-    - **Autonomous Finish:** After validation passes, immediately run `git status`, create the commit, push the checkpoint, and tag the stable version before any further migration work.
+    - **Autonomous Finish:** After validation passes, immediately run `git status`, create the commit, and push it to `origin main`. Do NOT create or push tags; represent the v18-stable checkpoint via the commit on `main` only.
    - Run `ng build` to verify every individual jump.
 2. Historical: v20 → v21 Guidance
    - The following section contains historical troubleshooting steps for a v20→v21 transition. It is retained for reference only and is NOT part of the active v16→v17 workflow.
@@ -44,7 +44,7 @@ Note (active policy): For this workspace the implementation agent will only exec
 3. Log all actions and resulting build statuses.
 
 ### Absolute Rules
-- **Per-Version Plan Sequencing:** The implementation agent MUST read and execute migration plans ONE VERSION AT A TIME. Do NOT attempt all 5 versions in a single execution loop. Workflow: (1) Read `plan/migration_v17_to_v18.md`, (2) Execute all tasks fully, (3) Run `git status`, commit, push, and tag to create a checkpoint, (4) Then stop unless a new plan is explicitly created. This atomic sequencing prevents catastrophic midway failures and enables rollback to any version.
+- **Per-Version Plan Sequencing:** The implementation agent MUST read and execute migration plans ONE VERSION AT A TIME. Do NOT attempt all 5 versions in a single execution loop. Workflow: (1) Read `plan/migration_v17_to_v18.md`, (2) Execute all tasks fully, (3) Run `git status`, commit, and push to `origin main` to create a checkpoint (do NOT create or push tags), (4) Then stop unless a new plan is explicitly created. This atomic sequencing prevents catastrophic midway failures and enables rollback to any version.
     1.  **Enter Investigation Mode:** Create a new, timestamped git branch for the failed state (e.g., `migration-failure/v17-to-v18-some-error-20260511T103000Z`).
     2.  **Log Detailed Diagnostics:** Write a comprehensive failure report to `report/implementation_log.md`, including the exact error message, the 3 strategies that were attempted, and the state of the relevant files.
     3.  **Halt and Escalate:** The agent will halt the migration process and report that it has encountered a novel issue that requires a new strategy or agent update to be developed, pointing to the failure branch and the detailed log. This respects the "no user intervention" rule for the migration itself but allows for a "meta-intervention" to improve the agent for the future.
@@ -66,7 +66,7 @@ Note (active policy): For this workspace the implementation agent will only exec
 - The agent must not ask follow-up questions between assessment, planning, implementation, test, or checkpoint steps.
 
 ### AUTOMATION ENFORCEMENT (Added)
-- **Strict Autonomous Execution (must do):** When instructed to `implement the migration plan`, the implementation agent must run the full automated sequence for v17→v18 start-to-finish without human interaction: `npm install`, `ng update`, `ng build`, `ng test` (single-run), and any targeted fixes required by validation gates. After successful validation, it must perform git checkpointing (`git status`, `git add -A`, `git commit -m "chore(migration): complete Angular v17→v18"`, `git push origin HEAD`) and create/push a commit (e.g., `v18-stable`).
+- **Strict Autonomous Execution (must do):** When instructed to `implement the migration plan`, the implementation agent must run the full automated sequence for v17→v18 start-to-finish without human interaction: `npm install`, `ng update`, `ng build`, `ng test` (single-run), and any targeted fixes required by validation gates. After successful validation, it must perform git checkpointing (`git status`, `git add -A`, `git commit -m "chore(migration): complete Angular v17→v18"`, `git push origin main`) and ensure the v18-stable state is represented by that commit on `main` (do NOT create or push tags).
 - **Accept changes & persist:** The agent is authorized to edit files and must persist changes; it should not defer file commits or require pull requests for routine migration refactors.
 - **No prompts:** All optional prompts encountered during `ng update` or other CLI tools must be resolved by choosing the recommended/default option automatically; the agent must not pause for user input.
 - **Failure handling:** If an unrecoverable blocker is detected, the agent must log the issue to `report/implementation_log.md`, create a timestamped failure branch (e.g., `migration-failure/...`), and stop only after recording the blocker and recovery suggestion.

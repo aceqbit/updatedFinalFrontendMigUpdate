@@ -138,19 +138,19 @@ A robust rollback strategy is critical for maintaining stability during a comple
 - **Granular Commits:** Each migration step (e.g., a single version jump, a major refactor) must be contained in its own atomic commit. This allows for precise rollbacks without losing unrelated work.
 - **Branching Model:**
   - **`migration` branch:** All migration work should be done on a dedicated feature branch.
-  - **`checkpoint` tags:** After each successful version jump (e.g., `v17-stable`), create a lightweight git tag. This provides an easy-to-remember, stable point to revert to.
+  - **`checkpoint` commits:** After each successful version jump, create a clear, atomic commit and push it to `origin main`. Do NOT create or push tags; use the commit on `main` as the checkpoint reference.
 - **Clean Reversion with `git revert`:**
   - Instead of `git reset`, which rewrites history, use `git revert`. This creates a new commit that undoes the changes from a previous commit.
   - **Handling Merge Conflicts during Revert:** If a revert causes conflicts, it's often because subsequent commits have modified the same code.
-    - **Strategy:** Do not panic. Carefully examine the conflicts. It's often safer to abort the revert (`git revert --abort`), create a new branch from the last stable tag, and re-apply the successful changes manually, leaving out the problematic commit.
+    - **Strategy:** Do not panic. Carefully examine the conflicts. It's often safer to abort the revert (`git revert --abort`), create a new branch from the last checkpoint commit on `main`, and re-apply the successful changes manually, leaving out the problematic commit.
 - **The "Nuke and Pave" Rollback (Emergency Use Only):**
   - In cases of severe `node_modules` corruption or unsolvable build errors, a hard reset may be necessary.
     - 1. **Stash any valuable, uncommitted changes:** `git stash`
-    - 2. **Hard reset to the last known good tag:** `git reset --hard v17-stable`
+    - 2. **Hard reset to the last known good checkpoint commit:** `git reset --hard <checkpoint-commit>`
     - 3. **Clean the workspace:** `rimraf node_modules package-lock.json dist`
     - 4. **Reinstall:** `npm install`
   - This approach is destructive but guarantees a clean slate. It should be used as a last resort when `git revert` is too complex.
-- **Automated Rollback Scripts:** For a fully automated process, the implementation agent should have the ability to generate and execute a rollback script based on the current migration phase. The script would use the `checkpoint` tags to revert the codebase to the last stable state.
+  - **Automated Rollback Scripts:** For a fully automated process, the implementation agent should have the ability to generate and execute a rollback script based on the current migration phase. The script would use the checkpoint commit references to revert the codebase to the last stable state.
 - **100% Test Suite Pass Rate:** All unit and end-to-end tests must pass. Test coverage should not decrease.
 - **Zero Regression:** All primary features and critical user flows of the application must be fully functional and visually identical to the pre-migration state.
 - **100% Component, Module, and Import Migration:** All components, modules, and imports must be fully migrated to the target version's standards. This includes:
