@@ -38,3 +38,13 @@ Active migration scope: Angular 18 → 19 only. This file is the master log for 
 - **Description:** Build warnings tied to the migration must be treated as cleanup tasks or explicitly logged follow-ups instead of being ignored.
 - **Reason:** The migration should not leave unresolved warning debt behind.
 - **Status:** Implemented.
+
+## VULNERABILITY & NODE COMPATIBILITY NOTES (appended)
+
+- For each migration step, run `npm audit --audit-level=high` and save the results to `report/vulnerability_report.md`.
+- Attempt `npm audit fix` for low-risk findings and document any high/critical items with suggested remediation. Do not make the migration fail solely because of vulnerabilities unless they directly break the build or tests.
+- Log the Node runtime (`node -v`) and include a compatibility note. Recommended Node LTS versions: 18.x or 20.x. If a Node mismatch is detected, record a warning and provide mitigation suggestions (for example, using `nvm`), but avoid making migration progress conditional on an exact Node version.
+
+## STRICT GIT POLICY (appended)
+
+- Update propagation and checkpointing MUST use commits pushed to `main` for the v19 migration. Do NOT create, rely on, or push git tags as automated migration checkpoints. Use a clear commit message such as `chore: complete Angular v19 migration` and push with `git push origin main`.

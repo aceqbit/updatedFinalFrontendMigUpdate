@@ -8,8 +8,7 @@ describe('SettingsPanelComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [SettingsPanelComponent],
-      imports: [FormsModule]
+      imports: [SettingsPanelComponent, FormsModule]
     }).compileComponents();
     fixture = TestBed.createComponent(SettingsPanelComponent);
     component = fixture.componentInstance;

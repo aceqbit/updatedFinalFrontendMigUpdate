@@ -1,4 +1,5 @@
 import { Component, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 
 interface DropFile {
@@ -10,9 +11,11 @@ interface DropFile {
 }
 
 @Component({
-    selector: 'app-file-dropzone-lab',
-    templateUrl: './file-dropzone-lab.component.html',
-    styleUrls: ['./file-dropzone-lab.component.css']
+  standalone: true,
+  imports: [CommonModule],
+  selector: 'app-file-dropzone-lab',
+  templateUrl: './file-dropzone-lab.component.html',
+  styleUrls: ['./file-dropzone-lab.component.css']
 })
 export class FileDropzoneLabComponent implements OnDestroy {
   files: DropFile[] = [];

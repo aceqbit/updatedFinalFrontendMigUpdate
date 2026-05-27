@@ -11,9 +11,11 @@ interface CalendarDay {
 }
 
 @Component({
-    selector: 'app-calendar',
-    templateUrl: './calendar.component.html',
-    styleUrls: ['./calendar.component.css']
+  standalone: true,
+  imports: [CommonModule, FormsModule],
+  selector: 'app-calendar',
+  templateUrl: './calendar.component.html',
+  styleUrls: ['./calendar.component.css']
 })
 export class CalendarComponent implements OnInit {
   currentDate = new Date();

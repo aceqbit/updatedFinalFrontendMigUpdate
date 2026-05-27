@@ -9,9 +9,11 @@ interface WidgetMetric {
 }
 
 @Component({
-    selector: 'app-dashboard-widgets',
-    templateUrl: './dashboard-widgets.component.html',
-    styleUrls: ['./dashboard-widgets.component.css']
+  standalone: true,
+  imports: [CommonModule],
+  selector: 'app-dashboard-widgets',
+  templateUrl: './dashboard-widgets.component.html',
+  styleUrls: ['./dashboard-widgets.component.css']
 })
 export class DashboardWidgetsComponent implements OnInit, OnDestroy {
   metrics: WidgetMetric[] = [];

@@ -14,9 +14,11 @@ interface FileNode {
 }
 
 @Component({
-    selector: 'app-file-explorer',
-    templateUrl: './file-explorer.component.html',
-    styleUrls: ['./file-explorer.component.css']
+  standalone: true,
+  imports: [CommonModule],
+  selector: 'app-file-explorer',
+  templateUrl: './file-explorer.component.html',
+  styleUrls: ['./file-explorer.component.css']
 })
 export class FileExplorerComponent implements OnInit {
   fileTree: FileNode[] = [];

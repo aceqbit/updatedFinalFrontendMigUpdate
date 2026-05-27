@@ -8,8 +8,7 @@ describe('AdvancedFormStepperComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AdvancedFormStepperComponent],
-      imports: [FormsModule]
+      imports: [AdvancedFormStepperComponent, FormsModule]
     }).compileComponents();
     fixture = TestBed.createComponent(AdvancedFormStepperComponent);
     component = fixture.componentInstance;

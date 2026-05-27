@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 interface MonthDay {
   date: Date | null;
@@ -13,9 +14,11 @@ interface MonthView {
 }
 
 @Component({
-    selector: 'app-date-range-picker',
-    templateUrl: './date-range-picker.component.html',
-    styleUrls: ['./date-range-picker.component.css']
+  standalone: true,
+  imports: [CommonModule, FormsModule],
+  selector: 'app-date-range-picker',
+  templateUrl: './date-range-picker.component.html',
+  styleUrls: ['./date-range-picker.component.css']
 })
 export class DateRangePickerComponent implements OnInit {
   startDate: Date | null = null;

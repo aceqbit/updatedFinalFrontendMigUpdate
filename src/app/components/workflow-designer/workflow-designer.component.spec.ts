@@ -7,7 +7,7 @@ describe('WorkflowDesignerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [WorkflowDesignerComponent]
+      imports: [WorkflowDesignerComponent]
     }).compileComponents();
     fixture = TestBed.createComponent(WorkflowDesignerComponent);
     component = fixture.componentInstance;

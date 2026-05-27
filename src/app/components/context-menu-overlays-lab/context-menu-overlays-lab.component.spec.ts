@@ -9,8 +9,7 @@ describe('ContextMenuOverlaysLabComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ContextMenuOverlaysLabComponent],
-      imports: [FormsModule]
+      imports: [ContextMenuOverlaysLabComponent, FormsModule]
     }).compileComponents();
 
     fixture = TestBed.createComponent(ContextMenuOverlaysLabComponent);

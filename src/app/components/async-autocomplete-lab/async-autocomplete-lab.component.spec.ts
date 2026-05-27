@@ -9,8 +9,7 @@ describe('AsyncAutocompleteLabComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AsyncAutocompleteLabComponent],
-      imports: [FormsModule]
+      imports: [AsyncAutocompleteLabComponent, FormsModule]
     }).compileComponents();
 
     fixture = TestBed.createComponent(AsyncAutocompleteLabComponent);

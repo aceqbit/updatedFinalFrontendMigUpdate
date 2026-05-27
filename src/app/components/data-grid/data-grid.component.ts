@@ -16,9 +16,11 @@ interface GridRow {
 }
 
 @Component({
-    selector: 'app-data-grid',
-    templateUrl: './data-grid.component.html',
-    styleUrls: ['./data-grid.component.css']
+  standalone: true,
+  imports: [CommonModule, FormsModule],
+  selector: 'app-data-grid',
+  templateUrl: './data-grid.component.html',
+  styleUrls: ['./data-grid.component.css']
 })
 export class DataGridComponent implements OnInit {
   rows: GridRow[] = [];

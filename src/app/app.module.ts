@@ -28,7 +28,11 @@ import { FileExplorerComponent } from './components/file-explorer/file-explorer.
 import { ResourceMonitorComponent } from './components/resource-monitor/resource-monitor.component';
 
 @NgModule({
-  declarations: [
+  imports: [
+    BrowserModule,
+    FormsModule,
+    CommonModule,
+    AppRoutingModule,
     AppComponent,
     LayoutManagerComponent,
     CalendarComponent,
@@ -49,12 +53,6 @@ import { ResourceMonitorComponent } from './components/resource-monitor/resource
     DataGridComponent,
     FileExplorerComponent,
     ResourceMonitorComponent
-  ],
-  imports: [
-    BrowserModule,
-    FormsModule,
-    CommonModule,
-    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]

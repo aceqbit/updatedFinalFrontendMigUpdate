@@ -1,12 +1,5 @@
 # Migration Plan Index
 
-This workspace uses atomic, per-version migration plans. Only the v17→v18 migration is active.
+This index lists the single, atomic migration plan for this workspace. The implementation agent MUST execute the referenced plan in full and perform the canonical checkpoint (commit + push to `main`) on success.
 
-## Migration Sequence
-1. [v17→v18 Migration Plan](migration_v17_to_v18.md)
-
-## Instructions
-- Each migration plan is executed and validated independently.
-- After each migration, a git checkpoint is created and pushed.
-- Do NOT attempt multi-version jumps in a single run.
-- Only proceed to the next version after explicit instruction.
+- `plan/migration_v18_to_v19.md` — Angular 18 → 19 migration plan (atomic). See the file for phases, validation gates, rollback procedures, and outputs.

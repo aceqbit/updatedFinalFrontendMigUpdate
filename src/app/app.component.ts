@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 import { LayoutManagerComponent } from './components/layout-manager/layout-manager.component';
 import { WorkflowDesignerComponent } from './components/workflow-designer/workflow-designer.component';
@@ -18,6 +20,26 @@ import { FileDropzoneLabComponent } from './components/file-dropzone-lab/file-dr
 import { ContextMenuOverlaysLabComponent } from './components/context-menu-overlays-lab/context-menu-overlays-lab.component';
 
 @Component({
+    standalone: true,
+    imports: [
+      CommonModule,
+      LayoutManagerComponent,
+      WorkflowDesignerComponent,
+      CalendarComponent,
+      EventSchedulerComponent,
+      AdvancedFormStepperComponent,
+      TreeViewLargeComponent,
+      StickyNotesComponent,
+      NotificationHubComponent,
+      SettingsPanelComponent,
+      DashboardWidgetsComponent,
+      DateRangePickerComponent,
+      AutoCompleteComplexComponent,
+      AsyncAutocompleteLabComponent,
+      ChipsInputLabComponent,
+      FileDropzoneLabComponent,
+      ContextMenuOverlaysLabComponent
+    ],
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.css']

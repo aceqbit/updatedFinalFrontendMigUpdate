@@ -59,9 +59,11 @@ interface SearchResult {
 }
 
 @Component({
-    selector: 'app-autocomplete-complex',
-    templateUrl: './autocomplete-complex.component.html',
-    styleUrls: ['./autocomplete-complex.component.css']
+  standalone: true,
+  imports: [CommonModule, FormsModule],
+  selector: 'app-autocomplete-complex',
+  templateUrl: './autocomplete-complex.component.html',
+  styleUrls: ['./autocomplete-complex.component.css']
 })
 export class AutoCompleteComplexComponent implements OnInit {
   query: string = '';

@@ -18,9 +18,11 @@ interface Note {
 }
 
 @Component({
-    selector: 'app-sticky-notes',
-    templateUrl: './sticky-notes.component.html',
-    styleUrls: ['./sticky-notes.component.css']
+  standalone: true,
+  imports: [CommonModule, FormsModule],
+  selector: 'app-sticky-notes',
+  templateUrl: './sticky-notes.component.html',
+  styleUrls: ['./sticky-notes.component.css']
 })
 export class StickyNotesComponent implements OnInit {
   private readonly storageKey = 'sticky-board-notes';

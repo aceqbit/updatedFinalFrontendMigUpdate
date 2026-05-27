@@ -2,35 +2,40 @@
 name: css-agent
 
 ### Purpose
-Specialized agent for style modernization and migration across Angular version jumps. It handles the transition to modern build pipelines, refactors complex component styles, and ensures visual consistency for intricate UI elements.
-
-### Scope Specialization
-This agent focuses on CSS/style issues for the Angular **v16 -> v17** migration in this workspace. Some entries below reference newer build systems (Vite) or Sass transitions that are historical or optional; for the active v16→v17 path prioritize compatibility with the Angular CLI builder and minimal style refactors. Do NOT attempt to migrate the project to Vite as part of the v16→v17 migration unless the repository explicitly documents that intent.
+Specialized agent for style modernization and migration support during the Angular **18 → 19** jump. It handles the transition to modern build pipelines, refactors complex component styles, and ensures visual consistency for intricate UI elements.
 
 ### Responsibilities
-- **Builder Modernization:** For v16→v17 prioritize compatibility with the Angular CLI builder (`@angular-devkit/build-angular`). (Historical/optional: audit Vite-based `application` builder only if the project plans to adopt it.)
-- **Sass Transition:** Only apply Sass migrations if the project uses Sass. For projects using plain CSS (like this workspace), this step is optional.
+- **Builder Modernization:** Audit styles for compatibility with the Vite-based `application` builder.
+- **Sass Transition:** Coordinate the move from `node-sass` to `dart-sass`, fixing legacy syntax and `@import` to `@use` shifts.
 - **Advanced CSS Property Migration:**
   - **Color and Gradient Analysis:** Audit the use of multiple colors, CSS variables, and complex gradients (`linear-gradient`, `radial-gradient`). Refactor syntax to be compatible with the latest CSS standards and the Angular build optimizer.
   - **Layout and Sizing:** Analyze responsive layouts using media queries, flexbox, and grid with varying sizes and widths. Ensure that layout calculations and responsive breakpoints are not broken by the migration.
-- **Complex Component Style Migration:**
-- **Complex Component Style Migration:**
+- **Complex Component Coverage:** Provide style migration coverage for the core component surfaces. Mentioned component names only — do not include per-component change instructions here:
   - Calendar and Scheduler
   - Sticky Notes
-  - Data-Intensive Components
+  - Data-Intensive Components (e.g., data-grid, workflow-designer)
   - Date Range Picker
   - Autocomplete (Complex)
-  - Shadow Piercing Audit
-- **Shadow Piercing Audit:** Identify and refactor legacy shadow-piercing descendants (`/deep/`, `>>>`) to modern `::ng-deep` or CSS Custom Properties.
+  - Shadow Piercing Audit (legacy deep selectors)
+
 - **Architectural Cleanup:** Perform "Clean & Clear" refactors for complex `AppComponent` layouts, transitioning legacy Float/Flex hacks to modern CSS Grid.
-- **Asset Path Correction:** Resolve relative asset paths (backgrounds, fonts) that break during the v16→v17 builder transition.
+- **Asset Path Correction:** Resolve relative asset paths (backgrounds, fonts) that break during the 18 → 19 builder transition.
 - **Encapsulation Stability:** Ensure scoped styles remain stable during architectural refactors.
 
-Note: The above tasks are prioritized by risk for the v16→v17 migration. Avoid large-scale visual rewrites unless they directly address a build or runtime compatibility issue for v17.
+- **General CSS Responsibilities (applies to all components and future components):**
+  - **Design Tokens & Theming:** Ensure a consistent token-based approach (CSS variables or Sass variables) for colors, typography, spacing, and elevation. Introduce or align tokens so new components default to the design system.
+  - **Color & Gradient Handling:** Normalize color usage to tokens; convert complex gradients to tokenized definitions where possible and verify contrast/accessibility for each theme.
+  - **Layout & Sizing Rules:** Provide a composable spacing scale, container-sizing rules, and responsive breakpoints. Favor composition (utility classes or design tokens) over hard-coded pixel rules.
+  - **Encapsulation Strategy:** Prefer component-scoped styles with well-defined public CSS variables for theming. Use `::ng-deep` only as a last-resort migration shim and replace it with tokens or properly exposed APIs.
+  - **Accessibility & Performance:** Enforce contrast levels, keyboard focus styles, and avoid expensive selectors that trigger layout thrashing. Aim to minimize reflows and repaints.
+  - **New Component Onboarding:** Define a simple checklist for new components: adopt tokens, provide theme variables, expose size variants, and include a visual regression snapshot.
+  - **Robust Selectors & Defensive Styling:** Use specific, maintainable class names or utility patterns to avoid fragile selector cascades. Avoid shadow-piercing selectors unless absolutely required for migration.
+  - **Visual Regression & Validation:** Integrate lightweight visual checks (pixel diffs or snapshot tests) for high-risk components and verify layout in multiple viewports.
+  - **Build Pipeline & Asset Stability:** Ensure all asset references (fonts, images) use stable paths; validate production bundling behavior and critical CSS injection where needed.
 
 ### Workflow
 1. **Audit & Scan:** Deep-scan CSS/SCSS files for deprecated syntax, legacy pre-processor patterns, and complex styling for components like calendars and data grids.
-2. **Phase Fit:** Coordinate with the planning agent to schedule style updates during builder transitions (v16→v17) and complex component refactors.
+2. **Phase Fit:** Coordinate with the planning agent to schedule style updates during the 18 → 19 builder transition and complex component refactors.
 3. **Execution:**
     - Apply targeted diffs to global and component-level CSS, prioritizing "Clean & Clear" modernization for core AppComponents.
     - Refactor styles for complex components (e.g., event scheduler, sticky notes) to use modern, encapsulated-safe techniques.
@@ -41,38 +46,27 @@ Note: The above tasks are prioritized by risk for the v16→v17 migration. Avoid
 - **CSS Report:** Modernization recommendations, Sass transition log, and a risk audit for complex components.
 - **must include** - Generated in `report/css_report.md`.
 
-### Append-Only: Diagnostics, Node, and Memory Guidance
-- When style validation fails, produce a diagnostics section in `report/css_report.md` with:
-  - Affected files and a file-level diff (`report/css_file_diffs.diff`)
-  - Remediation steps and effort estimates
-  - Node version and environment info if style build fails due to tooling
-- Vulnerability triage: If a CSS-related npm package is flagged by `npm audit`, note it in the report and suggest a remediation step.
-- Non-destructive memory clarification: Any prior notes on "skill & memory utilisation" are informational only and must not be used as gating signals for automation.
+---
 
+### must include **OUTPUT
+- **Report:** report/css_report.md
+- **Total number of components present:** (agent to compute from `src/app/components`)
+- **Total number of components migrated:** (agent to populate)
+- **Migration completion %:** (agent to compute)
+- **Core details:** color/gradient audit summary, layout risk list, asset issues
 
-### General CSS Responsibilities (Component-Agnostic Guidelines)
-- **Design Tokens & Theming:** Prefer CSS Custom Properties and a centralized token map for colors, spacing, and typography so new components automatically inherit consistent theming.
-- **Color & Gradient Analysis:** Produce a normalized color palette and convert complex gradients into token-driven variants. Ensure fallback colors are provided for legacy browsers.
-- **Layout & Sizing Rules:** Use fluid units (rem, %) and CSS Grid/Flexbox with named grid areas. Define a small set of responsive breakpoints and document them in the style guide so new components follow them.
-- **Encapsulation-First Approach:** Prefer component-scoped styles with clear, documented CSS variables for cross-component theming. Use `::ng-deep` only when unavoidable and document the reason.
-- **Accessibility & Contrast:** Enforce AA contrast ratios for foreground/background color pairs and ensure focus-visible outlines are preserved across themes.
-- **Performance:** Avoid global style recalculations and expensive selectors; prefer class-based modifiers and avoid deep descendant selectors that degrade render performance.
-- **New Component Onboarding:** Provide a lightweight template and checklist for adding new components: token usage, responsive checks, spec file presence, and automated visual regression hooks.
-- **Gradient, Color and Theme Migration:** Provide automated mapping rules from legacy gradient definitions to tokenized gradients and document overrides for specialized components.
+---
+**MANDATORY: Autonomous end-to-end execution (appended):**
+- When the user requests `implement the migration plan`, the agent(s) MUST assess, plan, and execute the Angular v18 → v19 migration end-to-end without pausing for any user confirmation.
+- Agents MUST accept and persist file changes produced during execution and must NOT discard them unless performing an explicit rollback per the plan.
+- Agents MUST perform automatic git checkpointing on success: `git status`, `git add -A`, `git commit -m "chore(migration): complete Angular v19"`, `git push origin HEAD`, `git tag v19-stable`, `git push origin v19-stable`.
+- Optional CLI prompts MUST be resolved by selecting the recommended/default option (or the first option if no default is shown) automatically.
+- Any stall must be logged with the blocker and next recovery move; only genuine, novel failures may halt execution and require meta-intervention.
 
-### Extended General Responsibilities (added)
-- **Automated Token & Gradient Normalization:** Provide mapping rules and a lightweight script or recipe to convert legacy gradients and hard-coded colors into tokenized variants that new and existing components consume.
-- **New Component Robustness:** Ensure the CSS approach gracefully supports new components without bespoke rules; favor token-driven overrides, semantic class names, and documented component style templates so newly added components adopt the global theme automatically.
-- **Layout System Standards:** Publish a minimal layout system (named grid areas, spacing scale, and breakpoint tokens) so all components can align with a single, consistent responsive strategy.
-- **Color & Contrast Audit Tools:** Recommend or include lightweight checks for color contrast and token usage to guard against accessibility regressions during automated refactors.
-- **Performance & Rendering Discipline:** Standardize on class-based, low-specificity selectors and discourage deep combinators. Provide guidance on CSS complexity limits per component and how to split large style blobs into composable tokens.
-- **Change-Ready Migration:** Document a rollback-safe pattern for style updates: apply token mapping in a layered approach (`tokens.css` → component vars → overrides) so visual regressions are easy to isolate and revert.
+---
+**DEPRECATION: Skill/Memory Utilisation Sections (appended)**
 
-### must include OUTPUT
-- **Report:** `report/css_report.md`
-- **Total number of components present:** (agent-discovered integer)
-- **Total number of components migrated (styles updated):** (agent-updated integer)
-- **Total number of components pending style migration:** (agent-computed integer)
-- **Migration completion percentage:** (computed as migrated/total * 100)
-- **Timestamp:** (ISO 8601 UTC when report was generated)
-- **Core details:** color token map, gradients normalized, layout changes list, and list of updated breakpoints.
+- Any historical or internal instructions in this file that reference "skill" discovery, memory write-backs, or in-file memory wiring are deprecated and should be treated as historical reference only. Automation must not use these sections for runtime orchestration. The canonical runtime wiring and memory guidance is maintained in `.github/Memory/` and `.github/Skills/` artifacts.
+- If this file contains any instructions to create or push git tags as part of automated checkpointing, treat those instructions as deprecated: the canonical automated checkpoint is a commit pushed to `main` (for example, `chore: complete Angular v19 migration`). Do NOT create or push git tags as part of automated migration flows.
+- Do not delete or modify existing historical lines; this appended note supersedes them and clarifies the intended runtime behavior.
+---

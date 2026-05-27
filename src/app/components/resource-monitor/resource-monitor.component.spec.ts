@@ -8,8 +8,7 @@ describe('ResourceMonitorComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ResourceMonitorComponent],
-      imports: [FormsModule]
+      imports: [ResourceMonitorComponent, FormsModule]
     }).compileComponents();
     fixture = TestBed.createComponent(ResourceMonitorComponent);
     component = fixture.componentInstance;

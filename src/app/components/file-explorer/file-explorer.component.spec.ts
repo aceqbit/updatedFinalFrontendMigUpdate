@@ -8,8 +8,7 @@ describe('FileExplorerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [FileExplorerComponent],
-      imports: [FormsModule]
+      imports: [FileExplorerComponent, FormsModule]
     }).compileComponents();
     fixture = TestBed.createComponent(FileExplorerComponent);
     component = fixture.componentInstance;

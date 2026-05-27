@@ -11,9 +11,11 @@ interface ResourceNode {
 }
 
 @Component({
-    selector: 'app-resource-monitor',
-    templateUrl: './resource-monitor.component.html',
-    styleUrls: ['./resource-monitor.component.css']
+  standalone: true,
+  imports: [CommonModule],
+  selector: 'app-resource-monitor',
+  templateUrl: './resource-monitor.component.html',
+  styleUrls: ['./resource-monitor.component.css']
 })
 export class ResourceMonitorComponent implements OnInit, OnDestroy {
   nodes: ResourceNode[] = [];

@@ -23,9 +23,11 @@ interface PositionedEvent extends ScheduledEvent {
 }
 
 @Component({
-    selector: 'app-event-scheduler',
-    templateUrl: './event-scheduler.component.html',
-    styleUrls: ['./event-scheduler.component.css']
+  standalone: true,
+  imports: [CommonModule, FormsModule],
+  selector: 'app-event-scheduler',
+  templateUrl: './event-scheduler.component.html',
+  styleUrls: ['./event-scheduler.component.css']
 })
 export class EventSchedulerComponent implements OnInit {
   events: ScheduledEvent[] = [];

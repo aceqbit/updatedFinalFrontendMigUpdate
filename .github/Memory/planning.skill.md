@@ -69,11 +69,8 @@ tasks:
 
 ## ENHANCED PLAN & REPORT REQUIREMENTS (appended)
 
-- The planning skill MUST make plans and reports actionable and diagnostic-rich by including:
-  - File-level diffs or exact file paths and line ranges for every planned change.
-  - A short remediation checklist for likely failure modes at each validation gate.
-  - A pre-flight diagnostics summary including likely Node runtime constraints and third-party libraries requiring attention.
+- The planning memory should require plans to be actionable and diagnostic-rich by including file-level diffs, per-task remediation checklists, and a pre-flight diagnostics summary that lists likely Node/runtime requirements and key third-party packages.
 
 ## STRICT GIT POLICY (appended)
 
-- The planning skill MUST NOT recommend creating or pushing git tags as part of the automated checkpointing flow. The recommended checkpoint is a commit that the implementation skill will push to `main` (e.g., `chore: complete Angular v19 migration`). Do not instruct agents to create or push tags automatically.
+- The planning memory must make explicit that automated checkpointing uses commit+push to `main` and must NOT rely on creating or pushing git tags. Plans should instruct the implementation agent to create the checkpoint commit and run `git push origin main` on success.

@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
-
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 @Component({
-    selector: 'app-chips-input-lab',
-    templateUrl: './chips-input-lab.component.html',
-    styleUrls: ['./chips-input-lab.component.css']
+  standalone: true,
+  imports: [CommonModule, FormsModule],
+  selector: 'app-chips-input-lab',
+  templateUrl: './chips-input-lab.component.html',
+  styleUrls: ['./chips-input-lab.component.css']
 })
 export class ChipsInputLabComponent {
   chipDraft = '';
