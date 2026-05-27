@@ -205,3 +205,7 @@ The final output is the `migration_plan.md`, which includes:
 - If this file contains any instructions to create or push git tags as part of automated checkpointing, treat those instructions as deprecated: the canonical automated checkpoint is a commit pushed to `main` (for example, `chore: complete Angular v19 migration`). Do NOT create or push git tags as part of automated migration flows.
 - Do not delete or modify existing historical lines; this appended note supersedes them and clarifies the intended runtime behavior.
 ---
+## Angular 19 CLI Schema Advisory
+- The core issue discovered during the migration is that Angular 19 CLI requires `buildTarget` in `angular.json` for `serve` and `extract-i18n` configurations instead of the legacy `browserTarget` property.
+- The planning agent should mark this as a mandatory pre-flight check and include it in validation gates for the Angular 18 → 19 jump.
+- If `ng serve` fails with schema validation around `buildTarget`, the fix is a configuration update rather than a code refactor.

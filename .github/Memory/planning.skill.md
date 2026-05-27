@@ -74,3 +74,7 @@ tasks:
 ## STRICT GIT POLICY (appended)
 
 - The planning memory must make explicit that automated checkpointing uses commit+push to `main` and must NOT rely on creating or pushing git tags. Plans should instruct the implementation agent to create the checkpoint commit and run `git push origin main` on success.
+
+## Angular 19 CLI Schema Advisory
+- The planning memory should require the plan to include an early `angular.json` validation step for the Angular 19 CLI schema change from `browserTarget` to `buildTarget`.
+- This ensures the migration detects configuration issues before build/serve validation and avoids the known `ng serve` schema failure mode.

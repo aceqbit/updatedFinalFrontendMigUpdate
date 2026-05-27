@@ -38,6 +38,11 @@ Evaluates the current project for its readiness to undergo the Angular **18 → 
 - **No Manual Button Presses:** If the assessment flow encounters an optional migration prompt, it must assume the recommended/default option and never ask the user to press a button.
 - **No Cross-Version Drift:** The agent must stay scoped to Angular 18 → 19 and avoid pulling in unrelated version-jump guidance.
 
+### Angular 19 CLI Schema Note
+- The core Angular 19 CLI issue encountered during this migration was a schema validation failure in `ng serve` caused by legacy `browserTarget` properties in `angular.json`.
+- For Angular 19, `@angular-devkit/build-angular:dev-server` and `@angular-devkit/build-angular:extract-i18n` configurations require `buildTarget` instead of `browserTarget`.
+- The assessment agent must flag this configuration check as part of `angular.json` validation for v18→v19 upgrades.
+
 ### Workflow
 1. **Pre-flight Checks & Analysis:**
    - **Bootstrapping Validation:** Scan `src/main.ts` to identify the bootstrapping method (`bootstrapModule` vs. `bootstrapApplication`) and flag any mismatch with the Angular 19 architecture in use.

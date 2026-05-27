@@ -77,3 +77,7 @@ tasks:
 ## STRICT GIT POLICY (appended)
 
 - The planning skill MUST NOT recommend creating or pushing git tags as part of the automated checkpointing flow. The recommended checkpoint is a commit that the implementation skill will push to `main` (e.g., `chore: complete Angular v19 migration`). Do not instruct agents to create or push tags automatically.
+
+## Angular 19 CLI Schema Task
+- The planning skill should ensure the generated plan includes a configuration validation task for `angular.json` to verify `buildTarget` usage in Angular 19.
+- This task is a required early-phase check because a schema validation failure on `ng serve` is a build-system blocker, not a source-code issue.

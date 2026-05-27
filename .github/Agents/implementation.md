@@ -95,3 +95,7 @@ Detailed internal instructions about skill discovery and memory write-backs have
 - If this file contains any instructions to create or push git tags as part of automated checkpointing, treat those instructions as deprecated: the canonical automated checkpoint is a commit pushed to `main` (for example, `chore: complete Angular v19 migration`). Do NOT create or push git tags as part of automated migration flows.
 - Do not delete or modify existing historical lines; this appended note supersedes them and clarifies the intended runtime behavior.
 ---
+## Angular 19 CLI Schema Advisory
+- The core migration blocker was a CLI schema mismatch in `angular.json` caused by `browserTarget` entries in Angular 19 configuration.
+- The implementation agent should treat `buildTarget` verification as a critical config validation step and fix `angular.json` when a schema error appears on `ng serve` or `ng build`.
+- Record the exact `buildTarget` fix in `report/implementation_log.md` and proceed once the configuration change is verified.

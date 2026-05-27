@@ -48,3 +48,7 @@ Active migration scope: Angular 18 → 19 only. This file is the master log for 
 ## STRICT GIT POLICY (appended)
 
 - Update propagation and checkpointing MUST use commits pushed to `main` for the v19 migration. Do NOT create, rely on, or push git tags as automated migration checkpoints. Use a clear commit message such as `chore: complete Angular v19 migration` and push with `git push origin main`.
+
+### Angular 19 CLI Schema Note
+- The key config issue for this migration was an Angular CLI schema change: `angular.json` entries for `serve` and `extract-i18n` now require `buildTarget`, not `browserTarget`.
+- Record this as a known migration trap in memory so future migration runs can check the property name change proactively and avoid `ng serve` schema failures.

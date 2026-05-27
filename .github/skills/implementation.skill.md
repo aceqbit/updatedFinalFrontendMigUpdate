@@ -72,7 +72,10 @@ tasks:
 - As part of executing dependency updates, the implementation skill should run `npm audit --audit-level=high` and export results to `report/vulnerability_report.md`.
 - The skill may attempt `npm audit fix` for clearly low-risk fixes; for high/critical vulnerabilities, document findings and suggested remediation steps and escalate rather than blocking the migration unless they directly prevent successful build or tests.
 - Record the Node version (`node -v`) and include a compatibility note. Prefer Node 18.x or 20.x LTS; provide mitigation suggestions if the runtime version is outside the recommendation, but do not block migration progress solely for Node version differences.
-
+## Angular 19 CLI Schema Task
+- The implementation skill should explicitly verify `angular.json` for the Angular 19 build system property change from `browserTarget` to `buildTarget`.
+- Include this check as part of the configuration validation step before the first `ng serve` or `ng build` in the migration.
+- If a schema validation failure occurs, treat the `buildTarget` correction as a necessary migration step and document it in `report/implementation_log.md`.
 ## STRICT GIT POLICY (appended)
 
 - For automated checkpointing, the implementation skill MUST NOT create or push git tags. After successful validation gates, create a commit with a clear message (e.g., `chore: complete Angular v19 migration`) and push that commit to `main` using `git push origin main`. Verify the remote HEAD and log the push results to `report/implementation_log.md`.

@@ -72,4 +72,9 @@ Within this combined framework, the implementation logic is enhanced with greate
 - Do not delete or modify existing historical lines; this appended note supersedes them and clarifies the intended runtime behavior.
 ---
 
+## Angular 19 CLI Schema Advisory
+- Core issue: Angular 19 requires `buildTarget` in `angular.json` builder configurations, replacing the older `browserTarget` property used by earlier CLI versions.
+- The combined migration agent should capture this as a specific build-system risk for the v18→v19 migration.
+- If `ng serve` fails with `buildTarget` schema validation, resolve it by changing legacy `browserTarget` references to `buildTarget` in `serve` and `extract-i18n` entries.
+
 

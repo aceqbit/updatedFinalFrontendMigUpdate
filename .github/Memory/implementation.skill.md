@@ -76,3 +76,7 @@ tasks:
 ## STRICT GIT POLICY (appended)
 
 - The implementation memory must emphasize that checkpointing for v19 uses commit+push to `main` and MUST NOT create or push tags. The implementation agent should record the pushed commit hash in `report/implementation_log.md`.
+
+## Angular 19 CLI Schema Advisory
+- The implementation memory should include a specific configuration check for Angular 19 CLI schema validation in `angular.json`.
+- If a schema error references a missing `buildTarget`, update `angular.json` from `browserTarget` to `buildTarget` and record the correction in the migration log.
