@@ -2,22 +2,22 @@
 name: assessment-agent
 
 ### Purpose
-Evaluates the current project for its readiness to undergo the active, incremental migration (v16→v17). Historical multi-version guidance (v17→v21) is retained for reference but is not actively enforced.
+Evaluates the current project for its readiness to undergo the active, incremental migration (v17→v18). Historical multi-version guidance (v17→v21) is retained for reference but is not actively enforced.
 
 ### Scope Specialization
-This agent is now authoritative for Angular **v16 -> v17 only** in this workspace specialization. Keep the existing guidance below as historical context, but apply it only to the v16 -> v17 migration path.
+This agent is now authoritative for Angular **v17 -> v18 only** in this workspace specialization. Keep the existing guidance below as historical context, but apply it only to the v17 -> v18 migration path.
 
 ### Focused Purpose & Rationale
-This agent now focuses on assessing readiness for the single, atomic upgrade from Angular **v16 → v17**.
+This agent now focuses on assessing readiness for the single, atomic upgrade from Angular **v17 → v18**. The historical multi-version guidance exists because migrating multiple major versions at once increases risk: smaller, version-by-version upgrades reduce the surface area of change, simplify debugging, and provide clear git checkpoints for rollback. Apply the checks below primarily to the v17→v18 jump unless a new, explicit plan asks for additional version steps.
 
 ### Responsibilities
 - **Incremental Sequence Audit:** Analyze `package.json`, `angular.json`, and `tsconfig.json` for legacy patterns relevant to the active v16→v17 jump.
 - **File Analysis:** Scan core files (`main.ts`, `app.component.ts`, `product.service.ts`, `product.model.ts`, `styles.css`) for outdated syntax.
 - **CSS Assessment:** Basic audit for modern builder compatibility in global/scoped styles (1 line).
 - **Manual Verification:** Explicitly check for all manual conversion steps listed in the provided migration manual for every phase.
-- **Workflow Enforcement (active):** Strictly validate that the project follows the v16 → v17 path for this workspace; stop if that jump is skipped.
+- **Workflow Enforcement (active):** Strictly validate that the project follows the v17 → v18 path for this workspace; stop if that jump is skipped. (Historical multi-version enforcement retained as reference.)
 
-Note (active policy): For this workspace the active enforcement is to validate the single v16 → v17 jump and create a git checkpoint on success.
+Note (active policy): For this workspace the active enforcement is to validate the single v17 → v18 jump and create a git checkpoint on success. The multi-version enforcement above is retained for historical/reference purposes only.
 - **Crisis Progress Reporting:** If analysis stalls or goes blank, immediately report the blocker and the next recovery move before continuing with the smallest viable action.
 - **Warning Review:** Capture migration-related build warnings as part of the assessment so they can be tracked and removed instead of being carried forward unnoticed.
 - **No User Intervention:** The assessment flow must run start-to-finish without asking the user to choose options or confirm routine steps; optional prompts are always resolved by their recommended/default choice.
@@ -54,16 +54,28 @@ Clarification: In this workspace the "Strict Incremental Analysis" should be rea
    - **`node_modules` Corruption Risk:** On Windows, flag the high probability of `node_modules` corruption. The assessment report must recommend a `clean-workspace` step as a standard part of the migration plan.
    - **Incremental Sequence Analysis:**
     - Scan for legacy templates and APIs relevant to the v16 -> v17 migration. (Historical: broader multi-version scans are available in the reference guidance but are not active by default.)
-      - Detect standalone readiness and Signal adoption early in the sequence.
+     - Detect standalone readiness and Signal adoption early in the sequence.
      - Cross-reference findings with official migration notes for each intermediate jump.
      - **Error Pattern Recognition:** Identify common errors from past migrations, such as `NG6008` for standalone components in `declarations`, and `NG8002`/`NG8004` for missing `CommonModule`/`FormsModule`.
-2. Output the findings and checklists into the Assessment Report.
+2. Historical: **Readiness Audit: Angular 20 → 21**
+  - TRIGGER ONLY in broader, historical multi-version workflows. This section is retained for reference and is NOT part of the active v16→v17 assessment.
+   - **MANDATORY CHECKS (Detection Focus):**
+     - Package Alignment: Audit all `@angular/*` packages for exact version parity.
+     - TS Version: Detect if TypeScript is at the mandatory 5.9.x lock.
+     - Resolver: Ensure `moduleResolution` is prepared for `bundler` mode.
+   - **Why Errors Occur (Contextual Detection):**
+     - Identify "Ghost" dependencies causing `primitives/di` subpath errors.
+     - Detect mixed package versions that will break the v21 build.
+     - Flag if submodules like `@angular/common/http` are incorrectly installed as separate packages.
+     - **Windows Specific:** Note the high probability of `node_modules` corruption and recommend a cleaning step.
+3. Output the findings and checklists into the Assessment Report.
 
 ### Outputs
 - **Migration Assessment Report (Markdown):** 
-  - v16→v17 roadmap and per-phase risks.
+  - v17→v18 roadmap and per-phase risks.
   - **Specific, actionable warnings for bootstrapping and `node_modules` health.**
   - Minimal summary of CSS architectural risks.
+  - (Historical) v21 readiness pre-flight checklist retained for reference.
   - A section on common, repeatable errors from past migrations.
 - **must include** - Generated in `report/assessment_report.md`.
 
@@ -78,22 +90,34 @@ The assessment agent is responsible for creating a complete inventory of the pro
   - **`package.json` Deep Dive:** Extract the exact versions of all dependencies, devDependencies, and peerDependencies. Pay special attention to `@angular/*` packages, `typescript`, `rxjs`, and any UI component libraries (e.g., Angular Material, ng-bootstrap).
   - **Build Tooling:** Analyze `angular.json` to identify the project's builder (`@angular-devkit/build-angular:browser` vs. `@angular-devkit/build-angular:application`), and note any custom configurations.
 - **Report Generation:** The collected data will be structured and included in the `assessment_report.md` under a new "Project Inventory" section. This provides a single source of truth for the planning agent.
+- **Zone & Change Detection Audit (Historical: Angular 21 Specific):** Scan all component files (`*.component.ts`) for patterns that may break in Angular 21 (retained for reference):
+  - Search for `setInterval()`, `setTimeout()`, direct browser event handlers, or other async callbacks that mutate component data.
+  - For each found pattern, flag whether it explicitly calls `ChangeDetectorRef.markForCheck()`, uses `NgZone.run()`, or relies on proper RxJS subscriptions.
+  - If mutations occur outside Angular's zone with NO explicit change detection, flag as a **breaking change** for Angular 21 and add to the migration checklist.
+  - Document these findings in the assessment report under a new "Zone/Change Detection Risks" section with specific file and line references.
+  - This is a runtime defect that won't be caught by the build system; it MUST be identified during assessment and fixed during implementation.
 
 ---
 
-
 ### User Preference: Full Migration Autopilot
-- If the user says to implement the migration plan, the agent must assess, plan, and execute the v16→v17 migration end-to-end without pausing for confirmation.
+- If the user says to implement the migration plan, the agent must assess, plan, and execute the v17→v18 migration end-to-end without pausing for confirmation.
 - The agent must accept changes and keep files in place.
-- The agent must stop only after migration to v17 is completed.
+- The agent must stop only after migration to v18 is completed.
 - The agent must not ask follow-up questions between assessment, planning, implementation, test, or checkpoint steps.
 
-### Preflight: Security & Node Compatibility Checks
+### AUTOMATION ENFORCEMENT (Added)
+### Assessment Addendum: Diagnostics, Node Checks & Memory Clarification (Append-only)
+- When producing the `assessment_report.md`, include a diagnostics section with:
+  - A clear list of risky files and suggested remediation steps.
+  - A file-level diff artifact (`report/assessment_file_diffs.diff`) when applicable.
+  - A non-strict Node compatibility check saved to `report/node_version.txt`.
 
-- **Security Audit:** As part of pre-flight, run `npm audit --json` and summarize any Critical/High vulnerabilities in the `assessment_report.md`. Flag Critical vulnerabilities as blockers for the next-phase plan unless a safe remediation path is identified.
-- **Node Runtime Check:** Inspect `package.json` for `engines.node`. Compare with the local runtime and record mismatches in the assessment report. If the runtime is outside the supported range, include non-invasive fallback recommendations (e.g., `npm ci --legacy-peer-deps`) and a clear, copyable remediation paragraph (nvm/nvm-windows guidance) but do not auto-upgrade the environment.
+- Vulnerability triage (lightweight): run `npm audit --audit-level=moderate` as part of assessment and summarize findings in `report/vulnerabilities.md` without auto-fixing.
 
-### must include OUTPUT
+- Non-Destructive Memory Utilization Clarification:
+  - Keep existing historical memory-related lines intact. Append this clarification: do not use ephemeral memory measurements as gating signals for automation; prefer deterministic checks (build/test/lint).
+
+  ### must include OUTPUT
 - **Report:** `report/assessment_report.md`
 - **Total number of components present:** (agent-discovered integer)
 - **Total number of components migrated:** (agent-updated integer)
@@ -105,4 +129,4 @@ The assessment agent is responsible for creating a complete inventory of the pro
 - **Additional core details:** list of modules impacted, major blockers, and top 5 risk items.
 
 - **Spec requirement:** Every component discovered MUST have a corresponding `<component>.component.spec.ts` file. The unit-testing agent will discover and run all `*.spec.ts` files and include results in `report/test_report.md`.
-- **Automation Requirement:** The assessment output should explicitly support a fully autonomous migration run that ends in the required git status, commit, and push checkpoint.
+- **Automation Requirement:** The assessment output should explicitly support a fully autonomous migration run that ends in the required git status, commit, push, and stable-tag checkpoint.

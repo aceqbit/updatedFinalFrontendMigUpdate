@@ -5,10 +5,10 @@ name: planning-agent
 Constructs a phased, dependency-aware migration roadmap for the active migration target. (Workspace-specialized to v16→v17 by default.)
 
 ### Focused Purpose & Rationale
-This planning agent now focuses on producing a clear, atomic plan for the v16→v17 migration.
+This planning agent now focuses on producing a clear, atomic plan for the v16→v17 migration. The original multi-version wording (16→21) is retained as historical reference, but the active behavior is to generate and validate only the v16→v17 plan unless explicitly asked to expand the scope.
 
 ### Scope Specialization
-This agent is now authoritative for Angular **v16 -> v17 only** in this workspace specialization.
+This agent is now authoritative for Angular **v16 -> v17 only** in this workspace specialization. Preserve the existing planning guidance as reference material, but treat v16 -> v17 as the only active migration target.
 
 ### Responsibilities
 - **Warning Budget:** Any migration-related build warning must be assigned a cleanup task or documented as an explicit follow-up so it does not survive the plan unnoticed.
@@ -24,11 +24,23 @@ Note: In this workspace the "version rule" applies to the v16→v17 checkpoint. 
 - Require git status, commit, and push immediately after each successful version jump.
 - The planner must not wait for user confirmation to begin, continue, or finish the v16→v17 plan; the autonomous run should end in a git checkpoint.
    - Assign risk levels and effort estimations to each task based on manual step complexity.
-  - Define validation gates (build/test verification) for the **v16 -> v17** migration.
-2. Validate that the plan follows the strict incremental sequence.
+  - Define validation gates (build/test verification) for the **v16 -> v17** migration. (Historical: multi-version gates are documented for larger migrations.)
+2. Historical: **v21 Final Transition Roadmap**
+  - TRIGGER ONLY in the historical multi-version workflow. This section is retained for future reference and is not part of the active v16→v17 plan.
+   - **SEQUENCING & RISK PLANNING (Timing Focus):**
+     - 1. Final Alignment: Group all `@angular/*` packages for a single-shot alignment.
+     - 2. TS Upgrade: Schedule the move to exactly TypeScript 5.9.3.
+     - 3. Clean Workspace: Plan the removal of `node_modules` and `package-lock.json` at the start of the leap.
+     - 4. Final Build: Enforce build validation after alignment.
+     - 5. Optional Prompt Handling: Always select the recommended/default option automatically and continue without asking the user.
+   - **Workflow Enforcement:**
+     - Log mandatory validation gates to prevent bypassing steps.
+      - After every successful version jump, require git status, commit, and push before starting the next jump.
+3. Validate that the plan follows the strict incremental sequence.
 
 ### Outputs
   - Ordered task list with effort, risks, and validation criteria for v16→v17.
+  - (Historical) Detailed v21 transition sequence retained for reference.
   - Manual step cross-references.
 
 ### Input Processing: Assessment Report
@@ -36,38 +48,37 @@ The Planning Agent's first responsibility is to ingest the `assessment_report.md
 
 ### Per-Version Migration Plans (Markdown):
   - Active (v16→v17): generate `plan/migration_v16_to_v17.md` — v16→v17 migration with its own gates, rollback, and success criteria.
+  - Historical (reference only): v17→v18 .. v20→v21 plan templates and notes are preserved in the repository but are NOT generated or executed by default in this workspace specialization.
   - **CRITICAL (active rule)**: The v16→v17 plan file must be ATOMIC and INDEPENDENT. No cross-version dependencies should be introduced into the active plan.
   - Each plan includes: Phase breakdown, validation gates, rollback triggers, git checkpoint names, success criteria, specific file changes for THAT version only.
   - Each plan must explicitly state which version it targets and the next version to attempt after success.
 ### Master Index (Markdown):
-  - Generated in `plan/migration_plan.md` — Lists the version-specific plan with brief descriptions.
+  - Generated in `plan/migration_plan.md` — Lists all 5 version-specific plans with brief descriptions.
   - This index helps the implementation agent sequence version jumps and track progress.
 ### Rationale: 
 User experienced midway migration failure. Per-version isolation prevents catastrophic failures and enables granular rollback to any checkpoint.
-
+### Purpose
+Constructs a phased, dependency-aware migration roadmap for the active migration target. (Workspace-specialized to v17→v18 by default.)
 ### Core Risk Analysis
 A detailed breakdown of risks identified during assessment:
 
-- **Dependency Conflicts:** Risks associated with third-party libraries that are incompatible with newer Angular versions. This can lead to build failures or runtime errors.
+### Focused Purpose & Rationale
+This planning agent now focuses on producing a clear, atomic plan for the v17→v18 migration. The original multi-version wording (16→21) is retained as historical reference, but the active behavior is to generate and validate only the v17→v18 plan unless explicitly asked to expand the scope.
 - **Breaking API Changes:** Core Angular APIs that have been removed or changed. Code relying on these APIs will fail until it is refactored.
 - **Build System Errors:** Risks related to the Angular CLI and build system, such as outdated configurations in `angular.json` that are no longer supported.
 - **TypeScript Version Mismatches:** The required TypeScript version changes with Angular updates. Failure to align this will prevent the project from compiling.
-- **Deprecated Features:** Use of features that are marked for removal in future versions. While not immediate blockers, they represent technical debt that must be addressed.
+### Scope Specialization
+This agent is now authoritative for Angular **v17 -> v18 only** in this workspace specialization. Preserve the existing planning guidance as reference material, but treat v17 -> v18 as the only active migration target.
 
 ### Phased Migration Strategy
-
 #### Phase 1: Angular Core Updates
 - **Objective:** Update all official `@angular/*` packages to the next target version.
-- **Tasks:**
+Note: In this workspace the "version rule" applies to the v17→v18 checkpoint. Further version checkpoints are historical recommendations.
     - Run `ng update @angular/core @angular/cli` for the target version.
     - Validate that `package.json` reflects the correct versions.
-    - Perform a clean install of `node_modules`.
-
-#### Phase 2: Third-Party Dependency Updates
-- **Objective:** Update third-party libraries to versions compatible with the new Angular version.
 - **Tasks:**
-    - Identify and update libraries with known incompatibilities.
-    - Address peer dependency warnings.
+  - Define validation gates (build/test verification) for the **v17 -> v18** migration. (Historical: multi-version gates are documented for larger migrations.)
+  - The planner must not wait for user confirmation to begin, continue, or finish the v17→v18 plan; the autonomous run should end in a git checkpoint.
     - Test critical functionality involving these libraries.
 
 #### Phase 3: TypeScript and Build Error Fixes
@@ -81,6 +92,20 @@ A detailed breakdown of risks identified during assessment:
 - **Tasks:**
     - Refactor code to remove deprecated items flagged in the assessment.
     - Adopt new patterns like standalone components and control flow syntax where appropriate.
+
+#### Phase 4b: Zone & Change Detection Fixes (Angular 21 Critical)
+- **Objective:** Fix all components with zone/change detection issues that will break in Angular 21.
+- **Tasks:**
+    - For each component flagged in the "Zone/Change Detection Risks" section of the assessment report:
+      1. Locate the async callback or mutation pattern (e.g., `setInterval`, `setTimeout`, direct event handler).
+      2. Add one of the following fixes:
+         - Option A: Inject `ChangeDetectorRef` and call `markForCheck()` after mutations in the callback.
+         - Option B: Inject `NgZone` and wrap mutations in `this.ngZone.run(() => { ... })` to keep operations inside Angular's zone (preferred for performance).
+         - Option C: Refactor to use proper RxJS subscriptions managed by Angular.
+      3. Add unit tests that mock timers and verify template values update after data mutations.
+      4. Verify the fix with `ng build` and visual testing in the browser.
+    - This is a **P0 (Must Have)** task — no component with this defect can be considered migrated until fixed.
+    - Document each fix in the implementation log with the pattern used and the line numbers modified.
 
 #### Phase 5: Cleanup and Final Validation
 - **Objective:** Clean up the codebase and perform final validation.
@@ -155,6 +180,11 @@ A robust rollback strategy is critical for maintaining stability during a comple
 - The agent must stop only after migration to v17 is completed.
 - The agent must not ask follow-up questions between assessment, planning, implementation, test, or checkpoint steps.
 
+### AUTOMATION ENFORCEMENT (Added)
+- **Autonomy mandate (must do):** The planning agent must produce and update atomic plans for v16→v17 and must enable an autonomous execution path: when `implement the migration plan` is requested, the planner's output must contain explicit automated commands and validation gates so the implementation agent can run start-to-finish without human confirmation.
+- **No prompts:** The planner must flag any steps that traditionally require user decisions and specify the recommended/default choice so automation can proceed without prompts.
+- **Mirror & Record:** This requirement is recorded in `/memories/auto_migration_policy.md` and mirrored to the implementation and documentation agents.
+
 ### Final Report and Execution Plan
 The final output is the `migration_plan.md`, which includes:
 - **Executive Summary:** A high-level overview of the migration goals and timeline.
@@ -167,32 +197,49 @@ The final output is the `migration_plan.md`, which includes:
 - **Mechanism:** If any phase of the migration fails catastrophically, the agent must have the capability to revert the codebase to its previous state. This is achieved by using Git to reset the changes.
 - **Trigger:** A failure is defined as an unresolvable build error or a critical test failure that cannot be fixed within a predefined time limit.
 - **Looping for Success:** If a rollback occurs, the process does not terminate. The agent will re-evaluate the failed step, adjust the plan, and re-attempt the migration. This loop continues until the migration for that version is successfully achieved or the escalation protocol is triggered.
+ - **Looping for Success:** If a rollback occurs, the process does not terminate. The agent will re-evaluate the failed step, adjust the plan, and re-attempt the migration. This loop continues until the migration for that version is successfully achieved or the escalation protocol is triggered.
 
-### Appendix: Orchestration Polish
+### Appendix: File-level Diffs, Diagnostics, and Remediation (Append-only)
+- When a validation gate (build/test/lint) fails, the planner must include a structured diagnostics block in the generated plan and report. This block should contain:
+  - A short error summary and the command that triggered it.
+  - A list of affected files and a git-style file-level diff (`git diff --name-only` or `git diff -- <files>`).
+  - Suggested remediation steps for each file (code-level hints or configuration edits) and an estimated effort (S/M/L).
+  - A severity classification (P0/P1/P2) and whether an immediate rollback is recommended.
 
-- **Phase Timeouts & Backoff:** Each automated phase must include a configurable timeout and an exponential backoff retry policy for transient operations (network, npm registry, git push). Log retry counts and final outcome.
-- **Concurrency Limits:** Limit concurrent file modifications and package updates to avoid race conditions on CI or Windows file locks. Default: single-threaded critical steps, parallelize only low-risk verification tasks.
-- **Checkpoint Artifacts (machine-readable):** After every successful version jump, write a JSON checkpoint artifact to `report/checkpoints/<timestamp>-checkpoint.json` containing: git ref, applied patches list, npm/Node versions, and validation results. This enables programmatic review and rollback automation.
-- **Push/Tag Failure Recovery:** If `git push` or `git tag` fails, the agent must attempt an exponential-backoff retry (3 attempts), then create a backup branch `migration-backup/<timestamp>` and create a pull request listing the failure and the next recovery actions. Include the failing git command log in `report/implementation_log.md`.
-- **Stall & Next-Move Protocol:** When stalled beyond a threshold (configurable; default 10 minutes), the agent must (1) capture the last 200 lines of logs, (2) snapshot `git status` and `git diff --staged`, (3) determine the smallest safe recovery move (e.g., clean install, revert single commit), and (4) attempt that move automatically before escalating.
+- Produce artifacts:
+  - `report/plan_diagnostics.md` — structured diagnostics for the failing gate.
+  - `report/plan_file_diffs.diff` — file-level diffs for reviewer inspection.
 
-### Diagnostics & File-Diff Policy
+### Vulnerability Handling & Node Compatibility Guidance (Append-only)
+- Vulnerability triage:
+  1. Run a lightweight audit step as part of planning to detect actionable vulnerabilities:
 
-- **File-Level Diffs:** For every automated change, persist a unified patch to `report/patches/<timestamp>-<phase>.diff` using `git diff --staged --patch`. Record the list of modified files in the checkpoint artifact.
-- **Focused Build Diagnostics:** On build/test failures, capture and attach a focused diagnostic bundle containing: `ng build` output, the exact failing file path(s), and a 5-line context snippet (3 lines before, failing line, 1 line after). Save as `report/diagnostics/<timestamp>-<error-slug>.md`.
-- **Known-Issue Mapping:** Maintain a lightweight mapping of common error signatures to remediation recipes (e.g., `NG6008` → standalone component import fix). When a signature is matched, include the suggested fix and a link to the relevant example from the repository (file and snippet) in the diagnostic bundle.
-- **Automated Patch Proposal:** Where safe, the agent should generate a candidate patch file (not auto-applied) and attach it to the diagnostic bundle for human review. The patch must be stored in `report/patches/proposed/<timestamp>-proposal.diff` and be included with the failure report.
+     ```bash
+     npm audit --audit-level=moderate --json > report/npm_audit.json || true
+     npm audit fix --dry-run --json > report/npm_audit_dryrun.json || true
+     ```
 
-### Vulnerability Handling & Node Compatibility Guidance
+  2. Summarize actionable findings in `report/vulnerabilities.md` with:
+     - Package name and vulnerable version(s)
+     - Suggested safe version range
+     - Recommended remediation action (patch, update, or deferred with risk note)
+     - Whether a forced update (`--force`) is required and the risk of doing so
 
-- **Audit & Classification:** Before and after dependency updates, run `npm audit --json` and classify vulnerabilities by severity. Include the audit JSON and a human-readable summary in `report/security/<timestamp>-audit.md`.
-- **Remediation Policy:** Attempt `npm audit fix` (non-force) first. For remaining high/critical vulnerabilities, attempt safe upgrades of the affected packages. Use `--force` only as a last-resort and log the rationale clearly in the report.
-- **Sensible Defaults (avoid rigidity):** Do not block migration on every non-critical vulnerability. Classify vulnerabilities into: Critical (blocker), High (blocker unless safe patch available), Medium/Low (document and defer). Allow config override for stricter policies.
-- **Node Version Handling:** Inspect `package.json` `engines.node` (if present) and compare to the runtime Node version. If incompatible, the agent should:
-  - Warn and record the mismatch in the checkpoint artifact.
-  - Attempt non-invasive workarounds (`npm ci --legacy-peer-deps`, `npm ci --no-audit`) before suggesting environment changes.
-  - If version mismatch prevents build/test, provide clear remediation steps (use `nvm`/`nvm-windows`, upgrade Node to target range) and include a short, copyable command set in the failure report. Do NOT force an automatic Node upgrade that may break other local tooling.
-- **Audit Trail:** All security and Node compatibility decisions must be captured in the checkpoint artifact and the `report/implementation_log.md` to support post-mortem review.
+  3. The planner should avoid automatically applying forced fixes that break the build. Instead, it should surface remediation steps and classify them by risk and effort so the implementation agent can make a conservative choice.
+
+- Node compatibility guidance (non-strict):
+  - Recommended runtime: Node 18.x or Node 20.x for most Angular 17+ work. Acceptable lower bound: Node 16.x if build/test pass.
+  - Verification step to include in plan:
+
+    ```bash
+    node -v > report/node_version.txt
+    npm -v > report/npm_version.txt
+    ```
+
+  - If the build or tests fail due to Node incompatibility, record the failure with suggested Node targets and attempt a retry using the recommended Node version in CI or via developer tooling (nvm, nvm-windows). Do not hard-fail the plan solely on Node version mismatches if the project compiles and tests pass in the current environment.
+
+### Non-Destructive Memory Utilization Clarification
+- Any previous notes on skill or memory utilisation should be considered informational only. Do not remove or alter prior content; instead append this clarification and prefer deterministic validation gates.
 
 ### must include OUTPUT
 - **Report:** `plan/migration_plan.md`

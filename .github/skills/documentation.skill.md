@@ -7,11 +7,11 @@
 - The agent must not ask follow-up questions between assessment, planning, implementation, test, or checkpoint steps.
 name: Angular Migration Documentation
 description: >
-  Documents the v16 -> v17 migration process, recording all changes, decisions, and outcomes.
+  Documents the v17 -> v18 migration process, recording all changes, decisions, and outcomes.
   Ensures project documentation reflects the post-migration state and future developer guidance.
 
 scope:
-  - Angular v16 -> v17 only
+  - Angular v17 -> v18 only
 
 dependencies:
   - `implementation.skill.md`
@@ -41,3 +41,10 @@ tasks:
       - Save the final document to `docs/documentation.md`.
     output: `docs/documentation.md`
 ---
+
+  ### Append-Only: Including Diagnostics and Diffs
+  - The documentation task should automatically include diagnostics summaries and attach file-level diffs produced by other agents. When available, link or embed `report/plan_file_diffs.diff` and `report/test_failures.diff` for reviewer traceability.
+
+  ### Non-Destructive Memory Utilization Clarification
+  - Append-only: previous mentions of "skill & memory utilisation" are informational and must not be used to gate automated runs. Prefer deterministic validation gates.
+

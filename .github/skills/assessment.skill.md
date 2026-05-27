@@ -7,12 +7,12 @@
 - The agent must not ask follow-up questions between assessment, planning, implementation, test, or checkpoint steps.
 name: Angular Migration Assessment
 description: >
-  Analyzes an Angular project to assess its readiness for the v16 -> v17 migration.
+  Analyzes an Angular project to assess its readiness for the v17 -> v18 migration.
   Identifies legacy patterns, dependency issues, and configuration problems that could block the upgrade.
   Generates a detailed assessment report as the foundation for the planning phase.
 
 scope:
-  - Angular v16 -> v17 only
+  - Angular v17 -> v18 only
 
 tasks:
   - task: Analyze `package.json` for outdated `@angular/*` packages and third-party dependencies.
@@ -47,8 +47,12 @@ tasks:
       - The report must include a checklist of all identified issues.
       - Save the report to `report/assessment_report.md`.
     output: `report/assessment_report.md`
-  - task: Run security and Node compatibility checks.
-    instructions:
-      - Run `npm audit --json` and include a short, human-readable summary in the assessment report.
-      - Inspect `package.json` for `engines.node` and compare with the local Node runtime; record mismatches and suggested non-invasive workarounds.
-    output: `report/assessment_report.md`
+---
+
+  ### Append-Only: Diagnostics & Zone/Node Guidance
+  - The assessment should include clear, file-level diagnostics for risky patterns and produce `report/assessment_diagnostics.md` describing file-level diffs and remediation suggestions for flagged files.
+  - Add a non-strict Node compatibility check and include its findings in the assessment report (`report/node_version.txt`), recommending Node 18.x/20.x when relevant.
+
+  ### Non-Destructive Memory Utilization Clarification
+  - Append-only clarification: earlier notes about "skill & memory utilisation" remain in the file for historical context; do not depend on ephemeral memory metrics for gating decisions.
+

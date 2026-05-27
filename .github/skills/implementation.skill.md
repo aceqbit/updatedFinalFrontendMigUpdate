@@ -7,11 +7,11 @@
 - The agent must not ask follow-up questions between assessment, planning, implementation, test, or checkpoint steps.
 name: Angular Migration Implementation
 description: >
-  Executes the v16 -> v17 migration plan by applying code and configuration changes step-by-step.
+  Executes the v17 -> v18 migration plan by applying code and configuration changes step-by-step.
   Handles all file modifications, dependency updates, and build validations for the active migration target.
 
 scope:
-  - Angular v16 -> v17 only
+  - Angular v17 -> v18 only
 
 dependencies:
   - `planning.skill.md`
@@ -28,7 +28,7 @@ tasks:
 
   - task: Update dependencies.
     instructions:
-      - Run `ng update` or `npm install` to update Angular and third-party packages as defined in the v16 -> v17 plan.
+      - Run `ng update` or `npm install` to update Angular and third-party packages as defined in the v17 -> v18 plan.
       - Use `--force` or `--legacy-peer-deps` only when explicitly instructed by the plan.
 
   - task: Validate each step.
@@ -42,13 +42,12 @@ tasks:
       - Record the output of all build and test commands.
       - Save the log to `report/implementation_log.md`.
     output: `report/implementation_log.md`
-  - task: Persist per-change patches and attach diagnostics.
-    instructions:
-      - After staging changes for a task, save the unified patch to `report/patches/<timestamp>-<task>.diff`.
-      - On failure, produce a diagnostic bundle in `report/diagnostics/` including logs, `package.json`, lockfile, and the proposed patch.
+---
 
-  - task: Security remediation & Node compatibility handling during implementation.
-    instructions:
-      - Before dependency changes, run `npm audit --json` and capture the output to `report/security/`.
-      - Attempt `npm audit fix` (non-force) and document changes. If critical vulnerabilities remain and block the build, escalate as a P0 task.
-      - If runtime Node version mismatches are detected, attempt non-invasive install/workarounds and produce clear remediation commands in the implementation log (do not auto-upgrade the runtime).
+  ### Append-Only: Vulnerability & Node Guidance
+  - Implementation tasks should include non-blocking vulnerability checks and a conservative remediation plan. Avoid `--force` updates without an explicit plan step authorizing them.
+  - Add Node runtime checks to the log and surface recommendations for recommended Node versions (Node 18.x or 20.x preferred).
+
+  ### Non-Destructive Memory Utilization Clarification
+  - Append-only clarification: previously recorded notes on "skill & memory utilisation" are informational. Agents should prefer deterministic checks (build/test/lint) when deciding progression.
+

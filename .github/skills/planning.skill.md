@@ -7,11 +7,11 @@
 - The agent must not ask follow-up questions between assessment, planning, implementation, test, or checkpoint steps.
 name: Angular Migration Planning
 description: >
-  Constructs a detailed, phased plan for the v16 -> v17 migration based on assessment findings.
+  Constructs a detailed, phased plan for the v17 -> v18 migration based on assessment findings.
   Breaks down the upgrade into sequential, manageable tasks with clear validation criteria.
 
 scope:
-  - Angular v16 -> v17 only
+  - Angular v17 -> v18 only
 
 dependencies:
   - `assessment.skill.md`
@@ -43,14 +43,12 @@ tasks:
       - Compile all phases, tasks, and metadata into a comprehensive `migration_plan.md`.
       - The plan must be ordered and easy to follow.
     output: `plan/migration_plan.md`
-  - task: Produce file-level diffs and diagnostics for plan changes.
-    instructions:
-      - For every planned file modification, include a sample `git diff --patch` snippet in the migration plan.
-      - Define where the implementation agent will store per-change patches (`report/patches`).
-      - Define the diagnostic bundle format to be produced on failures.
+---
 
-  - task: Run security and Node-compatibility preflight checks.
-    instructions:
-      - Run `npm audit --json` and summarize critical/high vulnerabilities in the plan as P0/P1 items.
-      - Inspect `package.json` `engines.node` and include a Node compatibility note and fallback guidance in the plan.
-      - Recommend whether Node version enforcement is required or advisory for the migration.
+  ### Append-Only: Diagnostics & Vulnerability Guidance
+  - The generated plan must include a diagnostics section for any validation gate expected to run during implementation. The diagnostics section should indicate how to produce file-level diffs and where to store remediation artifacts.
+  - Include a vulnerability triage checklist and guidance for Node runtime checks so the implementation agent can make conservative, traceable decisions rather than forcing automatic fixes.
+
+  ### Non-Destructive Memory Utilization Clarification
+  - Do not delete historical notes about memory usage. Append this clarifying note: prior skill/memory utilisation details are informational only and must not be used as gating signals for automation.
+

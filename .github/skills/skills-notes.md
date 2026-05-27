@@ -21,8 +21,3 @@ This workspace now treats the migration tooling as **v16 -> v17 only**. Keep the
 - **Description:** Build warnings tied to the migration must be treated as cleanup tasks or explicitly logged follow-ups instead of being ignored.
 - **Reason:** The migration should not leave unresolved warning debt behind.
 - **Status:** Implemented.
-
-### New Skill Behavior: Diagnostics, Diffs, and Security Preflight
-- **Diagnostics & Diffs:** Skills must specify where per-change patches and diagnostic bundles are stored (`report/patches`, `report/diagnostics`) and include a file-level diff snippet in the plan for each planned change.
-- **Security Preflight:** Skills should run `npm audit` as part of the planning/implementation preflight and classify vulnerabilities by severity. Critical vulnerabilities should be surfaced as P0 tasks and attempted with `npm audit fix` non-force during implementation.
-- **Node Compatibility:** Skills should note `engines.node` guidance in the plan and provide fallback/workaround recommendations rather than forcing exact Node upgrades.

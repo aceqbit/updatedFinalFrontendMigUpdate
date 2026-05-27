@@ -1,19 +1,19 @@
-# Combined Migration Agent (v16 → v17) — ACTIVE
+# Combined Migration Agent (v17 → v18) — ACTIVE
 
-This file contains the combined logic, responsibilities, and workflows of all migration sub-agents, specialized for the active v16→v17 migration in this workspace.
+This file contains the combined logic, responsibilities, and workflows of all migration sub-agents, specialized for the active v17→v18 migration in this workspace.
 
 ### Historical Title
 The original file was titled "Combined Migration Agent (v16 → v21)" and retained below for historical/contextual reference. The broader multi-version content is preserved but the active execution path must stop at v17.
 
 ### Scope Specialization
-This combined agent is now authoritative for Angular **v16 -> v17 only** in this workspace specialization. The broader v16 -> v21 wording remains for reference, but the active execution path must stop at v17.
+This combined agent is now authoritative for Angular **v17 -> v18 only** in this workspace specialization. The broader v16 -> v21 wording remains for reference, but the active execution path must stop at v18.
 
 
 ## SECTION 7: MASTER MIGRATION AGENT
-# Migration Agent (Angular 16 → 17)
+# Migration Agent (Angular 17 → 18)
 
 ### Purpose
-A master agent that orchestrates the entire migration process from Angular 16 to Angular 17 by coordinating the specialized sub-agent logics and explicitly referencing the provided migration manual for all steps.
+A master agent that orchestrates the entire migration process from Angular 17 to Angular 18 by coordinating the specialized sub-agent logics and explicitly referencing the provided migration manual for all steps.
 
 ### Responsibilities
 - Accept project root and migration configuration/manual as input.
@@ -32,8 +32,8 @@ A master agent that orchestrates the entire migration process from Angular 16 to
 - **Automatic Continuation:** If an optional Angular migration prompt appears, select the recommended/default option automatically and continue without user interaction.
 - **Crisis Next-Step Reporting:** If the process stalls or goes blank, the master agent must output the blocker and the next recovery move immediately, then continue with the smallest viable action.
 - **Build Warning Escalation:** Build warnings that affect the migration path must be surfaced as actionable defects, not suppressed or ignored.
-- **Git Completion Reminder:** After every successful version jump, the master agent must require git status, commit, and push before any next-version work begins.
-- **No-Intervention Mandate:** The master agent must start, continue, and finish the active v16→v17 migration without asking the user to approve routine steps.
+- **Git Completion Reminder:** After every successful version jump, the master agent must require git status, commit, push, and stable-tag creation before any next-version work begins.
+- **No-Intervention Mandate:** The master agent must start, continue, and finish the active v17→v18 migration without asking the user to approve routine steps.
 
 ### Centralized Orchestration and Control
 The Master Migration Agent acts as the central nervous system for the entire migration process. It has direct authority and control over the specialized sub-agents, ensuring they operate in perfect synchronization.
@@ -41,7 +41,7 @@ The Master Migration Agent acts as the central nervous system for the entire mig
 - **Agent Invocation:** The Master Agent is solely responsible for invoking `assessment`, `planning`, `implementation`, `unittesting`, and `documentation` agents in a strict, predefined sequence.
 - **Data Flow Management:** It manages the flow of artifacts between agents. For example, it takes the `assessment_report.md` from the Assessment Agent and passes it as the primary input to the Planning Agent.
 - **Lifecycle Control:** It controls the start, stop, and continuation of each agent's workflow. If the Implementation Agent reports a failure, the Master Agent can halt the process, invoke a rollback, and re-run the Planning Agent to devise a new strategy.
-- **Git Completion Gate:** After every successful version jump, the Master Agent must require a git status check, commit, and push before allowing the next version jump to start.
+- **Git Completion Gate:** After every successful version jump, the Master Agent must require a git status check, commit, push, and stable tag before allowing the next version jump to start.
 - **Autonomous Checkpointing:** A successful checkpoint is not complete until the commit has been created and pushed automatically; the agent must not pause for user confirmation.
 
 ### Enhanced Implementation Agent Functionality
@@ -52,7 +52,21 @@ Within this combined framework, the implementation logic is enhanced with greate
 - **Automated Rollback Trigger:** If any step fails validation and cannot be resolved after a set number of retries (as defined in its "Absolute Rules"), it immediately signals the Master Agent to initiate a full rollback to the last known good state.
 - **Testing Triage:** When the unit test suite is too broad or a full run fails many modules at once, the Master Agent should direct the testing agent to run targeted specs for the changed area first, then expand outward only after the focused checks pass.
 
-### Unified Management of All Agents
+
+### Orchestration Polish & Diagnostics (Append-only)
+- The master agent must:
+	- Log the start and end of each agent invocation with timestamps and the triggering event.
+	- For each agent hand-off, record the input and output artifact filenames and a short status summary (success/failure/blocker).
+	- On any validation failure, produce a diagnostics bundle containing:
+		- The triggering command and error summary
+		- File-level diffs (`report/plan_file_diffs.diff`, `report/test_failures.diff`, etc.)
+		- Remediation steps and effort estimates
+		- A vulnerability summary if available
+	- Ensure all diagnostics and remediation artifacts are referenced in the final `report/migration_report.md`.
+
+### Non-Destructive Memory Utilization Clarification
+- Any prior references to "skill & memory utilisation" in orchestration or agent notes are informational only. Do not use ephemeral memory metrics as gating signals; prefer deterministic validation gates (build/test/lint) for all automation decisions.
+
 
 - **Assessment Agent Management:** The Master Agent triggers the `assessment.md` logic to produce the initial `assessment_report.md`. It validates the report for completeness before proceeding.
 - **Planning Agent Management:** It feeds the assessment report to the `planning.md` logic and receives the `migration_plan.md`. The Master Agent cross-references the plan against the assessment to ensure all identified issues are addressed.
@@ -66,6 +80,14 @@ Within this combined framework, the implementation logic is enhanced with greate
 - The agent must accept changes and keep files in place.
 - The agent must stop only after migration to v17 is completed.
 - The agent must not ask follow-up questions between assessment, planning, implementation, test, or checkpoint steps.
+
+### AUTOMATION ENFORCEMENT (Added)
+- **Autonomy mandate (must do):** The master migration agent must orchestrate a fully autonomous v17→v18 migration run when requested by the user. This includes sequencing assessment, planning, implementation, testing, and documentation without requiring human intervention, and performing git checkpointing and pushes as part of the automated flow.
+- **Accept changes:** The master agent must accept changes produced by sub-agents and ensure they are committed and pushed as part of the checkpointing process.
+- **Stop condition:** The master agent stops only after the migration to v18 is complete and the checkpoint tag is pushed, or after recording a documented unrecoverable blocker.
+- **No prompts:** Default/recommended options must be chosen automatically for any presented prompts during the automated flow.
+- **Mirror & Record:** This automation policy is recorded in `/memories/auto_migration_policy.md` and mirrored to all sub-agent artifacts.
+
 
 ### must include OUTPUT
 - **Report:** `report/migration_report.md` (master combined migration summary)
