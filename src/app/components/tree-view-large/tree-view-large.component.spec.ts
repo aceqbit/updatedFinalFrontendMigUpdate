@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TreeViewLargeComponent } from './tree-view-large.component';
+import { FormsModule } from '@angular/forms';
 
 describe('TreeViewLargeComponent', () => {
   let component: TreeViewLargeComponent;
@@ -7,7 +8,8 @@ describe('TreeViewLargeComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TreeViewLargeComponent]
+      declarations: [TreeViewLargeComponent],
+      imports: [FormsModule]
     }).compileComponents();
     fixture = TestBed.createComponent(TreeViewLargeComponent);
     component = fixture.componentInstance;

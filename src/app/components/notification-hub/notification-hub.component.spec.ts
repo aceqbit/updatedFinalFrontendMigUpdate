@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
 import { NotificationHubComponent } from './notification-hub.component';
 
 describe('NotificationHubComponent', () => {
@@ -7,7 +8,8 @@ describe('NotificationHubComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [NotificationHubComponent]
+      declarations: [NotificationHubComponent],
+      imports: [FormsModule]
     }).compileComponents();
     fixture = TestBed.createComponent(NotificationHubComponent);
     component = fixture.componentInstance;

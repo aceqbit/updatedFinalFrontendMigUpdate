@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
 
 import { AsyncAutocompleteLabComponent } from './async-autocomplete-lab.component';
 
@@ -8,7 +9,8 @@ describe('AsyncAutocompleteLabComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AsyncAutocompleteLabComponent]
+      declarations: [AsyncAutocompleteLabComponent],
+      imports: [FormsModule]
     }).compileComponents();
 
     fixture = TestBed.createComponent(AsyncAutocompleteLabComponent);

@@ -7,7 +7,7 @@ describe('LayoutManagerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LayoutManagerComponent]
+      declarations: [LayoutManagerComponent]
     }).compileComponents();
     fixture = TestBed.createComponent(LayoutManagerComponent);
     component = fixture.componentInstance;

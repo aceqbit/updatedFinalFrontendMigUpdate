@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
 
 import { ContextMenuOverlaysLabComponent } from './context-menu-overlays-lab.component';
 
@@ -8,7 +9,8 @@ describe('ContextMenuOverlaysLabComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ContextMenuOverlaysLabComponent]
+      declarations: [ContextMenuOverlaysLabComponent],
+      imports: [FormsModule]
     }).compileComponents();
 
     fixture = TestBed.createComponent(ContextMenuOverlaysLabComponent);
