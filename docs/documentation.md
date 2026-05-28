@@ -43,3 +43,15 @@ The historical process recorded multi-version migration steps and is not the act
 - The incremental migration approach was effective in isolating issues at each step.
 - The `ng update` command automates many migration tasks but requires a clean working tree.
 - Unit tests should be run early and often; test harness changes between major Angular versions can require test updates.
+
+---
+
+## Active Migration (v20 → v21) — In Progress
+
+This section will be populated during the automated v20 → v21 migration run.
+
+- **Start date:** 2026-05-28
+- **Status:** in-progress
+- **Artifacts produced so far:** `report/assessment_report.md`, `report/css_report.md`, `report/implementation_log.md`
+
+See `report/migration_report.md` for the final checkpoint details after the migration completes.
