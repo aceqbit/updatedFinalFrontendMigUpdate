@@ -40,9 +40,6 @@ Constructs a focused migration roadmap for the Angular 20 → 21 upgrade.
 - **Planned Validation Gates:** build, tests, and per-component checks (listed in the plan file)
 - **Migration Completion Percentage Goal:** (used by documentation agent to track progress)
 
-### NOTE: Skill/Memory Utilization Cleanup
-- The planning agent should not propagate internal skill/memory usage details into the master plan or public-facing plan files. If internal memory-based annotations exist, summarize them rather than exposing implementation details.
-
 ### Autonomous Invocation & Strict Enforcement (Append Only)
 - When `implement the migration plan` is issued, the Planning Agent MUST execute automatically to produce or refresh `plan/migration_v20_to_v21.md` and any required per-component checklists. No user confirmation is allowed.
 - The Planning Agent must record the progress update: "package files updated and timer-based components fixed to trigger change detection" in its planning memory and include the two next-step options (A and B) in the plan metadata.
@@ -142,21 +139,19 @@ A detailed breakdown of risks identified during assessment:
 A robust rollback strategy is critical for maintaining stability during a complex migration. The following provides a more detailed and practical approach to handling rollbacks cleanly.
 
 - **Granular Commits:** Each migration step (e.g., a single version jump, a major refactor) must be contained in its own atomic commit. This allows for precise rollbacks without losing unrelated work.
-- **Checkpoint Model:**
-  - **`migration` branch:** All migration work should be done on a dedicated feature branch.
-  - **Checkpoint commits:** After the successful Angular 20 → 21 jump, record the commit hash as the stable checkpoint. This provides a precise, stable point to revert to.
+- **Branching Model:** Instead of using tags for checkpoints, the agent should commit to the main branch n not extra branches with clear commit messages that indicate the checkpoint (e.g., `chore(migration): complete Angular v21`). This way, the commit history itself serves as the checkpoint system.
 - **Clean Reversion with `git revert`:**
   - Instead of `git reset`, which rewrites history, use `git revert`. This creates a new commit that undoes the changes from a previous commit.
   - **Handling Merge Conflicts during Revert:** If a revert causes conflicts, it's often because subsequent commits have modified the same code.
-    - **Strategy:** Do not panic. Carefully examine the conflicts. It's often safer to abort the revert (`git revert --abort`), create a new branch from the last stable checkpoint commit, and re-apply the successful changes manually, leaving out the problematic commit and finally merging back to main. This way, you maintain a clean history and avoid the complexities of reverting a revert.
+    - **Strategy:** Do not panic. Carefully examine the conflicts. It's often safer to abort the revert (`git revert --abort`), create a new branch from the last stable checkpoint(never use tags n branches for checkpoints; only check commits for checkpoints), and re-apply the successful changes manually, leaving out the problematic commit and finally merging back to main. This way, you maintain a clean history and avoid the complexities of reverting a revert.
 - **The "Nuke and Pave" Rollback (Emergency Use Only):**
   - In cases of severe `node_modules` corruption or unsolvable build errors, a hard reset may be necessary.
     - 1. **Stash any valuable, uncommitted changes:** `git stash`
-    - 2. **Hard reset to the last known good checkpoint commit:** `git reset --hard <last-stable-checkpoint-commit>`
+    - 2. **Hard reset to the last known good commit:** `git reset --hard <git_checkpoint_commit>`
     - 3. **Clean the workspace:** `rimraf node_modules package-lock.json dist`
     - 4. **Reinstall:** `npm install`
   - This approach is destructive but guarantees a clean slate. It should be used as a last resort when `git revert` is too complex.
-- **Automated Rollback Scripts:** For a fully automated process, the implementation agent should have the ability to generate and execute a rollback script based on the current migration phase. The script would use the checkpoint commits to revert the codebase to the last stable state.
+- **Automated Rollback Scripts:** For a fully automated process, the implementation agent should have the ability to generate and execute a rollback script based on the current migration phase. The script would use the `checkpoint` commits (never use tags n branches for checkpoints; only check commits for checkpoints) to revert the codebase to the last stable state.
 - **100% Test Suite Pass Rate:** All unit and end-to-end tests must pass. Test coverage should not decrease.
 - **Zero Regression:** All primary features and critical user flows of the application must be fully functional and visually identical to the pre-migration state.
 - **100% Component, Module, and Import Migration:** All components, modules, and imports must be fully migrated to the target version's standards. This includes:
@@ -178,6 +173,9 @@ A robust rollback strategy is critical for maintaining stability during a comple
 - **Standalone Components:** A common error source is the incorrect declaration of standalone components. They must be in the `imports` array of an `NgModule` or the component they are used in, not `declarations`. Plan for a verification step to check this.
 - **Final Report:** The `implementation_log.md` is generated and shows a successful migration.
 
+### Active Automation Directive
+- When the user issues `implement the migration plan`, the planning agent MUST generate or validate the `plan/migration_v20_to_v21.md` per-component checklist and ensure the plan enforces end-to-end autonomous execution. The planning agent must mark required validation gates, git checkpoint steps(never use tags n branches for checkpoints; only check commits for checkpoints), and rollback procedures. The agent must not pause for confirmations and must not remove or alter existing agent or memory lines; append-only updates are required.
+
 ### Final Report and Execution Plan
 The final output is the `migration_plan.md`, which includes:
 - **Executive Summary:** A high-level overview of the migration goals and timeline.
@@ -190,3 +188,20 @@ The final output is the `migration_plan.md`, which includes:
 - **Mechanism:** If any phase of the migration fails catastrophically, the agent must have the capability to revert the codebase to its previous state. This is achieved by using Git to reset the changes.
 - **Trigger:** A failure is defined as an unresolvable build error or a critical test failure that cannot be fixed within a predefined time limit.
 - **Looping for Success:** If a rollback occurs, the process does not terminate. The agent will re-evaluate the failed step, adjust the plan, and re-attempt the migration. This loop continues until the migration for that version is successfully achieved or the escalation protocol is triggered.
+
+### Checkpoint & Rollback Addendum (Commit-first policy)
+
+- Policy: The authoritative migration checkpoint must be a commit on `main` (commit message + commit hash). Do NOT create or rely on git tags as the canonical checkpoint.
+- Automated rollback guidance:
+  1. Locate the checkpoint commit by commit message: `git rev-list -n 1 --grep="chore(migration): complete Angular v21" --all`
+  2. Reset to the checkpoint commit: `git reset --hard <commit-hash>`
+  3. Clean and reinstall: `npx rimraf node_modules package-lock.json && npm install`
+
+- Notes: If any existing text references a tag-based reset (e.g., `git reset --hard <tag>`) or similar tag-based operations, replace the tag usage with a commit-hash based reset. Compute the checkpoint commit (e.g., via `git rev-list -n 1 --grep="chore(migration): complete Angular v21" --all`) and run `git reset --hard <git_checkpoint_commit>`. Store `git_checkpoint_commit` (short hash) in the plan metadata for deterministic automation.
+
+
+### OUTPUT
+- **Report**: `plan/migration_v20_to_v21.md` (the active plan) and `report/planning_report.md` (summary of planning decisions and risk matrix).
+- **Total components present**:(populate from asssessment report)
+- **Planned components to migrate**: (populate from assessment report)
+- **Completion percentage**: (tracked by Documentation Agent using agent outputs)

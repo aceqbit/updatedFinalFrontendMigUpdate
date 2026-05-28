@@ -52,18 +52,23 @@ Within this combined framework, the implementation logic is enhanced with greate
 - **Unit Testing Agent Management:** After each significant implementation step, the Master Agent invokes the `unittesting.md` logic to run the relevant test suites. It will not allow the implementation to proceed until all tests pass.
 - **Documentation Agent Management:** The Master Agent continuously provides the `documentation.md` logic with logs and summaries from all other agents, ensuring that the `documentation.md` file is a complete and accurate record of the entire migration process.
 
+
+### Active Automation Directive
+	- The Master Migration Agent (combined agent) MUST, on `implement the migration plan`, orchestrate the assessment, planning, implementation, testing, and documentation agents to perform the v20→v21 migration fully autonomously. It must ensure the system accepts code changes, commits and pushes checkpoints (never use tags n branches for checkpoints; only check commits for checkpoints) and records the authoritative checkpoint as `git_checkpoint_commit` (short hash) together with `git_checkpoint_message`, and reports final status without pausing for user interaction. Do not remove or alter existing agent or memory lines; append-only updates are required.
+
+### Checkpoint Policy Addendum (Master Agent)
+
+	1. Ensure sub-agents create a commit with a conventional message (e.g., `chore(migration): complete Angular v21`).
+	2. Verify the commit is pushed: `git push origin HEAD`.
+	3. Record `git_checkpoint_commit` and `git_checkpoint_message` in `report/migration_report.md`.
+
+- Any reference to a human-friendly checkpoint label in this file is informational only. The Master Agent must compute and record the corresponding commit hash as `git_checkpoint_commit` for automated operations and must not rely on tags as checkpoints.
+
+
+
 ### MUST INCLUDE: OUTPUT
 - **Master Migration Report (file):** report/migration_report.md
 - **Total Components Present (project):** (aggregated from assessment inventory)
 - **Total Components Migrated (project):** (aggregated from implementation logs)
 - **Overall Migration Completion Percentage:** (computed from aggregated metrics)
 - **Per-Agent Outputs:** assessment_report.md, css_report.md, implementation_log.md, test_report.md, docs/documentation.md
-
-### NOTE: Skill/Memory Utilization Cleanup
-- The master agent should avoid listing or exposing low-level skill and memory operational logs in the master report. Internal memory/skill traces should remain internal; the master report should reference high-level outputs and file paths only.
-
-### Master Execution Enforcement (Append Only)
-- The Master Migration Agent MUST treat `implement the migration plan` as a single, atomic command that triggers: Assessment → Planning → Implementation → Unit Testing → Documentation in that order, all without user intervention. The Master Agent must ensure the Implementation Agent persists file changes, runs the mandatory validation gates, creates a checkpoint commit when successful, and pushes commits to the remote repository.
-- The Master Agent must not pause for manual confirmations; any optional migration prompts must be auto-resolved using the recommended/default option.
-
-

@@ -49,7 +49,14 @@ Executing the migration plan by applying code and configuration changes for the 
 - **Angular v21 @for Control Flow Hazard:** The v21 `@for` loop is highly strict regarding referential equality in its `track` expressions. If a structural loop loops over a function call (e.g., `getWeekDates()`) that yields new object arrays on every cycle, it causes an infinite evaluation cascade because the references change constantly. The agent MUST NOT use function calls returning dynamic object references in `@for` loops. Always replace them with cached component properties and track by a primitive value.
 **Repo Memory:** After a successful version migration, the agent records key learnings and successful patterns (e.g., "On Windows, `rimraf` was required to solve `node_modules` corruption") into the repository-scoped memory. This knowledge is then used to optimize future migration steps for this specific project.
 
-### Strict Autonomous Execution (ENFORCED)
+### Git State Management & Commits
+- **Flawless State Management:** The agent must perfectly manage its git state. All recovery loops must use precise `git revert` or `git reset` commands to return to a known good state before re-attempting a failed step. Stashes should be used carefully and always cleaned up.
+- **Clean & Concise Commits:** All commits made by the agent must follow a conventional commit format (e.g., `feat:`, `fix:`, `chore:`). The message must be simple, concise, and accurately describe the change. No fluff.
+- **Manual GitHub Updates:** The agent is responsible for pushing all successful commits to the remote GitHub repository automatically.(never use tags n branches,perform all commits on the main branch and use commit messages for checkpoints)
+- **Mandatory Post-Migration Git:** After each successful version migration, the agent must immediately run `git status`, create the commit, and push it before starting the next version. If a crisis occurs after a version is done, the git command still must happen.
+- **Post-Commit Recovery Check:** After every version jump is committed and pushed, the agent must verify the  state and continue from that checkpoint instead of silently skipping ahead.(never use tags n branches for checkpoints; only check commits for checkpoints)
+
+### Active Automation Directive
 - When the command `implement the migration plan` is issued, the Implementation Agent MUST perform the entire v20 → v21 migration autonomously and end-to-end, including assessment and planning steps if they have not yet run.
 - The agent MUST accept and persist file changes created during the automated implementation run. All modifications must be saved to the workspace and recorded in `report/implementation_log.md`.
 - The agent MUST run the following sequence without any interactive prompts or manual confirmations:
@@ -60,12 +67,28 @@ Executing the migration plan by applying code and configuration changes for the 
 - If any step fails and cannot be resolved automatically, the agent must record the blocker and the next recovery move in `report/implementation_log.md` and halt. The agent must not prompt the user for decisions during error handling — it should select the default recovery option and proceed when safe.
 - The Implementation Agent will update `report/implementation_log.md` with the final status, checkpoint commit hash, and a per-component summary of changes applied.
 
-### Git State Management & Commits
-- **Flawless State Management:** The agent must perfectly manage its git state. All recovery loops must use precise `git revert` or `git reset` commands to return to a known good state before re-attempting a failed step. Stashes should be used carefully and always cleaned up.
-- **Clean & Concise Commits:** All commits made by the agent must follow a conventional commit format (e.g., `feat:`, `fix:`, `chore:`). The message must be simple, concise, and accurately describe the change. No fluff.
-- **Manual GitHub Updates:** The agent is responsible for pushing all successful commits to the remote GitHub repository automatically.
-- **Mandatory Post-Migration Git:** After each successful version migration, the agent must immediately run `git status`, create the commit, and push it before starting the next version. If a crisis occurs after a version is done, the git command still must happen.
-- **Post-Commit Recovery Check:** After every version jump is committed and pushed, the agent must verify the branch state and continue from that checkpoint instead of silently skipping ahead.
+### Checkpoint & Branching Addendum (Commit-only)
+
+- Commit-only checkpoints: The implementation agent MUST NOT create or push git tags or use branches as migration checkpoints. Instead:
+  1. Create a single commit on `main` with a conventional message: `git add -A && git commit -m "chore(migration): complete Angular v21"`.
+  2. Push the commit: `git push origin HEAD`.
+  3. Record the checkpoint using `git_checkpoint_commit` (short hash) and `git_checkpoint_message` in `report/implementation_log.md`.
+
+- Investigation branches: Creating a local branch for diagnostics (e.g., `migration-failure/<timestamp>`) is allowed for debugging and triage only. Such branches:
+  - Must NOT be treated as migration checkpoints.
+  - Should be used to collect logs and diffs, and may be pushed only if required for remote debugging, but never used as the authoritative migration checkpoint.
+
+- Tag avoidance: Do not run `git push origin <tag>` or create annotated tags as part of the migration checkpoint. Instead, push the authoritative commit (e.g., `git push origin HEAD`) and record the commit short-hash as `git_checkpoint_commit`. If older text in this file references a tag label, treat that as a human-friendly label only and compute the corresponding commit hash for automation.
+### File-level Diff and Diagnostics (Orchestration polish)
+
+- After each automated change, include a file-level diff entry in `report/implementation_log.md` using:
+  - `git --no-pager diff --name-status HEAD~1 HEAD` (list of modified files)
+  - `git --no-pager diff --patch HEAD~1 HEAD` (patch, when small) — include as an attachment or in the log when helpful.
+- On failures, capture:
+  - Full build output and failing test names.
+  - Stack traces and the list of modified files nearby the failure.
+  - Suggested remediation steps (one-liners) and the exact commands to retry the failing step.
+
 
 ### MUST INCLUDE: OUTPUT
 - **Implementation Log (file):** report/implementation_log.md
