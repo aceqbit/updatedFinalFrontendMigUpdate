@@ -1,8 +1,8 @@
 ---
 name: Angular Migration Unit Testing
 description: >
-  Manages and executes unit tests to ensure the application remains stable throughout the Angular 19→20 migration.
-  This skill is responsible for updating tests to be compatible with the target version and verifying that all tests pass.
+  Manages and executes unit tests to ensure the application remains stable throughout the Angular 20 → 21 migration.
+  This skill is responsible for updating tests to be compatible with Angular 21 and verifying that all tests pass.
 
 dependencies:
   - `implementation.skill.md`
@@ -31,7 +31,7 @@ tasks:
       - Ensure that the command exits with a zero status code, indicating all tests passed.
       - If a failure affects many modules, start with the smallest changed area and report the next recovery move before re-running the broad suite.
 
-  - task: Test zone & change detection fixes for the target migration.
+  - task: Test zone & change detection fixes (Angular 21).
     instructions:
       - For each component that received a zone/change detection fix (Phase 4b), verify that tests exist.
       - Tests must include:
@@ -39,7 +39,7 @@ tasks:
         2. Trigger the async operation (e.g., tick the clock forward).
         3. Assert that the component's template values have updated (use fixture detection and change detection cycle verification).
         4. Example for `setInterval`: Use `fakeAsync()`, call the component method that starts the interval, call `tick(1000)`, then verify `fixture.detectChanges()` and check that the template shows updated values.
-      - These tests must PASS; otherwise, the component is still broken for the target migration.
+      - These tests must PASS; otherwise, the component is still broken in Angular 21.
       - Run tests for the affected components before running the full suite.
       - Document which components have zone/change detection tests and their status in the test report.
 
@@ -52,11 +52,7 @@ tasks:
       - Call out any build-warning-to-test-warning pattern so it can be cleaned up deliberately.
     output: `report/test_report.md`
 ---
-## Addendum: Spec File Enumeration & Verification
 
-- The testing skill must verify that all tracked `*.spec.ts` files executed and passed before marking the testing step complete. Recommended approach:
-  1. Count tracked spec files with `git ls-files '*.spec.ts'` (fallback to filesystem scan if needed).
-  2. Run focused specs for changed areas, then run the full suite with `ng test --watch=false`.
-  3. Parse the test output and compare executed spec file count with the counted tracked specs. If there is a mismatch or any failures, run per-spec diagnostics and include results in `report/test_report.md`.
-  4. Only mark testing complete after the full-suite passes and the executed spec count matches the tracked spec count. Record the checkpoint commit as `git_checkpoint_commit`.
-
+  - task: Autonomous Execution Extension
+    instructions:
+      - When `implement the migration plan` is invoked, this skill must run automatically as part of the pipeline to execute focused and full test runs, generate `report/test_report.md`, and feed failing specs back to the Implementation Agent for remediation attempts. It must not require user input.

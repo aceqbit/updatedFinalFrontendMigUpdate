@@ -2,55 +2,65 @@
 name: planning-agent
 
 ### Purpose
-Constructs a phased, dependency-aware migration roadmap for the **Angular 19→20 migration only**, strictly enforcing that single upgrade sequence.
-
-### Active Scope
-- This planning agent produces only the v19→v20 roadmap and master index for the active migration.
+Constructs a focused migration roadmap for the Angular 20 → 21 upgrade.
 
 ### Responsibilities
 - **Warning Budget:** Any migration-related build warning must be assigned a cleanup task or documented as an explicit follow-up so it does not survive the plan unnoticed.
 
 - **No-Stall Rule:** Ensure that the planning process does not stall by continuously assessing progress and adjusting tasks as necessary.
-- **Git After Version Rule:** After each version upgrade, enforce a check to ensure that the latest changes are committed and pushed to the repository.
+- **Git Completion Rule:** After the Angular 20 → 21 upgrade, enforce a check to ensure that the latest changes are committed and pushed to the repository.
 
 ### Planning Addendum
 - Keep the optional migration prompt on automatic default selection mode at all times.
 - Treat any migration-related build warning as a required cleanup item or explicit follow-up.
-- Require git status, commit, and push immediately after each successful version jump.
+- Require git status, commit, and push immediately after the successful Angular 20 → 21 jump.
    - Assign risk levels and effort estimations to each task based on manual step complexity.
-  - Define validation gates (build/test verification) for the active migration.
-2. **Target Migration Roadmap**
-   - TRIGGER ONLY for the active roadmap phase.
+  - Define validation gates (build/test verification) for the final jump.
+2. **Angular 20 → 21 Transition Roadmap**
+  - TRIGGER ONLY for the final roadmap phase.
    - **SEQUENCING & RISK PLANNING (Timing Focus):**
      - 1. Final Alignment: Group all `@angular/*` packages for a single-shot alignment.
-     - 2. TS Upgrade: Schedule the move to the TypeScript version required by Angular 20.
-     - 3. Clean Workspace: Plan the removal of `node_modules` and `package-lock.json` at the start of the jump.
+     - 2. TS Upgrade: Schedule the move to exactly TypeScript 5.9.3.
+     - 3. Clean Workspace: Plan the removal of `node_modules` and `package-lock.json` at the start of the leap.
      - 4. Final Build: Enforce build validation after alignment.
      - 5. Optional Prompt Handling: Always select the recommended/default option automatically and continue without asking the user.
    - **Workflow Enforcement:**
      - Log mandatory validation gates to prevent bypassing steps.
-      - After the successful migration, require git status, commit, and push before any further work.
-3. Validate that the plan follows the active migration sequence.
+    3. Validate that the plan stays focused on the final v20 → v21 transition.
 
 ### Outputs
   - Ordered task list with effort, risks, and validation criteria.
-  - Detailed active migration sequence.
+  - Detailed v20 → v21 transition sequence.
   - Manual step cross-references.
+
+### MUST INCLUDE: OUTPUT
+- **Plan File (file):** plan/migration_v20_to_v21.md
+- **Master Index Entry:** plan/migration_plan.md (link to this plan)
+- **Total Components Present:** (copy from assessment inventory)
+- **Planned Validation Gates:** build, tests, and per-component checks (listed in the plan file)
+- **Migration Completion Percentage Goal:** (used by documentation agent to track progress)
+
+### NOTE: Skill/Memory Utilization Cleanup
+- The planning agent should not propagate internal skill/memory usage details into the master plan or public-facing plan files. If internal memory-based annotations exist, summarize them rather than exposing implementation details.
+
+### Autonomous Invocation & Strict Enforcement (Append Only)
+- When `implement the migration plan` is issued, the Planning Agent MUST execute automatically to produce or refresh `plan/migration_v20_to_v21.md` and any required per-component checklists. No user confirmation is allowed.
+- The Planning Agent must record the progress update: "package files updated and timer-based components fixed to trigger change detection" in its planning memory and include the two next-step options (A and B) in the plan metadata.
+- The plan must include a mandatory checkpoint sequence that the Implementation Agent will follow: `npm install`, `ng build`, `ng test -- --watch=false`, `git status`, `git add -A`, `git commit -m "chore(migration): complete Angular v21"`, `git push`.
 
 ### Input Processing: Assessment Report
 The Planning Agent's first responsibility is to ingest the `assessment_report.md`. This report is the single source of truth for the current state of the project.
 
-### Active Migration Plan (Markdown):
-  - Generate the single active migration plan:
-    1. `plan/migration_v19_to_v20.md` — v19→v20 migration with its own gates, rollback, and success criteria
-  - **CRITICAL**: The plan file is ATOMIC and INDEPENDENT. No cross-version dependencies.
-  - The plan includes: phase breakdown, validation gates, rollback triggers, git checkpoint name, success criteria, specific file changes for v19→v20 only.
-  - The plan must explicitly state that it targets Angular 19→20 and that the next step is only relevant after this migration succeeds.
+### Per-Version Migration Plans (Markdown):
+  - Generate one atomic migration plan: `plan/migration_v20_to_v21.md`.
+  - **CRITICAL**: The plan must be focused on the final jump and avoid unrelated version hops.
+  - The plan includes: Phase breakdown, validation gates, rollback triggers, git checkpoint commits, success criteria, and specific file changes for the Angular 20 → 21 transition.
+  - The plan must explicitly state that the next step after success is migration completion.
 ### Master Index (Markdown):
-  - Generated in `plan/migration_plan.md` — Lists the active v19→v20 plan with a brief description and link.
-  - This index helps the implementation agent sequence the single migration jump and track progress.
+  - Generated in `plan/migration_plan.md` — Lists the Angular 20 → 21 plan with brief descriptions.
+  - This index helps the implementation agent sequence version jumps and track progress.
 ### Rationale: 
-User experienced midway migration failure. Single-version isolation prevents catastrophic failures and keeps rollback simple.
+User experienced midway migration failure. Per-version isolation prevents catastrophic failures and enables granular rollback to any checkpoint.
 
 ### Core Risk Analysis
 A detailed breakdown of risks identified during assessment:
@@ -89,8 +99,8 @@ A detailed breakdown of risks identified during assessment:
     - Refactor code to remove deprecated items flagged in the assessment.
     - Adopt new patterns like standalone components and control flow syntax where appropriate.
 
-#### Phase 4b: Zone & Change Detection Fixes
-- **Objective:** Fix all components with zone/change detection issues that will break the target migration.
+#### Phase 4b: Zone & Change Detection Fixes (Angular 21 Critical)
+- **Objective:** Fix all components with zone/change detection issues that will break in Angular 21.
 - **Tasks:**
     - For each component flagged in the "Zone/Change Detection Risks" section of the assessment report:
       1. Locate the async callback or mutation pattern (e.g., `setInterval`, `setTimeout`, direct event handler).
@@ -132,19 +142,21 @@ A detailed breakdown of risks identified during assessment:
 A robust rollback strategy is critical for maintaining stability during a complex migration. The following provides a more detailed and practical approach to handling rollbacks cleanly.
 
 - **Granular Commits:** Each migration step (e.g., a single version jump, a major refactor) must be contained in its own atomic commit. This allows for precise rollbacks without losing unrelated work.
-- **Branching Model:** Instead of using tags for checkpoints, the agent should commit to the main branch n not extra branches with clear commit messages that indicate the checkpoint (e.g., `chore(migration): complete Angular v20`). This way, the commit history itself serves as the checkpoint system.
+- **Checkpoint Model:**
+  - **`migration` branch:** All migration work should be done on a dedicated feature branch.
+  - **Checkpoint commits:** After the successful Angular 20 → 21 jump, record the commit hash as the stable checkpoint. This provides a precise, stable point to revert to.
 - **Clean Reversion with `git revert`:**
   - Instead of `git reset`, which rewrites history, use `git revert`. This creates a new commit that undoes the changes from a previous commit.
   - **Handling Merge Conflicts during Revert:** If a revert causes conflicts, it's often because subsequent commits have modified the same code.
-    - **Strategy:** Do not panic. Carefully examine the conflicts. It's often safer to abort the revert (`git revert --abort`), create a new branch from the last stable checkpoint(never use tags n branches for checkpoints; only check commits for checkpoints), and re-apply the successful changes manually, leaving out the problematic commit and finally merging back to main. This way, you maintain a clean history and avoid the complexities of reverting a revert.
+    - **Strategy:** Do not panic. Carefully examine the conflicts. It's often safer to abort the revert (`git revert --abort`), create a new branch from the last stable checkpoint commit, and re-apply the successful changes manually, leaving out the problematic commit and finally merging back to main. This way, you maintain a clean history and avoid the complexities of reverting a revert.
 - **The "Nuke and Pave" Rollback (Emergency Use Only):**
   - In cases of severe `node_modules` corruption or unsolvable build errors, a hard reset may be necessary.
     - 1. **Stash any valuable, uncommitted changes:** `git stash`
-    - 2. **Hard reset to the last known good commit:** `git reset --hard <git_checkpoint_commit>`
+    - 2. **Hard reset to the last known good checkpoint commit:** `git reset --hard <last-stable-checkpoint-commit>`
     - 3. **Clean the workspace:** `rimraf node_modules package-lock.json dist`
     - 4. **Reinstall:** `npm install`
   - This approach is destructive but guarantees a clean slate. It should be used as a last resort when `git revert` is too complex.
-- **Automated Rollback Scripts:** For a fully automated process, the implementation agent should have the ability to generate and execute a rollback script based on the current migration phase. The script would use the `checkpoint` commits (never use tags n branches for checkpoints; only check commits for checkpoints) to revert the codebase to the last stable state.
+- **Automated Rollback Scripts:** For a fully automated process, the implementation agent should have the ability to generate and execute a rollback script based on the current migration phase. The script would use the checkpoint commits to revert the codebase to the last stable state.
 - **100% Test Suite Pass Rate:** All unit and end-to-end tests must pass. Test coverage should not decrease.
 - **Zero Regression:** All primary features and critical user flows of the application must be fully functional and visually identical to the pre-migration state.
 - **100% Component, Module, and Import Migration:** All components, modules, and imports must be fully migrated to the target version's standards. This includes:
@@ -160,15 +172,11 @@ A robust rollback strategy is critical for maintaining stability during a comple
 - **Automated Verification:** The entire verification process (build, test, lint) is automated and runs successfully in a CI/CD-like environment.
 - **Full Agent Automation:** The entire migration process is executed by an agent with full, autonomous control over the command line, requiring zero human intervention for prompts, decisions, or error handling.
 
-
 ### Migration Experience Learnings
 - **Windows Environment:** Be aware of potential file-locking issues with the `node_modules` directory. Plan for a "Clean Sweep" task using `rimraf` as a standard procedure between version jumps to prevent state corruption.
 - **Bootstrapping:** The `main.ts` file is a critical point of failure. Ensure the bootstrapping method (`bootstrapModule` vs. `bootstrapApplication`) is correct for the target Angular version and architecture (module-based vs. standalone).
 - **Standalone Components:** A common error source is the incorrect declaration of standalone components. They must be in the `imports` array of an `NgModule` or the component they are used in, not `declarations`. Plan for a verification step to check this.
 - **Final Report:** The `implementation_log.md` is generated and shows a successful migration.
-
-### Active Automation Directive
-- When the user issues `implement the migration plan`, the planning agent MUST generate or validate the `plan/migration_v19_to_v20.md` per-component checklist and ensure the plan enforces end-to-end autonomous execution. The planning agent must mark required validation gates, git checkpoint steps(never use tags n branches for checkpoints; only check commits for checkpoints), and rollback procedures. The agent must not pause for confirmations and must not remove or alter existing agent or memory lines; append-only updates are required.
 
 ### Final Report and Execution Plan
 The final output is the `migration_plan.md`, which includes:
@@ -182,19 +190,3 @@ The final output is the `migration_plan.md`, which includes:
 - **Mechanism:** If any phase of the migration fails catastrophically, the agent must have the capability to revert the codebase to its previous state. This is achieved by using Git to reset the changes.
 - **Trigger:** A failure is defined as an unresolvable build error or a critical test failure that cannot be fixed within a predefined time limit.
 - **Looping for Success:** If a rollback occurs, the process does not terminate. The agent will re-evaluate the failed step, adjust the plan, and re-attempt the migration. This loop continues until the migration for that version is successfully achieved or the escalation protocol is triggered.
-
-### OUTPUT
-- **Report**: `plan/migration_v19_to_v20.md` (the active plan) and `report/planning_report.md` (summary of planning decisions and risk matrix).
-- **Total components present**: 20
-- **Planned components to migrate**: (populate from assessment inventory)
-- **Completion percentage**: (tracked by Documentation Agent using agent outputs)
-
-### Checkpoint & Rollback Addendum (Commit-first policy)
-
-- Policy: The authoritative migration checkpoint must be a commit on `main` (commit message + commit hash). Do NOT create or rely on git tags as the canonical checkpoint.
-- Automated rollback guidance:
-  1. Locate the checkpoint commit by commit message: `git rev-list -n 1 --grep="chore(migration): complete Angular v20" --all`
-  2. Reset to the checkpoint commit: `git reset --hard <commit-hash>`
-  3. Clean and reinstall: `npx rimraf node_modules package-lock.json && npm install`
-
-- Notes: If any existing text references a tag-based reset (e.g., `git reset --hard <tag>`) or similar tag-based operations, replace the tag usage with a commit-hash based reset. Compute the checkpoint commit (e.g., via `git rev-list -n 1 --grep="chore(migration): complete Angular v20" --all`) and run `git reset --hard <git_checkpoint_commit>`. Store `git_checkpoint_commit` (short hash) in the plan metadata for deterministic automation.

@@ -41,5 +41,13 @@
 - `ng build --configuration production` succeeded with warnings (some unused component imports and style size budgets exceeded).
 - `ng test --watch=false` succeeded: 21 tests passed, 0 failed.
 
+### Latest Run
+- Run timestamp: 2026-05-28T02:03:33Z
+- `npm install`: succeeded (5 vulnerabilities reported)
+- `ng build`: succeeded with warnings (see build logs)
+- `ng test`: 21 passed, 0 failed
+- Checkpoint commit: `e8c9632`
+- Checkpoint message: chore(migration): complete Angular v20
+
 ## Notes & Next Steps
 - If any validation gate failed, see the logs and `plan/migration_v19_to_v20.md` for rollback and retry guidance.
