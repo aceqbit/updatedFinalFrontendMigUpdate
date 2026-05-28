@@ -1,5 +1,15 @@
-# Migration Plan Index
+# Migration Plan Index (v19→v20 Only)
 
-This index lists the single, atomic migration plan for this workspace. The implementation agent MUST execute the referenced plan in full and perform the canonical checkpoint (commit + push to `main`) on success.
+This master index lists the atomic migration plan for the current active version jump: **Angular 19 → 20**.
 
-- `plan/migration_v18_to_v19.md` — Angular 18 → 19 migration plan (atomic). See the file for phases, validation gates, rollback procedures, and outputs.
+## Migration Plans
+- [migration_v19_to_v20.md](migration_v19_to_v20.md): Complete, atomic plan for migrating from Angular 19 to Angular 20. No other version jumps are in scope.
+
+## Execution Policy
+- Only the v19→v20 migration is permitted. All agents, plans, and reports must reference this single version jump.
+- Each plan is atomic and independent. No cross-version dependencies.
+- After successful migration, run `git status`, commit, and push to main. Do NOT create or push tags.
+- If migration fails, rollback to the previous commit checkpoint.
+
+## Next Step
+- Upon successful completion of v19→v20, update this index to reflect the next migration phase (if any).

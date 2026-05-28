@@ -1,8 +1,8 @@
 ---
 name: Angular Migration Documentation
 description: >
-  Documents the Angular 18 → 19 migration process, creating a comprehensive record of all changes, decisions, and outcomes.
-  This skill ensures that the project's documentation is updated to reflect the new, migrated state.
+  Documents the Angular 19→20 migration process, creating a comprehensive record of all changes, decisions, and outcomes.
+  This skill ensures that the project's documentation is updated to reflect the migrated state for that step.
 
 dependencies:
   - `implementation.skill.md`
@@ -32,7 +32,3 @@ tasks:
       - Save the final document to `docs/documentation.md`.
     output: `docs/documentation.md`
 ---
-
-  ## MANDATORY BEHAVIOR (appended)
-
-  - The documentation skill MUST record the full, automatic run outputs (including git checkpoint and tag) when executed as part of an `implement the migration plan` flow and must not pause for user approval.
