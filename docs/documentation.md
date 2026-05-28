@@ -46,12 +46,23 @@ The historical process recorded multi-version migration steps and is not the act
 
 ---
 
-## Active Migration (v20 → v21) — In Progress
+## Active Migration (v20 → v21) — Completed
 
-This section will be populated during the automated v20 → v21 migration run.
+This section documents the completed Angular v20 → v21 migration.
 
 - **Start date:** 2026-05-28
-- **Status:** in-progress
-- **Artifacts produced so far:** `report/assessment_report.md`, `report/css_report.md`, `report/implementation_log.md`
+- **Completion date:** 2026-05-28
+- **Status:** completed
 
-See `report/migration_report.md` for the final checkpoint details after the migration completes.
+- **Total number of components present:** 19
+- **Total number of components migrated:** 19
+- **Migration completion percentage:** 100%
+
+**Validation**
+- `ng build --configuration=production`: Success (with non-blocking warnings)
+- `ng test --watch=false`: All specs passed (21 of 21)
+
+**Checkpoint**
+- Authoritative commit: `chore(migration): complete Angular v21` — recorded in [report/migration_report.md](report/migration_report.md)
+
+See `report/migration_report.md` for a full migration summary and links to per-agent reports.

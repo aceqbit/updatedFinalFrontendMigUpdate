@@ -80,3 +80,43 @@ UPDATE package.json (1046 bytes)
 	Migration completed (2 files modified).
 ```
 
+## npm install after TypeScript bump
+
+```
+removed 18 packages, changed 1 package, and audited 543 packages in 3s
+
+110 packages are looking for funding
+	run `npm fund` for details
+
+found 0 vulnerabilities
+```
+
+## Production build
+
+```
+Application bundle generation complete. [42.123 seconds]
+
+Warnings:
+- Several `NG8113` warnings about components not used directly in their parent's template.
+- Bundle initial exceeded maximum budget by ~29.46 kB.
+- A few component CSS files exceeded per-component style size budgets.
+
+Output location: D:\FinalFrontendMigUpdate\dist\frontend
+```
+
+## Unit tests
+
+```
+Chrome 148.0.0.0 (Windows 10): Executed 21 of 21 SUCCESS (1.654 secs / 1.542 secs)
+TOTAL: 21 SUCCESS
+```
+
+## Git checkpoint
+
+```
+Created commit: 5115fa6
+Message: chore(migration): complete Angular v21
+Pushed: origin HEAD -> main
+```
+
+
