@@ -55,13 +55,44 @@ tasks:
         - Read `plan/migration_plan.md` to understand the final Angular 20 → 21 plan.
         - Execute the plan fully, respecting all phases and validation gates.
         - After all tasks complete, trigger the validation gates (build, test, lint) for the final jump.
-        - If ALL gates pass: Create git checkpoint with commit message "chore: complete Angular 21 migration".
-        - Run `git push origin main` to push the checkpoint immediately.
+        - If ALL gates pass: Create git checkpoint with commit message "chore: complete Angular 21 migration".(never use tags n branches for checkpoints; only check commits for checkpoints)
+        - Run `git push origin main` to push the checkpoint immediately.(never use tags n branches for checkpoints; only check commits for checkpoints)
         - Verify git push succeeded before closing the workflow.
         - If any gate FAILS, halt and escalate with the specific failure and recovery options.
-        - Log the final completion, gate results, and git checkpoint to `report/implementation_log.md`.
+        - Log the final completion, gate results, and git checkpoint(never use tags n branches for checkpoints; only check commits for checkpoints) to `report/implementation_log.md`.
 
-    - task: Log all actions.
+  - task: Autonomous Execution Extension
+    instructions:
+      - This skill must support a fully autonomous `implement the migration plan` invocation that:
+        - Runs Assessment and Planning automatically if not already executed.
+        - Applies and persists code changes to the workspace.
+        - Runs `npm install`, `ng build --configuration=production`, and `ng test -- --watch=false`.
+        - Creates a git checkpoint(never use tags n branches for checkpoints; only check commits for checkpoints) and pushes: `git add -A`, `git commit -m "chore(migration): complete Angular v21"`, `git push origin HEAD`.
+        - Resolves optional CLI prompts using the recommended/default option without asking the user.
+        - Records all steps, outputs, and final checkpoint commit(never use tags n branches for checkpoints; only check commits for checkpoints) in `report/implementation_log.md`.
+
+  - task: Capture file-level diffs after each automated change.
+    instructions:
+      - After every automated change, run `git --no-pager diff --name-status HEAD~1 HEAD` and append the labelled output to `report/implementation_log.md`.
+      - When the diff is small (< 200 lines), also append the full patch: `git --no-pager diff --patch HEAD~1 HEAD`.
+      - Label each diff block with the migration phase and ISO timestamp so reviewers can trace every change to its originating task.
+
+  - task: Record structured remediation steps on failure.
+    instructions:
+      - On any build or test failure, immediately append the following block to `report/implementation_log.md`:
+        1. **Full output:** stdout + stderr of the failing command.
+        2. **Files in flight:** `git --no-pager diff --name-only HEAD` (files modified since last good commit).
+        3. **Stack trace** (if available).
+        4. **Remediation:** one-liner command(s) to retry or revert the failing step (e.g., `npm install --legacy-peer-deps`, `git revert HEAD`, `npx rimraf node_modules && npm install`).
+      - Never leave a failure entry without a "next move" — recovery must always be deterministic and non-blank.
+
+  - task: Orchestration readiness gate.
+    instructions:
+      - Before executing the first implementation task, verify that `plan/migration_v20_to_v21.md` exists and contains all required sections: Phase breakdown, validation gates, rollback triggers, and git checkpoint sequence.
+      - If any required section is missing, halt and log: "GATE FAIL: plan/migration_v20_to_v21.md missing section [X]. Re-run Planning Agent before proceeding."
+      - Only advance to the first implementation task after this gate logs "GATE PASS".
+
+  - task: Log all actions.
     instructions:
       - Maintain a detailed log of every command run and file modified.
       - Record the output of all build and test commands.
@@ -71,11 +102,4 @@ tasks:
     output: `report/implementation_log.md`
 ---
 
-# Autonomous Execution Extension (Append Only)
-- This skill must support a fully autonomous `implement the migration plan` invocation that:
-  - Runs Assessment and Planning automatically if not already executed.
-  - Applies and persists code changes to the workspace.
-  - Runs `npm install`, `ng build --configuration=production`, and `ng test -- --watch=false`.
-  - Creates a git checkpoint and pushes: `git add -A`, `git commit -m "chore(migration): complete Angular v21"`, `git push origin HEAD`.
-  - Resolves optional CLI prompts using the recommended/default option without asking the user.
-  - Records all steps, outputs, and final checkpoint commit in `report/implementation_log.md`.
+

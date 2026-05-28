@@ -36,7 +36,7 @@ Validates system stability after the Angular 20 → 21 migration, ensuring moder
      - `ng test --watch=false` and capture output to `report/test_report.md`
   3. Parse the test output to determine executed/passed spec counts and compare with `total_specs`.
      - If executed spec count < `total_specs` OR any tests fail, mark the step as failed and run targeted diagnostics for failing specs (collect stack traces, failing spec file paths, and output snippets).
-  4. Only when the full-suite run passes and the executed spec count matches `total_specs`, create the migration checkpoint commit (see Checkpoint Policy Addendum) and update the completion status.
+  4. Only when the full-suite run passes and the executed spec count matches `total_specs`, create the migration checkpoint commit ((never use tags n branches for checkpoints; only check commits for checkpoints)) and update the completion status.
 
 - Reporting requirement: Always write `report/test_report.md` with:
   - `total_spec_files_counted`, `executed_spec_files`, `passed`, `failed`, and a list of failing spec files with suggested next steps.
@@ -44,6 +44,10 @@ Validates system stability after the Angular 20 → 21 migration, ensuring moder
 - Implementation notes:
   - Prefer `git ls-files` for tracked specs; fall back to a filesystem enumeration on platforms without `git` available.
   - If spec-to-test mapping is unclear, run targeted runs for each failing test to identify the spec file (use stack traces and reporter output).
+
+### Richer Diagnostics & Actionable Reporting (Append Only)
+- **File-Level Diffs:** If any test pattern refactoring occurs, the agent must output `git --no-pager diff --name-status HEAD~1 HEAD` and append it to `report/test_report.md`.
+- **Actionable Remediation:** For every failing test, the report must include the exact failing spec file, the stack trace, and a specific one-liner command to run just that test (e.g., `ng test --include=src/app/my.component.spec.ts`) along with a suggested fix pattern.
 
 ### Outputs
 - **Test Status Log:** Final migration pass/fail result audit.

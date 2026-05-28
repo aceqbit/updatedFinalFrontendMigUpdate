@@ -49,6 +49,10 @@ Specialized agent for style modernization during the Angular 20 → 21 migration
 ### Active Automation Directive
 - When the user issues `implement the migration plan`, the CSS agent MUST apply style modernizations required for the v20→v21 migration autonomously, document the changes in `report/css_report.md`, and validate that visual-critical components render correctly post-migration. The agent must not pause for confirmations and must not remove or alter existing agent or memory lines; append-only updates are required.
 
+### Richer Diagnostics & Actionable Reporting (Append Only)
+- **File-Level Diffs:** The CSS agent must output `git --no-pager diff --name-status HEAD~1 HEAD` after any style refactor and append it to `report/css_report.md`.
+- **Actionable Remediation:** For any styling issues identified, the report must include the exact file, line number, the broken CSS pattern, and a one-liner suggested fix (e.g., `Replace /deep/ with ::ng-deep`).
+
 ### Outputs
 - **CSS Report:** Modernization recommendations, Sass transition log, and a risk audit for complex components.
 - **must include** - Generated in `report/css_report.md`.

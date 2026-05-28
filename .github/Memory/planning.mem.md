@@ -40,5 +40,7 @@ For projects with critical third-party UI libraries, the planning agent should p
 
 ## AUTONOMY POLICY (APPEND ONLY)
 
-- When `implement the migration plan` is invoked for v20→v21, the Planning Agent must automatically produce or refresh `plan/migration_v20_to_v21.md` and any per-component checklists. The plan must explicitly include the mandatory checkpoint sequence and record the progress update: "package files updated and timer-based components fixed to trigger change detection".
+- When `implement the migration plan` is invoked for v20→v21, the Planning Agent must automatically produce or refresh `plan/migration_v20_to_v21.md` and any per-component checklists. The plan must explicitly include the mandatory checkpoint sequence(never use tags n branches for checkpoints; only check commits for checkpoints) and record the progress update: "package files updated and timer-based components fixed to trigger change detection".
 
+## Richer Diagnostics & Actionable Reporting Policy (Append Only)
+- **Diagnostics Mandate:** All memory entries capturing plan deviations or risks must include the file-level context (e.g., exact files analyzed) and atomic, actionable remediation steps (e.g., the specific task sequencing changes used to recover).

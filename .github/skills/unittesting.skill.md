@@ -43,6 +43,22 @@ tasks:
       - Run tests for the affected components before running the full suite.
       - Document which components have zone/change detection tests and their status in the test report.
 
+  - task: Autonomous Execution Extension
+    instructions:
+      - When `implement the migration plan` is invoked, this skill must run automatically as part of the pipeline to execute focused and full test runs, generate `report/test_report.md`, and feed failing specs back to the Implementation Agent for remediation attempts. It must not require user input.
+
+  - task: Capture file-level diffs for test refactoring.
+    instructions:
+      - Whenever this skill modifies a `*.spec.ts` file, run `git --no-pager diff --name-status HEAD~1 HEAD` and append the result to `report/test_report.md`.
+
+  - task: Record structured remediation steps for test failures.
+    instructions:
+      - For each failed test, append a structured block to `report/test_report.md` including:
+        1. **Failing Spec:** File path to the spec.
+        2. **Failure Output:** The specific assertion error or stack trace.
+        3. **Targeted Re-run Command:** e.g., `ng test --include=path/to/spec.ts`.
+        4. **Suggested Fix:** A short description of the likely needed refactor (e.g., "Add fakeAsync/tick", "Mock missing provider").
+
   - task: Generate the Test Report.
     instructions:
       - Capture the output of the test run.
@@ -53,6 +69,4 @@ tasks:
     output: `report/test_report.md`
 ---
 
-  - task: Autonomous Execution Extension
-    instructions:
-      - When `implement the migration plan` is invoked, this skill must run automatically as part of the pipeline to execute focused and full test runs, generate `report/test_report.md`, and feed failing specs back to the Implementation Agent for remediation attempts. It must not require user input.
+

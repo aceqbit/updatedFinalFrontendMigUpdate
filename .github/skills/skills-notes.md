@@ -37,7 +37,7 @@ This file is the master log for all skills. When a new skill is developed or an 
 
 ### Mandatory Autonomous Run: `implement the migration plan`
 - **Description:** All skills must support a fully autonomous, start-to-finish execution when `implement the migration plan` is invoked for v20→v21. Skills must accept and persist file changes (where applicable), and must not prompt the user during the run.
-- **Status:** Implemented across skills and agents; the Implementation Agent will create a checkpoint commit when the migration completes successfully.
+- **Status:** Implemented across skills and agents; the Implementation Agent will create a checkpoint commit(never use tags n branches for checkpoints; only check commits for checkpoints) when the migration completes successfully.
 
 ### Updated Skill Behavior: @for Control Flow Strictness
 - **Description:** Implementation skills must ensure the iterable data source in Angular 21 `@for` loops is not a function call that yields new object arrays on every cycle (e.g., `getWeekDates()`). This prevents referential equality hazards that cause infinite evaluation cascades and blank views.

@@ -40,10 +40,7 @@ Constructs a focused migration roadmap for the Angular 20 → 21 upgrade.
 - **Planned Validation Gates:** build, tests, and per-component checks (listed in the plan file)
 - **Migration Completion Percentage Goal:** (used by documentation agent to track progress)
 
-### Autonomous Invocation & Strict Enforcement (Append Only)
-- When `implement the migration plan` is issued, the Planning Agent MUST execute automatically to produce or refresh `plan/migration_v20_to_v21.md` and any required per-component checklists. No user confirmation is allowed.
-- The Planning Agent must record the progress update: "package files updated and timer-based components fixed to trigger change detection" in its planning memory and include the two next-step options (A and B) in the plan metadata.
-- The plan must include a mandatory checkpoint sequence that the Implementation Agent will follow: `npm install`, `ng build`, `ng test -- --watch=false`, `git status`, `git add -A`, `git commit -m "chore(migration): complete Angular v21"`, `git push`.
+
 
 ### Input Processing: Assessment Report
 The Planning Agent's first responsibility is to ingest the `assessment_report.md`. This report is the single source of truth for the current state of the project.
@@ -199,6 +196,11 @@ The final output is the `migration_plan.md`, which includes:
 
 - Notes: If any existing text references a tag-based reset (e.g., `git reset --hard <tag>`) or similar tag-based operations, replace the tag usage with a commit-hash based reset. Compute the checkpoint commit (e.g., via `git rev-list -n 1 --grep="chore(migration): complete Angular v21" --all`) and run `git reset --hard <git_checkpoint_commit>`. Store `git_checkpoint_commit` (short hash) in the plan metadata for deterministic automation.
 
+
+### Autonomous Invocation & Strict Enforcement (Append Only)
+- When `implement the migration plan` is issued, the Planning Agent MUST execute automatically to produce or refresh `plan/migration_v20_to_v21.md` and any required per-component checklists. No user confirmation is allowed.
+- The Planning Agent must record the progress update: "package files updated and timer-based components fixed to trigger change detection" in its planning memory and include the two next-step options (A and B) in the plan metadata.
+- The plan must include a mandatory checkpoint sequence that the Implementation Agent will follow: `npm install`, `ng build`, `ng test -- --watch=false`, `git status`, `git add -A`, `git commit -m "chore(migration): complete Angular v21"`, `git push`.
 
 ### OUTPUT
 - **Report**: `plan/migration_v20_to_v21.md` (the active plan) and `report/planning_report.md` (summary of planning decisions and risk matrix).

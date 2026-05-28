@@ -67,6 +67,8 @@ The solution is to cache the iterable data source into a component property (e.g
 ## AUTONOMY POLICY (APPEND ONLY)
 
 - **Trigger:** When `implement the migration plan` is invoked for v20→v21.
-- **Behavior:** Implementation Agent must run autonomously end-to-end, including Assessment and Planning if they have not yet executed. It must accept and persist file changes, run the mandatory validation sequence (`npm install`, `ng build`, `ng test -- --watch=false`), and perform git checkpointing (recording the checkpoint commit hash) without requiring user input.
+- **Behavior:** Implementation Agent must run autonomously end-to-end, including Assessment and Planning if they have not yet executed. It must accept and persist file changes, run the mandatory validation sequence (`npm install`, `ng build`, `ng test -- --watch=false`), and perform git checkpointing(never use tags n branches for checkpoints; only check commits for checkpoints) (recording the checkpoint commit hash) without requiring user input.
  
 
+## Richer Diagnostics & Actionable Reporting Policy (Append Only)
+- **Diagnostics Mandate:** All memory entries capturing build errors or dependency conflicts must include the file-level context (e.g., exact files modified when the failure occurred) and atomic, actionable remediation steps (e.g., the specific CLI command used to recover or the exact code refactoring applied).

@@ -42,3 +42,5 @@ When generating or updating documentation, the agent must verify that the `READM
 
 - When `implement the migration plan` is invoked for v20→v21, the Documentation Agent must automatically publish `docs/documentation.md` and include the progress update: "package files updated and timer-based components fixed to trigger change detection". This entry must be saved to the documentation memory for future runs.
 
+## Richer Diagnostics & Actionable Reporting Policy (Append Only)
+- **Diagnostics Mandate:** All memory entries regarding documentation standards must enforce the inclusion of exact file paths and actionable, copy-pasteable remediation steps when describing past issues.

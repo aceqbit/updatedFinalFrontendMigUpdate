@@ -87,16 +87,16 @@ The assessment agent is responsible for creating a complete inventory of the pro
   - Document these findings in the assessment report under a new "Zone/Change Detection Risks" section with specific file and line references.
   - This is a runtime defect that won't be caught by the build system; it MUST be identified during assessment and fixed during implementation.
  **Completion percentage**: (computed by Documentation Agent from components migrated / total components)
- - **Core details**: { "migration_target": "v20→v21", "plan_file": "plan/migration_v20_to_v21.md", "git_checkpoint_message": "chore(migration): complete Angular v21", "git_checkpoint_commit": "(populate after checkpoint - use commit hash)" }
+ - **Core details**: { "migration_target": "v20→v21", "plan_file": "plan/migration_v20_to_v21.md", "git_checkpoint_message": "chore(migration): complete Angular v21", "git_checkpoint_commit": "(populate after checkpoint - use commit hash)" }(never use tags n branches for checkpoints; only check commits for checkpoints)
 
 ### Checkpoint Policy Addendum (Commit-only)
 
-- Purpose: The authoritative migration checkpoint is the commit on `main` (commit message + commit hash). Do NOT create git tags or treat a tag as the canonical checkpoint.
+- Purpose: The authoritative migration checkpoint is the commit on `main` (commit message + commit hash). Do NOT create git tags or treat a tag as the canonical checkpoint(never use tags n branches for checkpoints; only check commits for checkpoints)
 - When this file or any report references `git_checkpoint_tag` (for human readability), the agent must:
   1. Create a commit with a clear, conventional message (example: `chore(migration): complete Angular v21`).
   2. Push the commit to the remote: `git push origin HEAD`.
   3. Record the authoritative checkpoint as `git_checkpoint_commit` (short hash) and `git_checkpoint_message` in the assessment report and implementation logs.
-  4. Treat any existing human-friendly checkpoint label as informational only; compute and use the corresponding commit hash (store as `git_checkpoint_commit`) for automation. Do not create or push git tags for migration checkpoints.
+  4. Treat any existing human-friendly checkpoint label as informational only; compute and use the corresponding commit hash (store as `git_checkpoint_commit`) for automation. Do not create or push git tags for migration checkpoints.(never use tags n branches for checkpoints; only check commits for checkpoints)
 
 Example record to include in `report/assessment_report.md`:
 
@@ -107,6 +107,10 @@ git_checkpoint_commit: "$(git rev-parse --short HEAD)"
 
 ### Active Automation Directive
 - When the user issues `implement the migration plan`, the assessment agent MUST run the assessment for the v20→v21 migration end-to-end without requiring any user interaction. The assessment must produce `report/assessment_report.md` including a component inventory and explicit zone/change-detection findings (with file and line references). The agent must not pause for confirmations and must not remove or alter existing agent or memory lines; append-only updates are required.
+
+### Richer Diagnostics & Actionable Reporting (Append Only)
+- **File-Level Diagnostics:** Every identified issue in the assessment report must include exact file paths, line numbers, and a one-liner remediation command.
+- **Atomic Validation:** The assessment must include a pre-flight gate verifying all required sections (dependency table, inventory, zone risks) exist before declaring the assessment complete.
 
 ### Outputs
 - **Migration Assessment Report (Markdown):** 
