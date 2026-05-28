@@ -29,6 +29,8 @@
 
 **Assessment status:** Completed — `plan/migration_v19_to_v20.md` created and migration run prepared.
 
+**Migration run status:** Completed — checkpoint `fe11d2e` created and pushed to `origin main`.
+
 ## Checklist
 - [ ] Clean workspace and reinstall dependencies
 - [ ] Align all Angular and third-party packages
