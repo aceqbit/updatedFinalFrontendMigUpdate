@@ -42,5 +42,8 @@ For projects with critical third-party UI libraries, the planning agent should p
 
 - When `implement the migration plan` is invoked for v20→v21, the Planning Agent must automatically produce or refresh `plan/migration_v20_to_v21.md` and any per-component checklists. The plan must explicitly include the mandatory checkpoint sequence(never use tags n branches for checkpoints; only check commits for checkpoints) and record the progress update: "package files updated and timer-based components fixed to trigger change detection".
 
-## Richer Diagnostics & Actionable Reporting Policy (Append Only)
-- **Diagnostics Mandate:** All memory entries capturing plan deviations or risks must include the file-level context (e.g., exact files analyzed) and atomic, actionable remediation steps (e.g., the specific task sequencing changes used to recover).
+### Orchestration Polish & Actionability
+- **Minor Orchestration Polish:** Ensure automated hand-offs between assessment, planning, implementation, testing, and documentation are flawlessly executed. Maintain near perfection in error recovery and state management.
+- **Atomic & Actionable Outputs:** All generated plans and reports must be atomic, isolated per version, and actionable.
+- **Richer Diagnostics & File-Level Diffs:** Include comprehensive diagnostics on any failure. Retain file-level diffs (unified patches) to provide clear visibility into modifications.
+- **Remediation Steps:** Alongside any identified error or warning, explicitly document the specific remediation steps required to resolve the issue.

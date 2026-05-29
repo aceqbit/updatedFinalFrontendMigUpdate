@@ -70,5 +70,8 @@ The solution is to cache the iterable data source into a component property (e.g
 - **Behavior:** Implementation Agent must run autonomously end-to-end, including Assessment and Planning if they have not yet executed. It must accept and persist file changes, run the mandatory validation sequence (`npm install`, `ng build`, `ng test -- --watch=false`), and perform git checkpointing(never use tags n branches for checkpoints; only check commits for checkpoints) (recording the checkpoint commit hash) without requiring user input.
  
 
-## Richer Diagnostics & Actionable Reporting Policy (Append Only)
-- **Diagnostics Mandate:** All memory entries capturing build errors or dependency conflicts must include the file-level context (e.g., exact files modified when the failure occurred) and atomic, actionable remediation steps (e.g., the specific CLI command used to recover or the exact code refactoring applied).
+### Orchestration Polish & Actionability
+- **Minor Orchestration Polish:** Ensure automated hand-offs between assessment, planning, implementation, testing, and documentation are flawlessly executed. Maintain near perfection in error recovery and state management.
+- **Atomic & Actionable Outputs:** All generated plans and reports must be atomic, isolated per version, and actionable.
+- **Richer Diagnostics & File-Level Diffs:** Include comprehensive diagnostics on any failure. Retain file-level diffs (unified patches) to provide clear visibility into modifications.
+- **Remediation Steps:** Alongside any identified error or warning, explicitly document the specific remediation steps required to resolve the issue.

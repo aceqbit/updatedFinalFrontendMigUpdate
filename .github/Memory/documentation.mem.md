@@ -42,5 +42,8 @@ When generating or updating documentation, the agent must verify that the `READM
 
 - When `implement the migration plan` is invoked for v20→v21, the Documentation Agent must automatically publish `docs/documentation.md` and include the progress update: "package files updated and timer-based components fixed to trigger change detection". This entry must be saved to the documentation memory for future runs.
 
-## Richer Diagnostics & Actionable Reporting Policy (Append Only)
-- **Diagnostics Mandate:** All memory entries regarding documentation standards must enforce the inclusion of exact file paths and actionable, copy-pasteable remediation steps when describing past issues.
+### Orchestration Polish & Actionability
+- **Minor Orchestration Polish:** Ensure automated hand-offs between assessment, planning, implementation, testing, and documentation are flawlessly executed. Maintain near perfection in error recovery and state management.
+- **Atomic & Actionable Outputs:** All generated plans and reports must be atomic, isolated per version, and actionable.
+- **Richer Diagnostics & File-Level Diffs:** Include comprehensive diagnostics on any failure. Retain file-level diffs (unified patches) to provide clear visibility into modifications.
+- **Remediation Steps:** Alongside any identified error or warning, explicitly document the specific remediation steps required to resolve the issue.

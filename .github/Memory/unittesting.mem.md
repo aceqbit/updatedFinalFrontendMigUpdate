@@ -48,5 +48,8 @@ The issue was resolved by ensuring that all asynchronous operations within the `
 
 - When `implement the migration plan` is invoked for v20→v21, the Unit Testing Agent must automatically run focused and full test suites as part of the pipeline, produce `report/test_report.md`, and append the progress update: "package files updated and timer-based components fixed to trigger change detection" to its memory entries. Failures must be reported back to the Implementation Agent for automatic remediation attempts.
 
-## Richer Diagnostics & Actionable Reporting Policy (Append Only)
-- **Diagnostics Mandate:** All memory entries capturing test failures must include the file-level context (e.g., exact spec files that failed) and atomic, actionable remediation steps (e.g., the specific refactoring or mocking setup used to recover the tests).
+### Orchestration Polish & Actionability
+- **Minor Orchestration Polish:** Ensure automated hand-offs between assessment, planning, implementation, testing, and documentation are flawlessly executed. Maintain near perfection in error recovery and state management.
+- **Atomic & Actionable Outputs:** All generated plans and reports must be atomic, isolated per version, and actionable.
+- **Richer Diagnostics & File-Level Diffs:** Include comprehensive diagnostics on any failure. Retain file-level diffs (unified patches) to provide clear visibility into modifications.
+- **Remediation Steps:** Alongside any identified error or warning, explicitly document the specific remediation steps required to resolve the issue.

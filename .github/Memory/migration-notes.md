@@ -18,3 +18,9 @@ This document records the issues and solutions encountered during the Angular 20
 
 - **Problem:** Angular's new `@for` control flow (introduced in v17, heavily used in v21) is highly strict on referential equality with its `track` expressions. In some components, a function like `getWeekDates()` was creating and yielding a completely new array of `Date` objects on every single change detection cycle. Angular was stuck continually destroying and attempting to recreate every single block, creating an infinite evaluation cascade and leaving the view totally blank.
 - **Solution:** The iterable data source must be cached into a component property (e.g., `this.weekDates = this.getWeekDates()`) instead of being evaluated directly in the template. The `@for` loop should iterate over this cached property, keeping the `track` expression tied to a primitive string or ID.
+
+### Orchestration Polish & Actionability
+- **Minor Orchestration Polish:** Ensure automated hand-offs between assessment, planning, implementation, testing, and documentation are flawlessly executed. Maintain near perfection in error recovery and state management.
+- **Atomic & Actionable Outputs:** All generated plans and reports must be atomic, isolated per version, and actionable.
+- **Richer Diagnostics & File-Level Diffs:** Include comprehensive diagnostics on any failure. Retain file-level diffs (unified patches) to provide clear visibility into modifications.
+- **Remediation Steps:** Alongside any identified error or warning, explicitly document the specific remediation steps required to resolve the issue.

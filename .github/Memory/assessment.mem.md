@@ -42,5 +42,8 @@ The standard `ng update` process may not correctly update all build-related conf
 
 - When `implement the migration plan` is invoked for v20→v21, the Assessment Agent must run automatically and output `report/assessment_report.md`. The agent must include the progress update: "package files updated and timer-based components fixed to trigger change detection" and export the project inventory to downstream agents without requiring user input.
 
-## Richer Diagnostics & Actionable Reporting Policy (Append Only)
-- **Diagnostics Mandate:** All memory entries capturing failures or anomalies must include the file-level context (e.g., exact files modified when the failure occurred) and atomic, actionable remediation steps (e.g., the specific CLI command used to recover).
+### Orchestration Polish & Actionability
+- **Minor Orchestration Polish:** Ensure automated hand-offs between assessment, planning, implementation, testing, and documentation are flawlessly executed. Maintain near perfection in error recovery and state management.
+- **Atomic & Actionable Outputs:** All generated plans and reports must be atomic, isolated per version, and actionable.
+- **Richer Diagnostics & File-Level Diffs:** Include comprehensive diagnostics on any failure. Retain file-level diffs (unified patches) to provide clear visibility into modifications.
+- **Remediation Steps:** Alongside any identified error or warning, explicitly document the specific remediation steps required to resolve the issue.
