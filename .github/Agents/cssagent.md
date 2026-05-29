@@ -53,6 +53,12 @@ Specialized agent for style modernization during the Angular 20 → 21 migration
 - **File-Level Diffs:** The CSS agent must output `git --no-pager diff --name-status HEAD~1 HEAD` after any style refactor and append it to `report/css_report.md`.
 - **Actionable Remediation:** For any styling issues identified, the report must include the exact file, line number, the broken CSS pattern, and a one-liner suggested fix (e.g., `Replace /deep/ with ::ng-deep`).
 
+### Orchestration Polish & Actionability
+- **Minor Orchestration Polish:** Ensure automated hand-offs between assessment, planning, implementation, testing, and documentation are flawlessly executed. Maintain near perfection in error recovery and state management.
+- **Atomic & Actionable Outputs:** All generated plans and reports must be atomic, isolated per version, and actionable.
+- **Richer Diagnostics & File-Level Diffs:** Include comprehensive diagnostics on any failure. Retain file-level diffs (unified patches) to provide clear visibility into modifications.
+- **Remediation Steps:** Alongside any identified error or warning, explicitly document the specific remediation steps required to resolve the issue.
+
 ### Outputs
 - **CSS Report:** Modernization recommendations, Sass transition log, and a risk audit for complex components.
 - **must include** - Generated in `report/css_report.md`.

@@ -28,20 +28,6 @@ Constructs a focused migration roadmap for the Angular 20 → 21 upgrade.
      - Log mandatory validation gates to prevent bypassing steps.
     3. Validate that the plan stays focused on the final v20 → v21 transition.
 
-### Outputs
-  - Ordered task list with effort, risks, and validation criteria.
-  - Detailed v20 → v21 transition sequence.
-  - Manual step cross-references.
-
-### MUST INCLUDE: OUTPUT
-- **Plan File (file):** plan/migration_v20_to_v21.md
-- **Master Index Entry:** plan/migration_plan.md (link to this plan)
-- **Total Components Present:** (copy from assessment inventory)
-- **Planned Validation Gates:** build, tests, and per-component checks (listed in the plan file)
-- **Migration Completion Percentage Goal:** (used by documentation agent to track progress)
-
-
-
 ### Input Processing: Assessment Report
 The Planning Agent's first responsibility is to ingest the `assessment_report.md`. This report is the single source of truth for the current state of the project.
 
@@ -202,8 +188,20 @@ The final output is the `migration_plan.md`, which includes:
 - The Planning Agent must record the progress update: "package files updated and timer-based components fixed to trigger change detection" in its planning memory and include the two next-step options (A and B) in the plan metadata.
 - The plan must include a mandatory checkpoint sequence that the Implementation Agent will follow: `npm install`, `ng build`, `ng test -- --watch=false`, `git status`, `git add -A`, `git commit -m "chore(migration): complete Angular v21"`, `git push`.
 
-### OUTPUT
-- **Report**: `plan/migration_v20_to_v21.md` (the active plan) and `report/planning_report.md` (summary of planning decisions and risk matrix).
-- **Total components present**:(populate from asssessment report)
-- **Planned components to migrate**: (populate from assessment report)
-- **Completion percentage**: (tracked by Documentation Agent using agent outputs)
+### Orchestration Polish & Actionability
+- **Minor Orchestration Polish:** Ensure automated hand-offs between assessment, planning, implementation, testing, and documentation are flawlessly executed. Maintain near perfection in error recovery and state management.
+- **Atomic & Actionable Outputs:** All generated plans and reports must be atomic, isolated per version, and actionable.
+- **Richer Diagnostics & File-Level Diffs:** Include comprehensive diagnostics on any failure. Retain file-level diffs (unified patches) to provide clear visibility into modifications.
+- **Remediation Steps:** Alongside any identified error or warning, explicitly document the specific remediation steps required to resolve the issue.
+
+### Outputs
+  - Ordered task list with effort, risks, and validation criteria.
+  - Detailed v20 → v21 transition sequence.
+  - Manual step cross-references.
+
+### MUST INCLUDE: OUTPUT
+- **Plan File (file):** plan/migration_v20_to_v21.md
+- **Master Index Entry:** plan/migration_plan.md (link to this plan)
+- **Total Components Present:** (copy from assessment inventory)
+- **Planned Validation Gates:** build, tests, and per-component checks (listed in the plan file)
+- **Migration Completion Percentage Goal:** (used by documentation agent to track progress)

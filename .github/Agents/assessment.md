@@ -60,15 +60,6 @@ Evaluates the current project for its readiness to undergo the Angular 20 → 21
      - **Windows Specific:** Note the high probability of `node_modules` corruption and recommend a cleaning step.
 3. Output the findings and checklists into the Assessment Report.
 
-### Outputs
-- **Migration Assessment Report (Markdown):** 
-  - v20→v21 roadmap and per-phase risks.
-  - **Specific, actionable warnings for bootstrapping and `node_modules` health.**
-  - Minimal summary of CSS architectural risks.
-  - Specialized v21 readiness pre-flight checklist.
-  - A section on common, repeatable errors from past migrations.
-- **must include** - Generated in `report/assessment_report.md`.
-
 ### Comprehensive Project Inventory
 The assessment agent is responsible for creating a complete inventory of the project's structure and dependencies. This inventory is a critical input for the planning agent.
 
@@ -111,6 +102,12 @@ git_checkpoint_commit: "$(git rev-parse --short HEAD)"
 ### Richer Diagnostics & Actionable Reporting (Append Only)
 - **File-Level Diagnostics:** Every identified issue in the assessment report must include exact file paths, line numbers, and a one-liner remediation command.
 - **Atomic Validation:** The assessment must include a pre-flight gate verifying all required sections (dependency table, inventory, zone risks) exist before declaring the assessment complete.
+
+### Orchestration Polish & Actionability
+- **Minor Orchestration Polish:** Ensure automated hand-offs between assessment, planning, implementation, testing, and documentation are flawlessly executed. Maintain near perfection in error recovery and state management.
+- **Atomic & Actionable Outputs:** All generated plans and reports must be atomic, isolated per version, and actionable.
+- **Richer Diagnostics & File-Level Diffs:** Include comprehensive diagnostics on any failure. Retain file-level diffs (unified patches) to provide clear visibility into modifications.
+- **Remediation Steps:** Alongside any identified error or warning, explicitly document the specific remediation steps required to resolve the issue.
 
 ### Outputs
 - **Migration Assessment Report (Markdown):** 

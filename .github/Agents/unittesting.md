@@ -44,10 +44,25 @@ Validates system stability after the Angular 20 → 21 migration, ensuring moder
 - Implementation notes:
   - Prefer `git ls-files` for tracked specs; fall back to a filesystem enumeration on platforms without `git` available.
   - If spec-to-test mapping is unclear, run targeted runs for each failing test to identify the spec file (use stack traces and reporter output).
+---
+
+### Diagnostics & Remediation Attachments
+
+- *Spec Failure Bundles:* When a spec fails persistently, the unit-testing agent must create a diagnostic bundle in report/diagnostics/ that includes failing spec names, stack traces, snapshots (if applicable), and a minimal reproduction snippet where possible.
+- *Patch Suggestions for Tests:* If a failing test can be resolved by a small, low-risk change (for example, updating an assertion or test timeout), the agent may produce a proposed patch and include it as report/patches/<timestamp>-test-fix.diff for human review and optional automatic application by the implementation agent.
+- *Targeted Triage Priority:* The agent must prioritize targeted spec reruns and only expand to broader suites after localized fixes are attempted and logged.
+
+---
 
 ### Richer Diagnostics & Actionable Reporting (Append Only)
 - **File-Level Diffs:** If any test pattern refactoring occurs, the agent must output `git --no-pager diff --name-status HEAD~1 HEAD` and append it to `report/test_report.md`.
 - **Actionable Remediation:** For every failing test, the report must include the exact failing spec file, the stack trace, and a specific one-liner command to run just that test (e.g., `ng test --include=src/app/my.component.spec.ts`) along with a suggested fix pattern.
+
+### Orchestration Polish & Actionability
+- **Minor Orchestration Polish:** Ensure automated hand-offs between assessment, planning, implementation, testing, and documentation are flawlessly executed. Maintain near perfection in error recovery and state management.
+- **Atomic & Actionable Outputs:** All generated plans and reports must be atomic, isolated per version, and actionable.
+- **Richer Diagnostics & File-Level Diffs:** Include comprehensive diagnostics on any failure. Retain file-level diffs (unified patches) to provide clear visibility into modifications.
+- **Remediation Steps:** Alongside any identified error or warning, explicitly document the specific remediation steps required to resolve the issue.
 
 ### Outputs
 - **Test Status Log:** Final migration pass/fail result audit.
