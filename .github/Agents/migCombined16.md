@@ -64,12 +64,4 @@ Within this combined framework, the implementation logic is enhanced with greate
 - The Master Migration Agent MUST orchestrate assessment, planning, implementation, testing, and documentation in strict sequence for the v18 → v19 run when `implement the migration plan` is invoked, and must not pause for user confirmation.
 - The Master Agent MUST ensure the implementation agent performs automatic git checkpointing and pushes the `v19-stable` tag on success.
 
----
-**DEPRECATION: Skill/Memory Utilisation Sections (appended)**
-
-- Any historical or internal instructions in this file that reference "skill" discovery, memory write-backs, or in-file memory wiring are deprecated and should be treated as historical reference only. Automation must not use these sections for runtime orchestration. The canonical runtime wiring and memory guidance is maintained in `.github/Memory/` and `.github/Skills/` artifacts.
-- If this file contains any instructions to create or push git tags as part of automated checkpointing, treat those instructions as deprecated: the canonical automated checkpoint is a commit pushed to `main` (for example, `chore: complete Angular v19 migration`). Do NOT create or push git tags as part of automated migration flows.
-- Do not delete or modify existing historical lines; this appended note supersedes them and clarifies the intended runtime behavior.
----
-
 

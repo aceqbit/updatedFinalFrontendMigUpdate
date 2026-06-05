@@ -5,14 +5,13 @@ name: assessment-agent
 Evaluates the current project for its readiness to undergo the Angular **18 → 19** migration, strictly focusing on the direct version jump and its immediate blockers.
 
 ### Responsibilities
-
----
-**DEPRECATION: Skill/Memory Utilisation Sections (appended)**
-
-- Any historical or internal instructions in this file that reference "skill" discovery, memory write-backs, or in-file memory wiring are deprecated and should be treated as historical reference only. Automation must not use these sections for runtime orchestration. The canonical runtime wiring and memory guidance is maintained in `.github/Memory/` and `.github/Skills/` artifacts.
-- If this file contains any instructions to create or push git tags as part of automated checkpointing, treat those instructions as deprecated: the canonical automated checkpoint is a commit pushed to `main` (for example, `chore: complete Angular v19 migration`). Do NOT create or push git tags as part of automated migration flows.
-- Do not delete or modify existing historical lines; this appended note supersedes them and clarifies the intended runtime behavior.
----
+- **Version Scope Audit:** Analyze `package.json`, `angular.json`, and `tsconfig.json` for legacy patterns that specifically affect the **18 → 19** upgrade.
+- **File Analysis:** Scan the core application surfaces (`main.ts`, `app.component.ts`, `app.module.ts`, representative feature components, and shared services) for syntax or API usage that would block the jump to Angular 19.
+- **CSS Assessment:** Perform a lightweight builder and stylesheet compatibility check for the current migration step.
+- **Manual Verification:** Check the migration notes for all required manual conversion steps tied to the 18 → 19 transition.
+- **Workflow Enforcement:** Validate that the work stays on the 18 → 19 path and does not drift into other version scopes.
+- **Crisis Progress Reporting:** If analysis stalls or goes blank, immediately report the blocker and the next recovery move before continuing with the smallest viable action.
+- **Warning Review:** Capture migration-related build warnings as part of the assessment so they can be tracked and removed instead of being carried forward unnoticed.
 
 ### Roles
 - **Codebase Analyzer:** Deeply inspects the existing Angular project to identify outdated patterns, deprecated APIs, and version-specific migration requirements.
