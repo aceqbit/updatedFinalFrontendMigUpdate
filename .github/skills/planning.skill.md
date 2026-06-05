@@ -77,3 +77,9 @@ tasks:
 ## STRICT GIT POLICY (appended)
 
 - The planning skill MUST NOT recommend creating or pushing git tags as part of the automated checkpointing flow. The recommended checkpoint is a commit that the implementation skill will push to `main` (e.g., `chore: complete Angular v19 migration`). Do not instruct agents to create or push tags automatically.
+
+### Orchestration Polish & Actionability
+- *Minor Orchestration Polish:* Ensure automated hand-offs between assessment, planning, implementation, testing, and documentation are flawlessly executed. Maintain near perfection in error recovery and state management.
+- *Atomic & Actionable Outputs:* All generated plans and reports must be atomic, isolated per version, and actionable.
+- *Richer Diagnostics & File-Level Diffs:* Include comprehensive diagnostics on any failure. Retain file-level diffs (unified patches) to provide clear visibility into modifications.
+- *Remediation Steps:* Alongside any identified error or warning, explicitly document the specific remediation steps required to resolve the issue.

@@ -13,6 +13,16 @@ Active migration scope: Angular 18 → 19 only. This file is the master log for 
 
 - Active workspace migration scope has been updated to Angular v18 → v19 only. All skills MUST operate without interactive user approvals when invoked by an `implement the migration plan` command and must perform automatic git checkpointing and push on success.
 
+### Orchestration Polish & Actionability
+- *Minor Orchestration Polish:* Ensure automated hand-offs between assessment, planning, implementation, testing, and documentation are flawlessly executed. Maintain near perfection in error recovery and state management.
+- *Atomic & Actionable Outputs:* All generated plans and reports must be atomic, isolated per version, and actionable.
+- *Richer Diagnostics & File-Level Diffs:* Include comprehensive diagnostics on any failure. Retain file-level diffs (unified patches) to provide clear visibility into modifications.
+- *Remediation Steps:* Alongside any identified error or warning, explicitly document the specific remediation steps required to resolve the issue.
+
+### Checkpoint Policy Addendum (Commit-only)
+- Purpose: The authoritative migration checkpoint is the commit on `main` (commit message + short hash). Do NOT create or push git tags or treat branches as authoritative migration checkpoints.
+- Required behavior: Skills must create and push a commit to `main` as the authoritative checkpoint and record `git_checkpoint_commit` and `git_checkpoint_message` in `report/implementation_log.md` or equivalent skill logs.
+
 ### Updated Skill: `dependency-update`
 - **Description:** Enhanced the existing dependency update skill to automatically handle peer dependency conflicts.
 - **Change:** The skill will now automatically try `ng update --force` and `npm install --legacy-peer-deps` if a standard update fails.

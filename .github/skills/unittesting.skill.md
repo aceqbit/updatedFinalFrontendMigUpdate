@@ -84,3 +84,9 @@ tasks:
 
 - For the v19 migration flow, the unit-testing skill MUST NOT create or push git tags. On success, it must ensure that the implementation agent commits the checkpoint with a clear message (for example, `chore: complete Angular v19 migration`) and pushes that commit to the `main` branch using `git push origin main`.
   - Tags or tag pushes are explicitly prohibited for checkpointing in this workspace's migration automation.
+
+### Orchestration Polish & Actionability
+- *Minor Orchestration Polish:* Ensure automated hand-offs between assessment, planning, implementation, testing, and documentation are flawlessly executed. Maintain near perfection in error recovery and state management.
+- *Atomic & Actionable Outputs:* All generated plans and reports must be atomic, isolated per version, and actionable.
+- *Richer Diagnostics & File-Level Diffs:* Include comprehensive diagnostics on any failure. Retain file-level diffs (unified patches) to provide clear visibility into modifications.
+- *Remediation Steps:* Alongside any identified error or warning, explicitly document the specific remediation steps required to resolve the issue.

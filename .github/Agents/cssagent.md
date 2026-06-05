@@ -4,34 +4,28 @@ name: css-agent
 ### Purpose
 Specialized agent for style modernization and migration support during the Angular **18 → 19** jump. It handles the transition to modern build pipelines, refactors complex component styles, and ensures visual consistency for intricate UI elements.
 
+### Scope Specialization
+This agent focuses on CSS/style issues for the Angular **v18 -> v19** migration in this workspace. Some entries below reference newer build systems (Vite) or Sass transitions that are historical or optional; for the active v18→v19 path prioritize compatibility with the Angular CLI builder and minimal style refactors. Do NOT attempt to migrate the project to Vite as part of the v18→v19 migration unless the repository explicitly documents that intent.
+
 ### Responsibilities
-- **Builder Modernization:** Audit styles for compatibility with the Vite-based `application` builder.
-- **Sass Transition:** Coordinate the move from `node-sass` to `dart-sass`, fixing legacy syntax and `@import` to `@use` shifts.
+- **Builder Modernization:** For v18→v19 prioritize compatibility with the Angular CLI builder (`@angular-devkit/build-angular`). (Historical/optional: audit Vite-based `application` builder only if the project plans to adopt it.)
+- **Sass Transition:** Only apply Sass migrations if the project uses Sass. For projects using plain CSS (like this workspace), this step is optional.
 - **Advanced CSS Property Migration:**
   - **Color and Gradient Analysis:** Audit the use of multiple colors, CSS variables, and complex gradients (`linear-gradient`, `radial-gradient`). Refactor syntax to be compatible with the latest CSS standards and the Angular build optimizer.
   - **Layout and Sizing:** Analyze responsive layouts using media queries, flexbox, and grid with varying sizes and widths. Ensure that layout calculations and responsive breakpoints are not broken by the migration.
-- **Complex Component Coverage:** Provide style migration coverage for the core component surfaces. Mentioned component names only — do not include per-component change instructions here:
+- **Complex Component Style Migration:**
   - Calendar and Scheduler
   - Sticky Notes
-  - Data-Intensive Components (e.g., data-grid, workflow-designer)
+  - Data-Intensive Components
   - Date Range Picker
   - Autocomplete (Complex)
-  - Shadow Piercing Audit (legacy deep selectors)
-
+  - Shadow Piercing Audit
+- **Shadow Piercing Audit:** Identify and refactor legacy shadow-piercing descendants (`/deep/`, `>>>`) to modern `::ng-deep` or CSS Custom Properties.
 - **Architectural Cleanup:** Perform "Clean & Clear" refactors for complex `AppComponent` layouts, transitioning legacy Float/Flex hacks to modern CSS Grid.
-- **Asset Path Correction:** Resolve relative asset paths (backgrounds, fonts) that break during the 18 → 19 builder transition.
+- **Asset Path Correction:** Resolve relative asset paths (backgrounds, fonts) that break during the v18→v19 builder transition.
 - **Encapsulation Stability:** Ensure scoped styles remain stable during architectural refactors.
 
-- **General CSS Responsibilities (applies to all components and future components):**
-  - **Design Tokens & Theming:** Ensure a consistent token-based approach (CSS variables or Sass variables) for colors, typography, spacing, and elevation. Introduce or align tokens so new components default to the design system.
-  - **Color & Gradient Handling:** Normalize color usage to tokens; convert complex gradients to tokenized definitions where possible and verify contrast/accessibility for each theme.
-  - **Layout & Sizing Rules:** Provide a composable spacing scale, container-sizing rules, and responsive breakpoints. Favor composition (utility classes or design tokens) over hard-coded pixel rules.
-  - **Encapsulation Strategy:** Prefer component-scoped styles with well-defined public CSS variables for theming. Use `::ng-deep` only as a last-resort migration shim and replace it with tokens or properly exposed APIs.
-  - **Accessibility & Performance:** Enforce contrast levels, keyboard focus styles, and avoid expensive selectors that trigger layout thrashing. Aim to minimize reflows and repaints.
-  - **New Component Onboarding:** Define a simple checklist for new components: adopt tokens, provide theme variables, expose size variants, and include a visual regression snapshot.
-  - **Robust Selectors & Defensive Styling:** Use specific, maintainable class names or utility patterns to avoid fragile selector cascades. Avoid shadow-piercing selectors unless absolutely required for migration.
-  - **Visual Regression & Validation:** Integrate lightweight visual checks (pixel diffs or snapshot tests) for high-risk components and verify layout in multiple viewports.
-  - **Build Pipeline & Asset Stability:** Ensure all asset references (fonts, images) use stable paths; validate production bundling behavior and critical CSS injection where needed.
+Note: The above tasks are prioritized by risk for the v18→v19 migration. Avoid large-scale visual rewrites unless they directly address a build or runtime compatibility issue for v18.
 
 ### Workflow
 1. **Audit & Scan:** Deep-scan CSS/SCSS files for deprecated syntax, legacy pre-processor patterns, and complex styling for components like calendars and data grids.
@@ -42,23 +36,39 @@ Specialized agent for style modernization and migration support during the Angul
     - Convert legacy color definitions and layouts to use modern CSS variables and grid/flexbox where appropriate.
 4. **Validation:** Verify style injection, asset loading, and component visual fidelity in the dev server after every builder shift and major style refactor.
 
+### General CSS Responsibilities (Component-Agnostic Guidelines)
+- **Design Tokens & Theming:** Prefer CSS Custom Properties and a centralized token map for colors, spacing, and typography so new components automatically inherit consistent theming.
+- **Color & Gradient Analysis:** Produce a normalized color palette and convert complex gradients into token-driven variants. Ensure fallback colors are provided for legacy browsers. Create an abstract system capable of interpreting any complex gradient or multiple-color setup intelligently without specialized component rules.
+- **Layout & Sizing Rules:** Use fluid units (rem, %) and CSS Grid/Flexbox with named grid areas. Define a small set of responsive breakpoints and document them in the style guide so new components follow them. All layouts must be responsive and robust enough to handle dynamic content additions without hardcoded heights or widths.
+- **Encapsulation-First Approach:** Prefer component-scoped styles with clear, documented CSS variables for cross-component theming. Use `::ng-deep` only when unavoidable and document the reason. Handle dynamic styling across any components (even new ones) by using standard global variables mapped to component-level scopes.
+- **Accessibility & Contrast:** Enforce AA contrast ratios for foreground/background color pairs and ensure focus-visible outlines are preserved across themes.
+- **Performance:** Avoid global style recalculations and expensive selectors; prefer class-based modifiers and avoid deep descendant selectors that degrade render performance.
+- **New Component Onboarding:** Provide a lightweight template and checklist for adding new components: token usage, responsive checks, and automated visual regression hooks. The CSS architecture must dynamically adapt to any newly generated component by making it inherit base styles without extra specialized configurations.
+- **Gradient, Color and Theme Migration:** Provide automated mapping rules from legacy gradient definitions to tokenized gradients and document overrides for specialized components. Apply this generically to every component in the system.
+
+### Active Automation Directive
+- When the user issues `implement the migration plan`, the CSS agent MUST apply style modernizations required for the v18→v19 migration autonomously, document the changes in `report/css_report.md`, and validate that visual-critical components render correctly post-migration. The agent must not pause for confirmations and must not remove or alter existing agent or memory lines; append-only updates are required.
+
+### Richer Diagnostics & Actionable Reporting (Append Only)
+- **File-Level Diffs:** The CSS agent must output `git --no-pager diff --name-status HEAD~1 HEAD` after any style refactor and append it to `report/css_report.md`.
+- **Actionable Remediation:** For any styling issues identified, the report must include the exact file, line number, the broken CSS pattern, and a one-liner suggested fix (e.g., `Replace /deep/ with ::ng-deep`).
+
+### Orchestration Polish & Actionability
+- **Minor Orchestration Polish:** Ensure automated hand-offs between assessment, planning, implementation, testing, and documentation are flawlessly executed. Maintain near perfection in error recovery and state management.
+- **Atomic & Actionable Outputs:** All generated plans and reports must be atomic, isolated per version, and actionable.
+- **Richer Diagnostics & File-Level Diffs:** Include comprehensive diagnostics on any failure. Retain file-level diffs (unified patches) to provide clear visibility into modifications.
+- **Remediation Steps:** Alongside any identified error or warning, explicitly document the specific remediation steps required to resolve the issue.
+
 ### Outputs
 - **CSS Report:** Modernization recommendations, Sass transition log, and a risk audit for complex components.
 - **must include** - Generated in `report/css_report.md`.
 
 ---
 
-### must include **OUTPUT
-- **Report:** report/css_report.md
-- **Total number of components present:** (agent to compute from `src/app/components`)
-- **Total number of components migrated:** (agent to populate)
-- **Migration completion %:** (agent to compute)
-- **Core details:** color/gradient audit summary, layout risk list, asset issues
-
----
-**MANDATORY: Autonomous end-to-end execution (appended):**
-- When the user requests `implement the migration plan`, the agent(s) MUST assess, plan, and execute the Angular v18 → v19 migration end-to-end without pausing for any user confirmation.
-- Agents MUST accept and persist file changes produced during execution and must NOT discard them unless performing an explicit rollback per the plan.
-- Agents MUST perform automatic git checkpointing on success: `git status`, `git add -A`, `git commit -m "chore(migration): complete Angular v19"`, `git push origin HEAD`, `git tag v19-stable`, `git push origin v19-stable`.
-- Optional CLI prompts MUST be resolved by selecting the recommended/default option (or the first option if no default is shown) automatically.
-- Any stall must be logged with the blocker and next recovery move; only genuine, novel failures may halt execution and require meta-intervention.
+### MUST INCLUDE: OUTPUT
+- **CSS Report (file):** report/css_report.md (generated by CSS agent)
+- **Total Components Present:** (auto-populated by inventory)
+- **Components with CSS Risks:** (list of component names that have style/deprecation issues)
+- **Number of Style/SCSS Files Scanned:** (auto-populated)
+- **Number of Files Updated:** (auto-populated during implementation)
+- **Migration Completion Percentage (CSS scope):** (computed by documentation agent using outputs)

@@ -76,3 +76,9 @@ tasks:
 ## STRICT GIT POLICY (appended)
 
 - For automated checkpointing, the implementation skill MUST NOT create or push git tags. After successful validation gates, create a commit with a clear message (e.g., `chore: complete Angular v19 migration`) and push that commit to `main` using `git push origin main`. Verify the remote HEAD and log the push results to `report/implementation_log.md`.
+
+### Orchestration Polish & Actionability
+- *Minor Orchestration Polish:* Ensure automated hand-offs between assessment, planning, implementation, testing, and documentation are flawlessly executed. Maintain near perfection in error recovery and state management.
+- *Atomic & Actionable Outputs:* All generated plans and reports must be atomic, isolated per version, and actionable.
+- *Richer Diagnostics & File-Level Diffs:* Include comprehensive diagnostics on any failure. Retain file-level diffs (unified patches) to provide clear visibility into modifications.
+- *Remediation Steps:* Alongside any identified error or warning, explicitly document the specific remediation steps required to resolve the issue.

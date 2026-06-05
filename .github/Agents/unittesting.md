@@ -17,9 +17,20 @@ Validates system stability after **every individual version jump,v18->v19**,ensu
 
 ### Workflow
 1. Execute and refactor tests for each version phase in the roadmap.
+  - Tester Agent Procedure:
+    1. Verify the spec file(s) are saved to disk. That failure log is from the pre-fix run; I’ll verify the spec is updated on disk and execute a fresh single-run test command so we get clean, current results.**must must include this**
+    2. Run a single-run test command (non-watch) to capture current results:
+
+       ```bash
+       npx ng test --watch=false --browsers=ChromeHeadless
+       ```
+
+    3. Capture and append the test run summary and full output to `report/test_report.md`.
+    4. If failures persist, run targeted specs for the failing files, re-check that the spec changes are saved, and re-run the single-run command until results reflect the up-to-date code.
+    5. Only escalate to the `implementation-agent` after verifying the spec is saved and the single-run re-test shows the same persistent failure.
+    6. The unit-testing agent will discover and run all `*.spec.ts` files across the repository using the configured `ng test` command. It will also support targeted runs (`ng test --main=<targetSpec>`) for focused debugging of changed components.
+    7. Do not request user input during verification; handle prompt/default selection automatically and continue until the test run is complete or a real blocker is found.
 2. **Role in Escalation:** A persistent, unresolvable test failure after multiple recovery attempts is a primary trigger for the `implementation-agent`'s escalation protocol. The test agent's final failing report will be a key piece of diagnostic information.
-3. Address 18 → 19 specific test failures related to the files changed by the migration.
----
 
 ### AUTOMATION ENFORCEMENT (Added)
 - **Autonomy mandate (must do):** When the migration is executed autonomously, the unit-testing agent must run the full test sequence (`ng test --watch=false`) as part of the automated pipeline; it must not pause for interactive test tooling prompts.
@@ -74,6 +85,29 @@ Validates system stability after **every individual version jump,v18->v19**,ensu
 ### Richer Diagnostics & Actionable Reporting (Append Only)
 - **File-Level Diffs:** If any test pattern refactoring occurs, the agent must output `git --no-pager diff --name-status HEAD~1 HEAD` and append it to `report/test_report.md`.
 - **Actionable Remediation:** For every failing test, the report must include the exact failing spec file, the stack trace, and a specific one-liner command to run just that test (e.g., `ng test --include=src/app/my.component.spec.ts`) along with a suggested fix pattern.
+
+## 🔧 POST-TEST ERROR HANDLING (MANDATORY)
+
+**The agent MUST fix ALL test errors automatically — no user intervention.**
+
+### Test Error Handling Loop
+
+```
+AFTER RUNNING ng test:
+  1. Parse test output for failures
+  2. FOR EACH failing test:
+     a. Identify error type (NullInjector, TypeScript, Template, Timeout)
+     b. Look up fix in skills/error-resolution.md or Phase 4 above
+     c. Apply fix automatically
+     d. Re-run: ng test --watch=false
+     e. REPEAT until test passes (max 5 iterations per test)
+  3. IF test cannot be fixed after 5 attempts:
+     a. Log to .copilot/memories/known-issues-fixes.md
+     b. Add @pending() decorator to skip temporarily
+     c. Continue to next test
+     d. Do NOT stop migration
+  4. Generate test summary report
+```
 
 ### Orchestration Polish & Actionability
 - **Minor Orchestration Polish:** Ensure automated hand-offs between assessment, planning, implementation, testing, and documentation are flawlessly executed. Maintain near perfection in error recovery and state management.
